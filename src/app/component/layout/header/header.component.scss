@@ -11,15 +11,16 @@
   align-items: center;
   background-color: #333;
   color: #fff;
-  padding: 0.3rem 2rem;
+  padding: 0rem 2rem;
 
   .logo {
     display: flex;
     align-items: center;
 
     img {
-      height: 20px;
-      margin-right: 10px;
+      height: 60px;
+      margin-left: 10px;
+      margin-left: 600px;
     }
 
     span {
@@ -39,8 +40,19 @@
       transition: color 0.3s;
 
       &:hover {
-        color: #1e90ff;
+        color: gold;
       }
     }
   }
+  .gold-mem {
+    color: yellow;
+    text-decoration: none; 
+    font-size: 34px;
+    transition: color 0.3s;
+  }
+  
+  .gold-mem:hover {
+    color: gold; 
+  }
+  
 }

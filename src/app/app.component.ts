@@ -1,15 +1,26 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from "./component/layout/header/header.component";
-
+import { CommonModule } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Proiect_maps_1';
+  
+  showHeader: boolean = true; 
+
+  constructor(private router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd)) 
+      .subscribe((event: NavigationEnd) => {
+        const noHeaderRoutes = ['/login', '/register']; 
+        this.showHeader = !noHeaderRoutes.includes(event.urlAfterRedirects); 
+      });
+  }
 }

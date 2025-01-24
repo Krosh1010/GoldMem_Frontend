@@ -14,12 +14,12 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.apiService.getData('/data-endpoint').then((response) => {
-      this.data = response;
-      console.log('Datele primite:', this.data);
-    }).catch((error) => {
-      console.error('Eroare la primirea datelor:', error);
-    });
+   // this.apiService.getData('/data-endpoint').then((response) => {
+   //   this.data = response;
+   //   console.log('Datele primite:', this.data);
+   // }).catch((error) => {
+   //   console.error('Eroare la primirea datelor:', error);
+   // });
   }
 
 }
