@@ -38,4 +38,15 @@ export class ApiService {
       throw error;
     }
   }
+
+  async login(endpoint: string, credentials: { email: string; password: string }): Promise<any> {
+  try {
+    const response = await this.axiosClient.post(endpoint, credentials);
+    return response.data;
+  } catch (error) {
+    console.error('Eroare la autentificare:', error);
+    throw error;
+  }
+}
+
 }

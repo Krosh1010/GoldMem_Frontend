@@ -1,1 +1,83 @@
-<p>register works!</p>
+<div class="container">
+  <div class="logo-section">
+      <img src="images/logoo.svg" alt="Golden Memos Logo" class="logo">
+      <p class="tagline">A timeless vault for your diary</p>
+  </div>
+  <div class="register-section">
+      <div *ngIf="errorMessage" 
+           [ngClass]="{ 'hidden': !isErrorVisible }"
+           class="error-message">
+          {{ errorMessage }}
+      </div>
+      <h1>Account Registration</h1>
+      <form class="register-form" #signupForm="ngForm" (submit)="onSubmit(signupForm)">
+          <!-- Email -->
+          <div class="input-group">
+              <div class="input-wrapper">
+                  <input 
+                      type="email" 
+                      id="email" 
+                      name="email" 
+                      [(ngModel)]="user.email" 
+                      placeholder="Email" 
+                      required 
+                      #emailInput="ngModel" 
+                  />
+                  <i class="bi bi-envelope-at-fill icon"></i>
+              </div>
+              <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
+                  Email is required.
+              </div>
+          </div>
+
+          <!-- Parolă -->
+          <div class="input-group">
+            <div class="input-wrapper">
+                <input 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    [(ngModel)]="user.password" 
+                    name="password" 
+                    placeholder="Password" 
+                    required 
+                    #passwordInput="ngModel" 
+                    class="form-control" 
+                />
+                <span class="input-group-text" (click)="togglePasswordVisibility('password')">
+                    <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
+                </span>
+            </div>
+            <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+                Password is required.
+            </div>
+        </div>
+        
+        <!-- Confirmare Parolă -->
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    [(ngModel)]="confirmPassword" 
+                    name="confirmPassword" 
+                    placeholder="Confirm Password" 
+                    required 
+                    #confirmPasswordInput="ngModel" 
+                    class="form-control" 
+                />
+                <span class="input-group-text" (click)="togglePasswordVisibility('confirm')">
+                    <i [class]="showConfirmPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
+                </span>
+            </div>
+            <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">
+                Please confirm your password.
+            </div>
+        </div>
+
+          <div class="button-group">
+              <button type="submit" class="btn signup-btn" [disabled]="isLoading">
+                  <span *ngIf="isLoading" class="spinner"></span>
+                  <span *ngIf="!isLoading">Sign Up</span>
+              </button>
+          </div>
+      </form>
+  </div>
+</div>
