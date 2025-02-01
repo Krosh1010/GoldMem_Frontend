@@ -1,27 +1,23 @@
 <div class="container">
   <div class="login-section">
-    <div *ngIf="errorMessage" 
-    [ngClass]="{ 'hidden': !isErrorVisible }"
-    class="error-message">
+    <div *ngIf="errorMessage" [ngClass]="{ 'hidden': !isErrorVisible }" class="error-message">
       {{ errorMessage }}
     </div>
     <h1 class="login-title">Account Login</h1>
-    <form class="login-form" #loginForm="ngForm"  (submit)="onSubmit(loginForm)">
+    <form class="login-form" [formGroup]="loginForm" (submit)="onSubmit()">
       <div class="input-group">
         <div class="input-wrapper">
           <input 
             type="email" 
             id="email" 
-            name="email" 
-            [(ngModel)]="user.email" 
+            formControlName="email"
             placeholder="Email" 
             required 
-            #emailInput="ngModel" 
           />
           <i class="bi bi-envelope-at-fill icon"></i>
         </div>
-        <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
-          Email is required.
+        <div *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched" class="error">
+          Invalid email format.
         </div>
       </div>
       
@@ -29,33 +25,25 @@
         <div class="input-wrapper">
           <input 
             [type]="showPassword ? 'text' : 'password'" 
-            [(ngModel)]="user.password" 
-            name="password" 
+            formControlName="password"
             placeholder="Password" 
             required 
-            #passwordInput="ngModel" 
             class="form-control" 
           />
           <span class="input-group-text" (click)="togglePasswordVisibility()">
             <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
           </span>
         </div>
-        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
-          Password is required.
+        <div *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched" class="error">
+          Password must be at least 4 characters.
         </div>
       </div>
       <div class="button-group">
-        <button 
-          type="submit" 
-          class="btn login-btn" 
-          >
+        <button type="submit" class="btn login-btn" [disabled]="isLoading">
           <span *ngIf="isLoading" class="spinner"></span>
-                  <span *ngIf="!isLoading">Log In</span>
+          <span *ngIf="!isLoading">Log In</span>
         </button>
-        <button 
-          type="button" 
-          class="btn signup-btn" 
-          (click)="navigateToRegister('/register')">
+        <button type="button" class="btn signup-btn" (click)="navigateToRegister('/register')">
           Sign Up
         </button>
       </div>

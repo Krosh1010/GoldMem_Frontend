@@ -10,23 +10,21 @@
           {{ errorMessage }}
       </div>
       <h1>Account Registration</h1>
-      <form class="register-form" #signupForm="ngForm" (submit)="onSubmit(signupForm)">
+      <form class="register-form" [formGroup]="registerForm" (submit)="onSubmit()">
           <!-- Email -->
           <div class="input-group">
               <div class="input-wrapper">
                   <input 
                       type="email" 
                       id="email" 
-                      name="email" 
-                      [(ngModel)]="user.email" 
+                       formControlName="email" 
                       placeholder="Email" 
-                      required 
-                      #emailInput="ngModel" 
+                      required  
                   />
                   <i class="bi bi-envelope-at-fill icon"></i>
               </div>
-              <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
-                  Email is required.
+              <div *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched" class="error">
+                Invalid email format.
               </div>
           </div>
 
@@ -35,19 +33,17 @@
             <div class="input-wrapper">
                 <input 
                     [type]="showPassword ? 'text' : 'password'" 
-                    [(ngModel)]="user.password" 
-                    name="password" 
+                    formControlName="password"      
                     placeholder="Password" 
-                    required 
-                    #passwordInput="ngModel" 
+                    required  
                     class="form-control" 
                 />
                 <span class="input-group-text" (click)="togglePasswordVisibility('password')">
                     <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
                 </span>
             </div>
-            <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
-                Password is required.
+            <div *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched" class="error">
+              Password must be at least 4 characters.
             </div>
         </div>
         
@@ -56,20 +52,19 @@
             <div class="input-wrapper">
                 <input 
                     [type]="showConfirmPassword ? 'text' : 'password'" 
-                    [(ngModel)]="confirmPassword" 
+                    formControlName="confirmPassword" 
                     name="confirmPassword" 
                     placeholder="Confirm Password" 
                     required 
-                    #confirmPasswordInput="ngModel" 
                     class="form-control" 
                 />
                 <span class="input-group-text" (click)="togglePasswordVisibility('confirm')">
                     <i [class]="showConfirmPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
                 </span>
             </div>
-            <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">
-                Please confirm your password.
-            </div>
+            <div *ngIf="registerForm.hasError('passwordMismatch')" class="error">
+              Passwords do not match.
+          </div>
         </div>
 
           <div class="button-group">
