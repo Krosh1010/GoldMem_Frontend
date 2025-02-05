@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule,NgFor],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent  {
   data: any;
+  postForm: FormGroup ;
+  posts: string[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private fb: FormBuilder) {
+    this.postForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(500)]]
+    });
+  }
 
-  ngOnInit(): void {
-   // this.apiService.getData('/data-endpoint').then((response) => {
-   //   this.data = response;
-   //   console.log('Datele primite:', this.data);
-   // }).catch((error) => {
-   //   console.error('Eroare la primirea datelor:', error);
-   // });
+  submitPost() {
+    if (this.postForm.valid) {
+      this.posts.unshift(this.postForm.value.content);
+      this.postForm.reset();
+    }
   }
 
 }

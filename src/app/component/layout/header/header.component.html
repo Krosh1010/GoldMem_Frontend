@@ -6,7 +6,11 @@
     </div>
     <nav>
       <ul>
-        <li><i class="bi bi-person-circle"></i></li>
+        <li> <a routerLink="/profile" routerLinkActive="active" #rla="routerLinkActive">
+             <i *ngIf="!rla.isActive" class="bi bi-person-circle"></i>
+        </a>
+        </li>
+        <li><a><i class="bi bi-box-arrow-right" (click)="logout()"></i></a>
       </ul>
     </nav>
   </div>

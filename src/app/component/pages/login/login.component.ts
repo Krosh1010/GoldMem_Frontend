@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../services/api.service';
 import * as CryptoJS from 'crypto-js';
+import { AuthModel } from '../../../models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
@@ -46,14 +47,13 @@ export class LoginComponent implements OnInit {
 
     this.isLoading = true;
 
-    const formdata = this.loginForm.value;
-    const hashedPassword = CryptoJS.SHA256(formdata.password).toString();
+    const formdata: AuthModel = {
+          userName: this.loginForm.value.username.trim(),
+          password: CryptoJS.SHA256(this.loginForm.value.password).toString()
+        };
 
     try {
-      const response = await this.apiService.postData('/auth/login', {
-        email: formdata.email.trim(),
-        password: hashedPassword
-      });
+      const response = await this.apiService.postData('api/AuthControler/Login', formdata);
 
       if (response && response.token) {
         console.log('Autentificare reușită:', response);

@@ -1,8 +1,65 @@
-:host {
-    display: block;
-    min-height: 100vh;
-    background: linear-gradient(to right, #eef2f3, #dce1e3);
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  
+
+.container {
+  background: #a0a0a0;
+  width: 100%;
+  height: calc(100vh - 60px); /* Presupunând că navbar-ul are 50px */
+  display: flex;
+  flex-direction: column;
+}
+
+.post-container {
+  width: 100%;
+  max-width: 650px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  width: 95%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  resize: none;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+button {
+  background-color: rgb(100, 100, 100);
+  color: yellow;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 1s ease;
+}
+
+button:disabled {
+  background-color: #333;
+  cursor: not-allowed;
+}
+button:hover {
+  background: rgb(123, 123, 123);
+}
+.post {
+  background: #c2c2c2;
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 8px;
+}

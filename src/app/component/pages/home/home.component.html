@@ -1,3 +1,14 @@
 <div class="container">
- home pages   
+    <div class="post-container">
+        <form [formGroup]="postForm" (ngSubmit)="submitPost()">
+          <textarea formControlName="content" placeholder="What's happening?" rows="4"></textarea>
+          <div class="button-container">
+            <button type="submit" [disabled]="postForm.invalid">Post</button>
+          </div>
+        </form>
+      
+        <div class="post" *ngFor="let post of posts">
+          {{ post }}
+        </div>
+      </div>
 </div>

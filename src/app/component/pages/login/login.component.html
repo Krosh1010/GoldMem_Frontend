@@ -8,17 +8,17 @@
       <div class="input-group">
         <div class="input-wrapper">
           <input 
-            type="email" 
-            id="email" 
-            formControlName="email"
-            placeholder="Email" 
+            type="text" 
+            id="username" 
+            formControlName="username"
+            placeholder="username" 
             required 
           />
           <i class="bi bi-envelope-at-fill icon"></i>
         </div>
-        <div *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched" class="error">
-          Invalid email format.
-        </div>
+        <div *ngIf="loginForm.get('username')?.errors?.['minlength'] && loginForm.get('username')?.touched" class="error">
+          Username must be at least 3 characters.
+        </div>        
       </div>
       
       <div class="input-group">

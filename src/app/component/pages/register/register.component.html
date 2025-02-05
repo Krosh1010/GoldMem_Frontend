@@ -27,6 +27,22 @@
                 Invalid email format.
               </div>
           </div>
+         <!-- Username -->
+        <div class="input-group">
+             <div class="input-wrapper">
+                 <input 
+                      type="text" 
+                      id="username" 
+                      formControlName="username" 
+                      placeholder="Username" 
+                      required  
+                      />
+                   <i class="bi bi-person-fill icon"></i>
+            </div>
+           <div *ngIf="registerForm.get('username')?.errors?.['minlength'] && registerForm.get('username')?.touched" class="error">
+            Username must be at least 3 characters.
+           </div>
+        </div>
 
           <!-- Parolă -->
           <div class="input-group">

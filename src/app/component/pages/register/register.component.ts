@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../services/api.service';
 import * as CryptoJS from 'crypto-js';
 import { passwordMatchValidator } from '../../../validators/password.validator';
+import { RegisterModel } from '../../../models/register.model';
 
 @Component({
   selector: 'app-register',
@@ -18,31 +19,24 @@ export class RegisterComponent implements OnInit {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
   errorMessage: string = '';
-  isErrorVisible: boolean = true;
+  isErrorVisible: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService, private fb:FormBuilder) {}
-  
+  constructor(private router: Router, private apiService: ApiService, private fb: FormBuilder) {}
+
   private displayError(message: string): void {
     this.errorMessage = message;
     this.isErrorVisible = true;
     setTimeout(() => (this.isErrorVisible = false), 2000);
   }
-  
+
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: passwordMatchValidator() });
-  }
-  async checkEmailExists(email: string): Promise<boolean> {
-    try {
-      const response = await this.apiService.getData(`/auth/check-email?email=${email}`);
-      return response.exists; // de schimbat endpointul
-    } catch {
-      return false;
-    }
   }
 
   togglePasswordVisibility(field: 'password' | 'confirm'): void {
@@ -56,20 +50,15 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if (await this.checkEmailExists(this.registerForm.value.email)) {
-      this.displayError('Acest email este deja înregistrat!');
-      return;
-    }
-
     this.isLoading = true;
-    const formdata = this.registerForm.value;
-    const hashedPassword = CryptoJS.SHA256(formdata.password).toString();
+    const formdata: RegisterModel = {
+      email: this.registerForm.value.email.trim(),
+      userName: this.registerForm.value.username.trim(),
+      password: CryptoJS.SHA256(this.registerForm.value.password).toString()
+    };
 
     try {
-      const response = await this.apiService.postData('/auth/register', {
-        email: formdata.email.trim(),
-        password: hashedPassword,
-      });
+      const response = await this.apiService.postData('api/AuthControler/register', formdata);
 
       if (response && response.token) {
         console.log('Registrare reușită:', response);
@@ -79,7 +68,7 @@ export class RegisterComponent implements OnInit {
         throw new Error('Tokenul nu a fost returnat de server.');
       }
     } catch (error: any) {
-      console.error('Eroare la înregistrare:', error); 
+      console.error('Eroare la înregistrare:', error);
       this.displayError(error?.message || 'Registration failed. Check the data entered!');
     } finally {
       this.isLoading = false;
