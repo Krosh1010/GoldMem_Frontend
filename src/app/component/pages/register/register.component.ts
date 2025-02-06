@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
 
       if (response && response.token) {
         console.log('Registrare reușită:', response);
-        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('authToken', JSON.stringify({token: response.token}));
         this.router.navigate(['/']);
       } else {
         throw new Error('Tokenul nu a fost returnat de server.');
