@@ -1,16 +1,30 @@
 <div class="container">
-  <div class="profile">
-    <div class="profile-image">
-      <img src="images/icons8-user-100.png" alt="Profile Image">
+  <div class="profile-square">
+    <div class="profile">
+      <div class="profile-image">
+        <img src="images/icons8-user-100.png" alt="Profile Image">
+      </div>
+      <div *ngIf="userName">
+        <h4>{{ userName }}</h4>
+      </div>    
+      <div class="profile-info">
+        <p>Followers: 123</p>
+        <p>Following: 456</p>
+      </div>
+      <button class="follow-button">Follow</button>
     </div>
-    <div *ngIf="userName">
-      <h2>{{ userName }}!</h2>
-    </div>    
-    <div class="profile-info">
-      <p>Followers: 123</p>
-      <p>Following: 456</p>
+  </div>
+
+  <div class="posts-rectangle">
+    <div class="posts" *ngIf="post.length > 0">
+      <h3>Postări:</h3>
+      <div class="post" *ngFor="let post of post">
+        <p>{{ post.content }}</p>
+      </div>
     </div>
-    <button class="follow-button">Follow</button>
+
+    <div class="no-posts" *ngIf="post.length === 0">
+      <p>Această persoană nu a făcut încă nicio postare.</p>
+    </div>
   </div>
 </div>
-
