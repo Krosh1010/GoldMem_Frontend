@@ -1,19 +1,19 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
 import { PostModel } from '../../../models/post.model';
-
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent  {
-  postForm: FormGroup ;
+export class HomeComponent implements OnInit {
+  postForm: FormGroup;
+  posts: PostModel[] = [];
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.postForm = this.fb.group({
@@ -21,21 +21,36 @@ export class HomeComponent  {
     });
   }
 
+  ngOnInit(): void {
+    this.loadPosts(); 
+  }
+
   async submitPost() {
-    let postData: PostModel | null = null;
     if (this.postForm.valid) {
-    const postData = {
-      post: this.postForm.value.content.trim()
+      const postData: PostModel = {
+        post: this.postForm.value.content.trim(),
+      };
+
+      try {
+        const response = await this.apiService.postData('posts', postData); 
+
+        
+        this.posts.unshift(response); 
+
+        this.postForm.reset();
+        alert('Postarea a fost trimisă cu succes!');
+      } catch (error) {
+        alert('Eroare la trimiterea postării!');
+      }
     }
   }
-   try{
-    await this.apiService.postData('api/PostController/Post', postData);
-    this.postForm.reset();
-    alert('Postarea a fost trimisă cu succes!');
-   }catch (error: any) {
-    console.error('Eroare la postare:', error);
-    alert('Eroare la postare!');
+
+  async loadPosts() {
+    try {
+      const data = await this.apiService.getData('posts'); 
+      this.posts = data;
+    } catch (error) {
+      console.error('Eroare la încărcarea postărilor:', error);
+    }
   }
-  
-}
 }

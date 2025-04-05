@@ -1,6 +1,5 @@
 
 .container {
-  background: #a0a0a0;
   width: 100%;
   height: calc(100vh - 60px); /* Presupunând că navbar-ul are 50px */
   display: flex;
@@ -31,6 +30,7 @@ textarea {
   background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
+  margin-left:7px;
 }
 
 .button-container {
@@ -54,12 +54,72 @@ button:disabled {
   background-color: #333;
   cursor: not-allowed;
 }
+
 button:hover {
   background: rgb(123, 123, 123);
 }
-.post {
-  background: #c2c2c2;
-  padding: 10px;
+
+/* Stiluri generale pentru containerul postărilor */
+.post-row {
+  display: flex;
+  align-items: center; /* Centrează imaginea și textul pe verticală */
   margin-top: 15px;
-  border-radius: 8px;
 }
+
+.post-image-container {
+  flex: 0 0 80px; /* Micșorează imaginea pentru un aspect mai compact */
+  margin-right: 15px; /* Reduce spațiul dintre imagine și text */
+}
+
+.post-image-container img {
+  width: 100%; /* Asigură că imaginea ocupă întreaga lățime a containerului */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-content {
+  flex: 1;
+  background: #c2c2c2;
+  padding: 2px 10px;
+  border-radius: 8px;
+  color: black;
+  font-size: 14px;
+  word-wrap: break-word;
+  max-width: 670px; 
+  max-height: 200px;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  line-clamp: 10;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+/* Limitarea lungimii textului */
+.post-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 10; /* Numărul de linii vizibile */
+  line-clamp: 10; /* Numărul de linii vizibile */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.post-container {
+  width: 100%;
+  max-width: 800px; /* Ampliem lățimea pentru a avea spațiu suficient */
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.no-posts {
+  text-align: center;
+  color: gray;
+  margin-top: 20px;
+}
+
+
+
