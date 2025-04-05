@@ -54,10 +54,10 @@ export class LoginComponent implements OnInit {
 
     try {
       const response = await this.apiService.postData('api/AuthControler/Login', formdata);
-
-      if (response && response.token) {
-        console.log('Autentificare reușită:', response);
-        localStorage.setItem('authToken', JSON.stringify({token: response.token}));
+      const datas = response.data;
+      if (datas && datas.token) {
+        console.log('Autentificare reușită:', datas);
+        localStorage.setItem('authToken', JSON.stringify({token: datas.token}));
         this.router.navigate(['/home']);
       } else {
         throw new Error('Tokenul nu a fost returnat de server.');

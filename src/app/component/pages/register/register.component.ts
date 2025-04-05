@@ -59,10 +59,10 @@ export class RegisterComponent implements OnInit {
 
     try {
       const response = await this.apiService.postData('api/AuthControler/register', formdata);
-
-      if (response && response.token) {
-        console.log('Registrare reușită:', response);
-        localStorage.setItem('authToken', JSON.stringify({token: response.token}));
+      const datas = response.data;
+      if (datas && datas.token) {
+        console.log('Registrare reușită:', datas);
+        localStorage.setItem('authToken', JSON.stringify({token: datas.token}));
         this.router.navigate(['/']);
       } else {
         throw new Error('Tokenul nu a fost returnat de server.');

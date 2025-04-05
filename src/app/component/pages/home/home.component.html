@@ -1,4 +1,15 @@
 <div class="container">
+  <!-- Notificarea -->
+  <div class="notification-container" *ngIf="notification.message">
+    <div class="notification" 
+         [class.success]="notification.type === 'success'" 
+         [class.error]="notification.type === 'error'"
+         [class.warning]="notification.type === 'warning'"
+         [class.show]="notification.message">
+      <span class="notification-message">{{ notification.message }}</span>
+      <button class="close-btn" (click)="dismissNotification()">×</button>
+    </div>
+  </div>
   <div class="post-container">
     <form [formGroup]="postForm" (ngSubmit)="submitPost()">
       <textarea

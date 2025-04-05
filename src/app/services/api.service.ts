@@ -46,7 +46,7 @@ export class ApiService {
   async postData(endpoint: string, payload: any): Promise<any> {
     try {
       const response = await this.axiosClient.post(endpoint, payload);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Eroare la cererea POST:', error);
       throw error;

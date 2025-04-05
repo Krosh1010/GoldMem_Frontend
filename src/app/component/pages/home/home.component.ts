@@ -14,7 +14,12 @@ import { NgFor, NgIf } from '@angular/common';
 export class HomeComponent implements OnInit {
   postForm: FormGroup;
   posts: PostModel[] = [];
-
+  notification = {
+    message: '',
+    type: '', 
+    timer: null as any
+  };
+  
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
@@ -27,21 +32,54 @@ export class HomeComponent implements OnInit {
 
   async submitPost() {
     if (this.postForm.valid) {
-      const postData: PostModel = {
-        post: this.postForm.value.content.trim(),
-      };
-
       try {
-        const response = await this.apiService.postData('posts', postData); 
-
+        const response = await this.apiService.postData('api/PostsControler/Create', this.postForm.value.content.trim());
         
-        this.posts.unshift(response); 
-
-        this.postForm.reset();
-        alert('Postarea a fost trimisă cu succes!');
-      } catch (error) {
-        alert('Eroare la trimiterea postării!');
+        if (response.status === 201) {
+          this.showNotification('Postare creată cu succes!', 'success');
+          this.posts.unshift(response.data);
+          this.postForm.reset();
+        } else if (response.status === 202) {
+          this.showNotification('Postare acceptată cu avertismente', 'warning');
+        } else if (response.status >= 400 && response.status < 500) {
+          this.showNotification('Eroare client: ' + (response.error?.message || 'Cerere invalidă'), 'error');
+        } else if (response.status >= 500) {
+          this.showNotification('Eroare server: ' + (response.error?.message || 'Eroare internă'), 'error');
+        }
+      } catch (error: any) {
+        this.showNotification('Eroare: ' + (error.message || 'Eroare de conexiune'), 'error');
       }
+    }
+  }
+
+  showNotification(message: string, type: 'success' | 'error' | 'warning') {
+    if (this.notification.timer) {
+      clearTimeout(this.notification.timer);
+      this.notification = { message: '', type: '', timer: null };
+    }
+  
+    this.notification = {
+      message,
+      type,
+      timer: setTimeout(() => this.dismissNotification(), 3000)
+    };
+  
+    setTimeout(() => {
+      const notificationEl = document.querySelector('.notification');
+      if (notificationEl) {
+        notificationEl.classList.add('show');
+      }
+    }, 10);
+  }
+  
+  dismissNotification() {
+    const notificationEl = document.querySelector('.notification');
+    if (notificationEl) {
+      notificationEl.classList.remove('show');
+      
+      setTimeout(() => {
+        this.notification = { message: '', type: '', timer: null };
+      }, 300); 
     }
   }
 
