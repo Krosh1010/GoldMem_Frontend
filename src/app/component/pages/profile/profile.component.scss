@@ -1,10 +1,3 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #a0a0a0; /* Fundal general (cum era inițial) */
-}
 
 .container {
     display: flex; /* Folosim flexbox */
@@ -14,7 +7,7 @@ html, body {
     gap: 20px; /* Spațiu între patrat și dreptunghi */
     padding: 20px; /* Spațiu între container și marginea ferestrei */
     box-sizing: border-box;
-    background-color: #a0a0a0;
+    
 }
 
 /* Stiluri pentru patratul de profil */

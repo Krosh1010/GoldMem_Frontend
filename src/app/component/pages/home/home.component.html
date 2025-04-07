@@ -31,7 +31,8 @@
       </div>
       <!-- Postarea text -->
       <div class="post-content">
-        <p class="post-text">{{ post.post }}</p>
+        <p class="post-text">{{ post.content }}</p>
+        <button class="delete-btn" (click)="deletePost(post.id)">Șterge</button>
       </div>
     </div>
   </div>

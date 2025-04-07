@@ -52,4 +52,22 @@ export class ApiService {
       throw error;
     }
   }
+
+  
+// DELETE request cu body
+async deleteData(endpoint: string, payload?: any): Promise<any> {
+  try {
+    const response = await this.axiosClient.delete(endpoint, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: payload
+    });
+    return response;
+  } catch (error) {
+    console.error('DELETE request error:', error);
+    throw error;
+  }
+}
+
 }

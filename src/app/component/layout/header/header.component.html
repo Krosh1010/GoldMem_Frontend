@@ -1,16 +1,34 @@
-<div class="header" >
+<div class="header">
   <div class="app-header">
     <div class="logo">
-        <a routerLink="/home" class="gold-mem">GoldMem</a>
-      <img src="images/logoo.svg" routerLink="/home">
+      <a routerLink="/home" class="gold-mem">GoldMem</a>
+    </div>
+    <div class="logo-image">
+      <img src="images/logoo.svg" routerLink="/home" class="header-logo" alt="Logo" />
     </div>
     <nav>
-      <ul>
-        <li> <a routerLink="/profile" routerLinkActive="active" #rla="routerLinkActive">
-             <i *ngIf="!rla.isActive" class="bi bi-person-circle"></i>
-        </a>
+      <ul class="nav-items">
+        <!-- Element flexibil care va fi fie profil, fie tema -->
+        <li class="nav-item dynamic-button">
+          <ng-container *ngIf="showProfileButton; else themeButton">
+            <a routerLink="/profile" routerLinkActive="active" #rla="routerLinkActive">
+              <i *ngIf="!rla.isActive" class="bi bi-person-circle"></i>
+            </a>
+          </ng-container>
+          <ng-template #themeButton>
+            <button *ngIf="showThemeToggle" (click)="toggleTheme()" class="theme-toggle" 
+                    [attr.aria-label]="isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme'">
+              <span [class.animate]="isDarkTheme">{{ themeIcon }}</span>
+            </button>
+          </ng-template>
         </li>
-        <li><a><i class="bi bi-box-arrow-right" (click)="logout()"></i></a>
+        
+        <!-- Butonul de logout -->
+        <li class="nav-item">
+          <button class="logout-btn" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </li>
       </ul>
     </nav>
   </div>

@@ -85,10 +85,24 @@ export class HomeComponent implements OnInit {
 
   async loadPosts() {
     try {
-      const data = await this.apiService.getData('posts'); 
+      const data = await this.apiService.getData('api/PostsControler/GetPost'); 
       this.posts = data;
     } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
     }
   }
+
+  async deletePost(Id: number) {
+    if (confirm('Sigur doriți să ștergeți această postare?')) {
+      try {
+        await this.apiService.deleteData('api/PostsControler/Delete', Id);
+        this.posts = this.posts.filter(post => post.id !== Id);
+        this.showNotification('Postarea a fost ștearsă cu succes!', 'success');
+      } catch (error) {
+        this.showNotification('Eroare la ștergerea postării', 'error');
+        console.error('Delete error:', error);
+      }
+    }
+  }
+  
 }
