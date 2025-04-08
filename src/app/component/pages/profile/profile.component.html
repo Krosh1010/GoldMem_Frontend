@@ -1,6 +1,23 @@
 <div class="container">
+  <!-- Notificarea -->
+  <div class="notification-container" *ngIf="notification.message">
+    <div class="notification" 
+         [class.success]="notification.type === 'success'" 
+         [class.error]="notification.type === 'error'"
+         [class.warning]="notification.type === 'warning'"
+         [class.show]="notification.message">
+      <span class="notification-message">{{ notification.message }}</span>
+      <button class="close-btn" (click)="dismissNotification()">×</button>
+    </div>
+  </div>
   <div class="profile-square">
+    <div class="profile-header">
+      <button class="settings-button" (click)="navigateToSettings()">
+        <i class="bi bi-gear"></i>
+      </button>
+    </div>
     <div class="profile">
+      
       <div class="profile-image">
         <img src="images/icons8-user-100.png" alt="Profile Image">
       </div>
@@ -16,14 +33,33 @@
   </div>
 
   <div class="posts-rectangle">
-    <div class="posts" *ngIf="post.length > 0">
-      <h3>Postări:</h3>
-      <div class="post" *ngFor="let post of post">
-        <p>{{ post.content }}</p>
+    <div class=" post-list-container">
+      <div *ngIf="posts.length > 0" class="posts-list">
+        <div *ngFor="let post of posts" class="post-card">
+          <div class="post-header">
+            <div class="user-info">
+              <span class="post-time">{{ post.createdAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
+            </div>
+            <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="post-body">
+            <p class="post-content">{{ post.content }}</p>
+          </div>
+          <div class="post-footer">
+            <button class="interaction-btn" title="Like">
+              <i class="far fa-heart"></i>
+            </button>
+            <button class="interaction-btn" title="Comment">
+              <i class="far fa-comment"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="no-posts" *ngIf="post.length === 0">
+    <div class="no-posts" *ngIf="posts.length === 0">
       <p>Această persoană nu a făcut încă nicio postare.</p>
     </div>
   </div>

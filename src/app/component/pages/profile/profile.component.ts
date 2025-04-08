@@ -1,24 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { NgIf,NgFor } from '@angular/common';
+import { NgIf,NgFor,CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { PostModel } from '../../../models/post.model';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgIf,NgFor],
+  imports: [NgIf,NgFor,CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
+  posts: PostModel[] = [];
   userName: string = ''; 
   post: any [] = [];
+  notification = {
+    message: '',
+    type: '', 
+    timer: null as any
+  };
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private route: Router) {}
 
   ngOnInit(): void {
     this.getUserProfile();
     this.getUserPosts();
+    this.loadPosts();
   }
+
+  navigateToSettings(): void {
+  this.route.navigate(['/seting']);
+}
 
   private async getUserProfile(): Promise<void> {
     try {
@@ -31,10 +44,64 @@ export class ProfileComponent implements OnInit {
   private async getUserPosts(): Promise<void> {
     try {
       const response = await this.apiService.getData('api/PostController/GetMyPosts');
-      this.post= response || [];
+      this.post= response;
     }
     catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
     }
+
+    
 }
+async loadPosts() {
+  try {
+    const data = await this.apiService.getData('api/PostsControler/GetPost'); 
+    this.posts = data;
+  } catch (error) {
+    console.error('Eroare la încărcarea postărilor:', error);
+  }
+}
+showNotification(message: string, type: 'success' | 'error' | 'warning') {
+  if (this.notification.timer) {
+    clearTimeout(this.notification.timer);
+    this.notification = { message: '', type: '', timer: null };
+  }
+
+  this.notification = {
+    message,
+    type,
+    timer: setTimeout(() => this.dismissNotification(), 3000)
+  };
+
+  setTimeout(() => {
+    const notificationEl = document.querySelector('.notification');
+    if (notificationEl) {
+      notificationEl.classList.add('show');
+    }
+  }, 10);
+}
+
+dismissNotification() {
+  const notificationEl = document.querySelector('.notification');
+  if (notificationEl) {
+    notificationEl.classList.remove('show');
+    
+    setTimeout(() => {
+      this.notification = { message: '', type: '', timer: null };
+    }, 300); 
+  }
+}
+
+async deletePost(Id: number) {
+  if (confirm('Sigur doriți să ștergeți această postare?')) {
+    try {
+      await this.apiService.deleteData('api/PostsControler/Delete', Id);
+      this.posts = this.posts.filter(post => post.id !== Id);
+      this.showNotification('Postarea a fost ștearsă cu succes!', 'success');
+    } catch (error) {
+      this.showNotification('Eroare la ștergerea postării', 'error');
+      console.error('Delete error:', error);
+    }
+  }
+}
+
 }

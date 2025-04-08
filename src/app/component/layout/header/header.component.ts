@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   isDarkTheme = false;
   themeIcon = '☀️';
   showThemeToggle = false;
-  showProfileButton = false;
+  showProfileButton = true;
   constructor(private router: Router,private route: ActivatedRoute, private themeService: ThemeService){
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)

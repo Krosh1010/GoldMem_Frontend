@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
 import { HeaderComponent } from "./component/layout/header/header.component";
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';

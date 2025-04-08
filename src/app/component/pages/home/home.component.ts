@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PostModel } from '../../../models/post.model';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor],
+  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   postForm: FormGroup;
+  commentForm: FormGroup;
+  expandedPostId: number | null = null;
   posts: PostModel[] = [];
   notification = {
     message: '',
@@ -20,9 +22,14 @@ export class HomeComponent implements OnInit {
     timer: null as any
   };
   
+  
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
+    });
+
+    this.commentForm = this.fb.group({
+      content: ['', [Validators.required, Validators.maxLength(300)]]
     });
   }
 
@@ -37,7 +44,7 @@ export class HomeComponent implements OnInit {
         
         if (response.status === 201) {
           this.showNotification('Postare creată cu succes!', 'success');
-          this.posts.unshift(response.data);
+          await this.loadPosts(); 
           this.postForm.reset();
         } else if (response.status === 202) {
           this.showNotification('Postare acceptată cu avertismente', 'warning');
@@ -104,5 +111,45 @@ export class HomeComponent implements OnInit {
       }
     }
   }
-  
+  toggleComments(postId: number) {
+    if (this.expandedPostId === postId) {
+      this.expandedPostId = null;
+    } else {
+      this.expandedPostId = postId;
+      this.loadCommentsForPost(postId);
+    }
+  }
+  async loadCommentsForPost(postId: number) {
+    try {
+      const comments = await this.apiService.getData(`api/CommentsController/GetComments?postId=${postId}`);
+      const postIndex = this.posts.findIndex(p => p.id === postId);
+      if (postIndex !== -1) {
+        this.posts[postIndex].comments = comments;
+      }
+    } catch (error) {
+      console.error('Eroare la încărcarea comentariilor:', error);
+    }
+  }
+  async submitComment(postId: number) {
+    if (this.commentForm.valid) {
+      try {
+        const commentContent = this.commentForm.value.content.trim();
+        const response = await this.apiService.postData(
+          'api/CommentsController/Create', 
+          { postId, content: commentContent }
+        );
+
+        if (response.status === 201) {
+          this.showNotification('Comment added successfully!', 'success');
+          this.commentForm.reset();
+          // Reîncărcăm comentariile pentru postarea curentă
+          await this.loadCommentsForPost(postId);
+        } else {
+          this.showNotification('Error adding comment', 'error');
+        }
+      } catch (error: any) {
+        this.showNotification('Error: ' + (error.message || 'Failed to add comment'), 'error');
+      }
+    }
+  }
 }

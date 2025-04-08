@@ -1,9 +1,101 @@
+.notification-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 300px;
+  width: calc(100% - 40px);
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 17px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-message {
+  flex: 1;
+  padding-right: 15px;
+}
+
+.close-btn {
+  background: transparent; 
+  border: none;
+  color: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px; 
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  min-width: 24px; 
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; 
+}
+
+.close-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2); 
+}
+
+.notification.success {
+  background-color: #4CAF50;
+}
+
+.notification.error {
+  background-color: #f44336;
+}
+
+.notification.warning {
+  background-color: #FF9800;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .notification-container {
+    max-width: 90%;
+    left: 5%;
+    bottom: 10px;
+  }
+  
+  .notification {
+    padding: 12px 15px;
+  }
+}
 
 .container {
     display: flex; /* Folosim flexbox */
     justify-content: center; /* Centrăm conținutul pe axa orizontală */
     align-items: center; /* Centrăm conținutul pe axa verticală */
-    height: 100vh; /* Înălțimea containerului este egală cu înălțimea ecranului */
+     /* Înălțimea containerului este egală cu înălțimea ecranului */
     gap: 20px; /* Spațiu între patrat și dreptunghi */
     padding: 20px; /* Spațiu între container și marginea ferestrei */
     box-sizing: border-box;
@@ -23,12 +115,21 @@
     align-items: center;
     justify-content: center;
     color: white; /* Text alb */
-    margin-top: -10rem;
+    margin-top: 0;;
+    position: relative; /* Poziționare relativă pentru a putea folosi z-index */
 
     .profile {
-        text-align: center;
+    text-align: center;
+    padding-top: 30px; /* Reducem padding-ul de sus */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aliniem conținutul la început */
+    padding-bottom: 20px;
+
 
         .profile-image {
+            margin-top: -65px; /* Adăugăm un pic de margine sus */
             img {
                 width: 80px;
                 height: 80px;
@@ -69,19 +170,48 @@
 
 /* Stiluri pentru dreptunghiul de postări */
 .posts-rectangle {
-    width: 700px; /* Lățime fixă a dreptunghiului */
-    height: 280px; /* Înălțime fixă */
-    background-color: #444; /* Fundal mai scurzit */
-    border-radius: 10px; /* Rotunjire colțuri */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbră sub dreptunghi */
-    overflow: hidden; /* Ascundem scurgerile de conținut */
+    width: 700px;
+    min-height: 280px; /* Înălțime minimă */
+    max-height: 70vh; /* Înălțime maximă înainte de scroll */
+    background-color: #444;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Scroll vertical când conținutul depășește înălțimea */
     display: flex;
     flex-direction: column;
     padding: 10px;
     box-sizing: border-box;
     color: white;
-    margin-top: -10rem; /* Text alb */
+    
+    /* Stilizare pentru scrollbar (opțional) */
+    scrollbar-width: thin;
+    scrollbar-color: #666 #444;
+    /* Stilizare scrollbar pentru Chrome/Edge/Safari */
+.posts-rectangle::-webkit-scrollbar {
+    width: 8px;
+}
 
+.posts-rectangle::-webkit-scrollbar-track {
+    background: #444;
+    border-radius: 10px;
+}
+
+.posts-rectangle::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-radius: 10px;
+}
+
+.post-list-container {
+    flex: 1; /* Ocupă tot spațiul disponibil */
+    display: flex;
+    flex-direction: column;
+}
+.posts-list {
+    flex: 1; /* Ocupă tot spațiul disponibil */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spațiu între postări */
+}
     .posts {
         h3 {
             font-size: 1.2em;
@@ -115,3 +245,159 @@
         font-size: 1rem;
     }
 }
+.profile-header {
+    display: flex;
+    justify-content: flex-start; /* Schimbăm din flex-end în flex-start */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.settings-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    
+    i {
+      font-size: 1.5rem;
+      color: #6c757d;
+      transition: all 0.3s ease;
+    }
+  
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      
+      i {
+        color: #495057;
+        transform: rotate(30deg);
+      }
+    }
+}
+.post-card {
+    background-color: #2d2d2d;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  
+  .user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+    border: 2px solid #444;
+  }
+  
+  .user-info {
+    flex-grow: 1;
+  }
+  
+  .username {
+    font-weight: 600;
+    color: #f0f0f0;
+    font-size: 16px;
+  }
+  
+  .post-time {
+    color: #888;
+    font-size: 14px;
+    margin-left: 6px;
+  }
+  
+  .delete-btn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .delete-btn:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    color: #ff3b3b;
+    transform: scale(1.1);
+  }
+  
+  .post-body {
+    margin-bottom: 12px;
+  }
+  
+  .post-content {
+    color: #e0e0e0;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  .post-footer {
+    display: flex;
+    border-top: 1px solid #3a3a3a;
+    padding-top: 12px;
+  }
+  
+  .interaction-btn {
+    background: none;
+    border: none;
+    color: #a0a0a0;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .interaction-btn i {
+    margin-right: 6px;
+  }
+  
+  .interaction-btn:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    
+    .post-card {
+      padding: 12px;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+    }
+  }
