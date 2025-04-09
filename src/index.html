@@ -1,6 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <style>
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #a0a0a0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+  .logo {
+    width: 250px;
+    animation: pulse 1.5s infinite;
+  }
+  </style>
   <meta charset="utf-8">
   <title>GoldMem</title>
   <base href="/">
@@ -12,6 +30,18 @@
 />
 </head>
 <body>
+  <div class="splash-screen" id="splash">
+    
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash');
+        if (splash) splash.remove();
+      }, 50);
+    });
+  </script>
   <app-root></app-root>
 </body>
 </html>

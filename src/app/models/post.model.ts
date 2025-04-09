@@ -4,6 +4,7 @@ export interface PostModel {
   id: number;
   content: string;
   name: string;
-  createdAt: string;
+  createAt: string;
+  author: string;
   comments?: CommentModel[];
 }

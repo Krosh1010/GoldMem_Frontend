@@ -26,12 +26,12 @@
     <div *ngIf="posts.length > 0" class="posts-list">
       <div *ngFor="let post of posts" class="post-card">
         <div class="post-header">
-          <img src="images/icons8-user-100.png" alt="User" class="user-avatar" />
+          <img src="images/icons8-user-100.png" (click)="navigateToUserProfile()" alt="User" class="user-avatar"  />
           <div class="user-info">
-            <span class="username">{{ post.name }}</span>
-            <span class="post-time">{{ post.createdAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
+            <span class="username" (click)="navigateToUserProfile()">{{ post.name }}</span>
+            <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
           </div>
-          <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
+          <button class="delete-btn" (click)="deletePost(post.id)">
             <i class="fas fa-trash"></i>
           </button>
         </div>
@@ -90,4 +90,13 @@
       <p>No posts yet. Be the first to share something!</p>
     </div>
   </div>
+  <!-- La sfârșitul fișierului, înainte de închiderea </div> finală -->
+<button 
+*ngIf="showBackToTop" 
+class="back-to-top-btn"
+(click)="scrollToTop()"
+title="Top"
+>
+↑
+</button>
 </div>

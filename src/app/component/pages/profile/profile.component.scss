@@ -147,26 +147,34 @@
                 margin: 5px 0;
             }
         }
-
         .follow-button {
-            background-color: rgb(100, 100, 100);
-            border: none;
-            color: yellow;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-                background-color: #777;
-            }
+          background: linear-gradient(45deg, #d5e546, #aaa017);
+          color: white;
+          border: none;
+          padding: 8px 20px;
+          border-radius: 25px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+        
+        .follow-button:hover {
+          transform: scale(1.05);
+          box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
         }
     }
 }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-square, .posts-rectangle {
+    width: 100%;
+  }
+}
+
 
 /* Stiluri pentru dreptunghiul de postări */
 .posts-rectangle {
@@ -321,6 +329,38 @@
     margin-left: 6px;
   }
   
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .post-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .edit-btn {
+    background: none;
+    border: none;
+    color: #4CAF50; /* Verde */
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    &:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      transform: scale(1.1);
+    }
+  }
+
   .delete-btn {
     background: none;
     border: none;

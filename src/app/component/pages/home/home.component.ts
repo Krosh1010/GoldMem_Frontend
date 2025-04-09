@@ -1,8 +1,9 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit,HostListener } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PostModel } from '../../../models/post.model';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +22,10 @@ export class HomeComponent implements OnInit {
     type: '', 
     timer: null as any
   };
+  showBackToTop= false;
   
   
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
     });
@@ -152,4 +154,21 @@ export class HomeComponent implements OnInit {
       }
     }
   }
+
+  @HostListener('window:scroll', [])
+onWindowScroll() {
+  this.showBackToTop = (window.pageYOffset > 100);
+}
+
+scrollToTop() {
+  window.scroll({
+    top: 0,
+    left: 0,
+    behavior: 'smooth' 
+  });
+}
+
+navigateToUserProfile() {
+  this.router.navigate(['/profile']);
+}
 }

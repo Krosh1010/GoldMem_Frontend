@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   posts: PostModel[] = [];
   userName: string = ''; 
   post: any [] = [];
+  userid = 0;
   notification = {
     message: '',
     type: '', 
@@ -25,8 +26,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserProfile();
-    this.getUserPosts();
-    this.loadPosts();
   }
 
   navigateToSettings(): void {
@@ -37,29 +36,24 @@ export class ProfileComponent implements OnInit {
     try {
       const response = await this.apiService.getData('api/AuthControler/GetMe'); 
       this.userName = response.name || ''; 
+      this.userid = response.id || 0;
+      this.getUserPosts();
+      
     } catch (error) {
       console.error('Eroare la încărcarea profilului:', error);
     }
+    
   }
-  private async getUserPosts(): Promise<void> {
+  private async getUserPosts() {
     try {
-      const response = await this.apiService.getData('api/PostController/GetMyPosts');
-      this.post= response;
+      const data = await this.apiService.getData('api/PostsControler/GetMe');
+      this.posts= data;
     }
     catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
     }
+}
 
-    
-}
-async loadPosts() {
-  try {
-    const data = await this.apiService.getData('api/PostsControler/GetPost'); 
-    this.posts = data;
-  } catch (error) {
-    console.error('Eroare la încărcarea postărilor:', error);
-  }
-}
 showNotification(message: string, type: 'success' | 'error' | 'warning') {
   if (this.notification.timer) {
     clearTimeout(this.notification.timer);
