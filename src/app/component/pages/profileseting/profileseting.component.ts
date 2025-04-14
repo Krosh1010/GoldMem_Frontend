@@ -18,7 +18,7 @@ export class ProfilesetingComponent implements OnInit {
   };
   isLoading = true;
   errorMessage = '';
-  
+  editMode : boolean = false; // Flag for edit mode
 
   constructor(private apiService: ApiService) {}
 
@@ -56,6 +56,13 @@ export class ProfilesetingComponent implements OnInit {
   }
 
   cancelChanges() {
-    this.getUserProfile(); // Reload original data
+    this.getUserProfile(); 
+  }
+
+  async toggleEdit() {
+    if (this.editMode) {
+     await this.getUserProfile();
+    }
+    this.editMode = !this.editMode; 
   }
 }

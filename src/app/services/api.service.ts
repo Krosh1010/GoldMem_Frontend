@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
+import { PostModel } from '../models/post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +69,23 @@ async deleteData(endpoint: string, payload?: any): Promise<any> {
     console.error('DELETE request error:', error);
     throw error;
   }
+}
+
+
+async getDataParam(endpoint: string, params?: any): Promise<any> {
+  try {
+    const response = await this.axiosClient.get(endpoint, {
+      params: params 
+    });
+    return response.data;
+  } catch (error) {
+    console.error('GET request error:', error);
+    throw error;
+  }
+}
+
+async getPosts(page: number): Promise<PostModel[]> {
+  return this.getDataParam('api/Posts/GetPaginated', { page });
 }
 
 }

@@ -3,11 +3,12 @@ import { ApiService } from '../../../services/api.service';
 import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PostModel } from '../../../models/post.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgIf,NgFor,CommonModule],
+  imports: [NgIf,NgFor,CommonModule,FormsModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -98,4 +99,16 @@ async deletePost(Id: number) {
   }
 }
 
+startEditing(post: any) {
+  post.editing = true;
+  post.editedContent = post.content;
+}
+
+cancelEditing(post: any) {
+  post.editing = false;
+}
+
+saveEditing(post: any) {
+  post.editing = false;
+}
 }

@@ -174,6 +174,7 @@
   background-color: #333;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
 }
 
 form {
@@ -381,17 +382,82 @@ button:hover {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {
-    padding: 15px;
+    padding: 0;
   }
   
-  .post-card {
-    padding: 12px;
+  .post-container {
+    width: 95%;
+    padding: 10px;
+    box-sizing: border-box;
+    align-self: center;
   }
   
   .user-avatar {
     width: 40px;
     height: 40px;
   }
+  .users-list-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 ;
+    height: auto;
+    min-height: calc(100vh - 60px);
+  }
+
+  .post-container {
+    width: 95%;
+    padding: 10px;
+    box-sizing: border-box;
+    align-self: center;
+  }
+
+  .post-card {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    width: 93%;
+    margin-left: 0;
+  }
+
+  .comment-form textarea {
+    width: 93%;
+    margin-left: 0;
+  }
+
+  .post-content, .comment-content {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .user-info {
+    max-width: calc(100% - 60px);
+  }
+
+  .notification-container {
+    width: 90%;
+    left: 5%;
+    right: auto;
+  }
+}
+
+/* Adaugă aceste reguli generale pentru a preveni overflow-ul */
+.post-content, .comment-content {
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.post-card {
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .back-to-top-btn {
@@ -433,4 +499,39 @@ button:hover {
   }
 
 }
+.interaction-btn {
+  position: relative;
+  
+  .like-count {
+    margin-left: 5px;
+    font-size: 14px;
+  }
+  
+  &.liked {
+    color: #ff6b6b;
+    
+    .fa-heart {
+      color: #ff6b6b;
+    }
+  }
+}
 
+.fas.fa-heart {
+  color: #ff6b6b;
+}
+
+.users-list {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main-layout {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.users-list {
+  position: fixed;
+  right: 80px;
+}

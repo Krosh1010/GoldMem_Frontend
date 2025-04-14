@@ -164,16 +164,7 @@
         }
     }
 }
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    align-items: stretch;
-  }
 
-  .profile-square, .posts-rectangle {
-    width: 100%;
-  }
-}
 
 
 /* Stiluri pentru dreptunghiul de postări */
@@ -394,6 +385,7 @@
     margin: 0;
     white-space: pre-wrap;
     word-break: break-word;
+    margin-bottom: 10px;
   }
   
   .post-footer {
@@ -429,9 +421,13 @@
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .container {
-      padding: 15px;
+      padding: 10px;
+      flex-direction: column;
+      align-items: stretch;
     }
-    
+    .profile-square, .posts-rectangle {
+      width: 100%;
+    }
     .post-card {
       padding: 12px;
     }
@@ -439,5 +435,84 @@
     .user-avatar {
       width: 40px;
       height: 40px;
+    }
+  }
+  @media (max-width: 600px) {
+    .container {
+      padding: 10px;
+    }
+    
+    .post-container, 
+    .posts-rectangle,
+    .profile-square {
+      width: 100%;
+      margin: 0;
+      align-self: center;
+    }
+    
+    textarea {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  .edit-textarea {
+    width: 95%;
+    min-height: 100px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background-color: #3a3a3a;
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    margin-bottom: 10px;
+    
+    &:focus {
+      outline: none;
+      border-color: #6c757d;
+      box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.3);
+    }
+  }
+  
+  .save-btn {
+    background: none;
+    border: none;
+    color: #4CAF50;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    &:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      transform: scale(1.1);
+    }
+  }
+  .cancel-btn {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+  
+    &:hover {
+      background-color: rgba(255, 107, 107, 0.1);
+      transform: scale(1.1);
     }
   }

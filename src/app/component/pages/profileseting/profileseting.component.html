@@ -1,32 +1,53 @@
 <div class="profile-settings-container">
-    <h2>Setări Profil</h2>
-    
-    <div *ngIf="isLoading" class="loading-indicator">
-      <p>Se încarcă datele profilului...</p>
+  <h2>Setări Profil</h2>
+  
+  <div *ngIf="isLoading" class="loading-indicator">
+    <div class="spinner">
+      <i class="bi bi-arrow-repeat"></i>
     </div>
-  
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-  
-    <form class="profile-form" *ngIf="!isLoading">
-      <div class="form-group">
-        <label for="name">Nume complet</label>
-        <input type="text" id="name" [(ngModel)]="profile.name" name="name" placeholder="Introduceți numele">
-      </div>
-  
-      <div class="form-group">
-        <label for="email">Adresă de email</label>
-        <input type="email" id="email" [(ngModel)]="profile.email" name="email" placeholder="Introduceți email-ul">
-      </div>
-  
-      <div class="form-actions">
-        <button type="button" (click)="saveProfile()" [disabled]="isLoading">
-          {{ isLoading ? 'Salvare...' : 'Salvează modificările' }}
-        </button>
-        <button type="button" class="cancel-btn" (click)="cancelChanges()" [disabled]="isLoading">
-          Anulează
-        </button>
-      </div>
-    </form>
+    <p>Se încarcă datele profilului...</p>
   </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="bi bi-exclamation-circle-fill"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div class="edit-header">
+    <button type="button" class="edit-btn" (click)="toggleEdit()">
+      <i class="bi" [class.bi-pencil-fill]="!editMode" [class.bi-lock-fill]="editMode"></i>
+      {{ editMode ? 'Oprește editarea' : 'Editează profilul' }}
+    </button>
+  </div>
+
+  <form class="profile-form" *ngIf="!isLoading">
+    <div class="form-group">
+      <label for="name">Nume complet</label>
+      <div class="input-with-icon">
+        <i class="bi bi-person-fill"></i>
+        <input type="text" id="name" [(ngModel)]="profile.name" name="name" 
+               placeholder="Introduceți numele" [disabled]="!editMode">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Adresă de email</label>
+      <div class="input-with-icon">
+        <i class="bi bi-envelope-fill"></i>
+        <input type="email" id="email" [(ngModel)]="profile.email" name="email" 
+               placeholder="Introduceți email-ul" [disabled]="!editMode">
+      </div>
+    </div>
+
+    <div class="form-actions" *ngIf="editMode">
+      <button type="button" (click)="saveProfile()" [disabled]="isLoading" class="save-btn">
+        <i class="bi bi-check-circle-fill"></i>
+        {{ isLoading ? 'Salvare...' : 'Salvează modificările' }}
+      </button>
+      <button type="button" class="cancel-btn" (click)="cancelChanges()" [disabled]="isLoading">
+        <i class="bi bi-x-circle-fill"></i>
+        Anulează
+      </button>
+    </div>
+  </form>
+</div>

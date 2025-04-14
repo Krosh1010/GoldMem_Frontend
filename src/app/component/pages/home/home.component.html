@@ -10,6 +10,7 @@
       <button class="close-btn" (click)="dismissNotification()">×</button>
     </div>
   </div>
+  <div class="main-layout">
   <div class="post-container">
     <form [formGroup]="postForm" (ngSubmit)="submitPost()">
       <textarea
@@ -26,7 +27,7 @@
     <div *ngIf="posts.length > 0" class="posts-list">
       <div *ngFor="let post of posts" class="post-card">
         <div class="post-header">
-          <img src="images/icons8-user-100.png" (click)="navigateToUserProfile()" alt="User" class="user-avatar"  />
+          <img [src]="'https://i.pravatar.cc/40'" (click)="navigateToUserProfile()" alt="User" class="user-avatar"  />
           <div class="user-info">
             <span class="username" (click)="navigateToUserProfile()">{{ post.name }}</span>
             <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
@@ -40,8 +41,9 @@
         </div>
         <!-- Footer post cu modificări -->
         <div class="post-footer">
-          <button class="interaction-btn" title="Like">
-            <i class="far fa-heart"></i>
+          <button class="interaction-btn" title="Like" (click)="toggleLike(post)" aria-label="Like post">
+            <i class="far" [class.fa-heart]="!post.isLiked" [class.fas]="post.isLiked" [class.fa-heart]="post.isLiked"></i>
+            <span class="like-count">{{ post.likeCount || 0 }}</span>
           </button>
           <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
             <i class="far fa-comment"></i>
@@ -90,7 +92,10 @@
       <p>No posts yet. Be the first to share something!</p>
     </div>
   </div>
-  <!-- La sfârșitul fișierului, înainte de închiderea </div> finală -->
+  <div class="users-list">
+  <app-users-list></app-users-list>
+</div>
+</div>
 <button 
 *ngIf="showBackToTop" 
 class="back-to-top-btn"

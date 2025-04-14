@@ -1,14 +1,15 @@
 import { Component, OnInit,HostListener } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PostModel } from '../../../models/post.model';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { UsersListComponent } from './users-list/users-list.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule],
+  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule,FormsModule, UsersListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit {
     timer: null as any
   };
   showBackToTop= false;
-  
+  CurrentPage = 1;
+
   
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
     this.postForm = this.fb.group({
@@ -144,7 +146,6 @@ export class HomeComponent implements OnInit {
         if (response.status === 201) {
           this.showNotification('Comment added successfully!', 'success');
           this.commentForm.reset();
-          // Reîncărcăm comentariile pentru postarea curentă
           await this.loadCommentsForPost(postId);
         } else {
           this.showNotification('Error adding comment', 'error');
@@ -171,4 +172,24 @@ scrollToTop() {
 navigateToUserProfile() {
   this.router.navigate(['/profile']);
 }
+
+
+async toggleLike(post: PostModel) {
+  try {
+    if (post.isLiked) {
+      // Dacă postarea este deja likuită, eliminăm like-ul
+      await this.apiService.deleteData(`api/LikesController/DeleteLike?postId=${post.id}`);
+      post.likeCount = (post.likeCount || 0) - 1;
+    } else {
+      // Dacă postarea nu este likuită, adăugăm un like
+      await this.apiService.postData('api/LikesController/CreateLike', { postId: post.id });
+      post.likeCount = (post.likeCount || 0) + 1;
+    }
+    post.isLiked = !post.isLiked;
+  } catch (error) {
+    this.showNotification('Error updating like', 'error');
+    console.error('Like error:', error);
+  }
+}
+
 }
