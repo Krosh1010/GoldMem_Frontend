@@ -85,6 +85,24 @@
           </div>
         </div>
       </div>
+     <!-- Indicator de încărcare custom -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <span>Se încarcă...</span>
+  </div>
+
+  <!-- Buton încărcare mai multe -->
+  <button *ngIf="hasMorePosts && !isLoading" 
+          (click)="loadPosts()" 
+          class="load-more-btn">
+    Încarcă mai multe postări
+  </button>
+
+  <!-- Mesaj final -->
+  <div *ngIf="!hasMorePosts && posts.length > 0" class="end-message">
+    Ai ajuns la finalul listei!
+  </div>
+
     </div>
   </div>
 

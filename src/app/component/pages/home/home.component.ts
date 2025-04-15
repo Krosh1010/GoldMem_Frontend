@@ -6,6 +6,7 @@ import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UsersListComponent } from './users-list/users-list.component';
 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit {
     timer: null as any
   };
   showBackToTop= false;
-  CurrentPage = 1;
+  currentPage = 1;
+  isLoading = false;
+  hasMorePosts = true;
 
   
   constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
@@ -38,6 +41,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.posts.length === 0) {
+      this.posts = [{
+        id: 1,
+        content: 'Postare demonstrativă',
+        createAt: '34234234',
+        name: 'Utilizator Test',
+        isLiked: false,
+        likeCount: 0,
+        comments: [],
+        author: '',
+        editing: '',
+        editedContent: ''
+      }];
+      this.hasMorePosts = true;
+    }
     this.loadPosts(); 
   }
 
@@ -94,13 +112,32 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async loadPosts() {
+   async loadPosts(): Promise<void> {
+    if (this.isLoading || !this.hasMorePosts) return;
+
+    this.isLoading = true;
+
     try {
-      const data = await this.apiService.getData('api/PostsControler/GetPost'); 
-      this.posts = data;
+      const newPosts = await this.apiService.getPosts(this.currentPage);
+      
+      if (newPosts.length === 0) {
+        this.hasMorePosts = false;
+      } else {
+        this.posts = [...this.posts, ...newPosts];
+        this.currentPage++;
+      }
     } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
+    } finally {
+      this.isLoading = false;
     }
+  }
+
+  reloadPosts(): void {
+    this.currentPage = 1;
+    this.posts = [];
+    this.hasMorePosts = true;
+    this.loadPosts();
   }
 
   async deletePost(Id: number) {
