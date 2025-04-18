@@ -71,7 +71,6 @@ async deleteData(endpoint: string, payload?: any): Promise<any> {
   }
 }
 
-
 async getDataParam(endpoint: string, params?: any): Promise<any> {
   try {
     const response = await this.axiosClient.get(endpoint, {
