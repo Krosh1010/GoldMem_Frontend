@@ -1,10 +1,14 @@
 import { Component, OnInit,HostListener } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
+import { PostService } from '../../../services/ApiServices/posts.services';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { PostModel } from '../../../models/post.model';
 import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UsersListComponent } from './users-list/users-list.component';
+import { PostResponseModel } from '../../../models/Post.Reponse';
+
+
 
 @Component({
   selector: 'app-home',
@@ -24,10 +28,13 @@ export class HomeComponent implements OnInit {
     timer: null as any
   };
   showBackToTop= false;
-  CurrentPage = 1;
+  currentPage = 1;
+  PageSize = 2;
+  isLoading = false;
+  hasMorePosts = true;
 
   
-  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router) {
+  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router, private postService: PostService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
     });
@@ -44,7 +51,8 @@ export class HomeComponent implements OnInit {
   async submitPost() {
     if (this.postForm.valid) {
       try {
-        const response = await this.apiService.postData('api/PostsControler/Create', this.postForm.value.content.trim());
+        const content = this.postForm.value.content.trim();
+        const response = await this.postService.createPost(content);
         
         if (response.status === 201) {
           this.showNotification('Postare creată cu succes!', 'success');
@@ -53,9 +61,9 @@ export class HomeComponent implements OnInit {
         } else if (response.status === 202) {
           this.showNotification('Postare acceptată cu avertismente', 'warning');
         } else if (response.status >= 400 && response.status < 500) {
-          this.showNotification('Eroare client: ' + (response.error?.message || 'Cerere invalidă'), 'error');
+          this.showNotification('Eroare client: ' + (response.error|| 'Cerere invalidă'), 'error');
         } else if (response.status >= 500) {
-          this.showNotification('Eroare server: ' + (response.error?.message || 'Eroare internă'), 'error');
+          this.showNotification('Eroare server: ' + (response.error|| 'Eroare internă'), 'error');
         }
       } catch (error: any) {
         this.showNotification('Eroare: ' + (error.message || 'Eroare de conexiune'), 'error');
@@ -96,8 +104,17 @@ export class HomeComponent implements OnInit {
 
   async loadPosts() {
     try {
-      const data = await this.apiService.getData('api/PostsControler/GetPost'); 
-      this.posts = data;
+      const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
+    console.log('Postări încărcate:', response);
+
+    const newPosts = response.posts; // accesezi array-ul de postări
+
+      if (newPosts.length === 0) {
+        this.hasMorePosts = false;
+      } else {
+        this.posts = [...this.posts, ...newPosts];
+        this.currentPage++;
+      }
     } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
     }
@@ -106,7 +123,7 @@ export class HomeComponent implements OnInit {
   async deletePost(Id: number) {
     if (confirm('Sigur doriți să ștergeți această postare?')) {
       try {
-        await this.apiService.deleteData('api/PostsControler/Delete', Id);
+        await this.postService.deletePost(Id);
         this.posts = this.posts.filter(post => post.id !== Id);
         this.showNotification('Postarea a fost ștearsă cu succes!', 'success');
       } catch (error) {

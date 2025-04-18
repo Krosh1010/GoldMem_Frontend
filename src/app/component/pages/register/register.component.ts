@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../services/api.service';
+import { AuthenticationService } from '../../../services/ApiServices/authentication.services';
 import * as CryptoJS from 'crypto-js';
 import { passwordMatchValidator } from '../../../validators/password.validator';
 import { RegisterModel } from '../../../models/register.model';
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   isErrorVisible: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService, private fb: FormBuilder) {}
+  constructor(private router: Router, private authService: AuthenticationService, private fb: FormBuilder) {}
 
   private displayError(message: string): void {
     this.errorMessage = message;
@@ -54,11 +54,12 @@ export class RegisterComponent implements OnInit {
     const formdata: RegisterModel = {
       email: this.registerForm.value.email.trim(),
       userName: this.registerForm.value.username.trim(),
-      password: CryptoJS.SHA256(this.registerForm.value.password).toString()
+      password: CryptoJS.SHA256(this.registerForm.value.password).toString(),
+      data: undefined
     };
 
     try {
-      const response = await this.apiService.postData('api/AuthControler/register', formdata);
+      const response = await this.authService.register(formdata);
       const datas = response.data;
       if (datas && datas.token) {
         console.log('Registrare reușită:', datas);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
-import { PostModel } from '../models/post.model';
+import { PaginationParams } from '../models/PaginationParams.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,7 +72,7 @@ async deleteData(endpoint: string, payload?: any): Promise<any> {
 }
 
 
-async getDataParam(endpoint: string, params?: any): Promise<any> {
+async getPostPagin(endpoint: string, params?: PaginationParams): Promise<any> {
   try {
     const response = await this.axiosClient.get(endpoint, {
       params: params 
@@ -84,8 +84,5 @@ async getDataParam(endpoint: string, params?: any): Promise<any> {
   }
 }
 
-async getPosts(page: number): Promise<PostModel[]> {
-  return this.getDataParam('api/Posts/GetPaginated', { page });
-}
 
 }

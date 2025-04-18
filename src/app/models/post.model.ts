@@ -11,4 +11,6 @@ export interface PostModel {
   editing: string;
   editedContent: string;
   comments?: CommentModel[];
+  status: number;
+  error: string;
 }

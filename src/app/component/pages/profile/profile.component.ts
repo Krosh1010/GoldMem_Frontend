@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../services/api.service';
 import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PostModel } from '../../../models/post.model';
 import { FormsModule } from '@angular/forms';
+import { ProfileService } from '../../../services/ApiServices/profile.services';
+import { PostService } from '../../../services/ApiServices/posts.services';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,10 @@ export class ProfileComponent implements OnInit {
     timer: null as any
   };
 
-  constructor(private apiService: ApiService, private route: Router) {}
+  constructor(private route: Router, 
+    private profileService: ProfileService,
+    private postService: PostService,
+  ) {}
 
   ngOnInit(): void {
     this.getUserProfile();
@@ -35,7 +39,7 @@ export class ProfileComponent implements OnInit {
 
   private async getUserProfile(): Promise<void> {
     try {
-      const response = await this.apiService.getData('api/AuthControler/GetMe'); 
+      const response = await this.profileService.getUserProfile(); 
       this.userName = response.name || ''; 
       this.userid = response.id || 0;
       this.getUserPosts();
@@ -47,8 +51,8 @@ export class ProfileComponent implements OnInit {
   }
   private async getUserPosts() {
     try {
-      const data = await this.apiService.getData('api/PostsControler/GetMe');
-      this.posts= data;
+      const data = await this.profileService.getUserPosts();
+      this.posts = Array.isArray(data) ? data : [data];
     }
     catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
@@ -89,7 +93,7 @@ dismissNotification() {
 async deletePost(Id: number) {
   if (confirm('Sigur doriți să ștergeți această postare?')) {
     try {
-      await this.apiService.deleteData('api/PostsControler/Delete', Id);
+      await this.postService.deletePost(Id);
       this.posts = this.posts.filter(post => post.id !== Id);
       this.showNotification('Postarea a fost ștearsă cu succes!', 'success');
     } catch (error) {

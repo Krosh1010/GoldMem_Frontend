@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../services/api.service';
 import * as CryptoJS from 'crypto-js';
 import { AuthModel } from '../../../models/auth.model';
+import { AuthenticationService } from '../../../services/ApiServices/authentication.services';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,9 @@ export class LoginComponent implements OnInit {
   isErrorVisible: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private router: Router, private apiService: ApiService, private fb: FormBuilder) {}
+  constructor(private router: Router,  
+    private fb: FormBuilder, 
+    private authService: AuthenticationService ) {}
   
   private displayError(message: string): void {
     this.errorMessage = message;
@@ -48,12 +50,13 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
 
     const formdata: AuthModel = {
-          userName: this.loginForm.value.username.trim(),
-          password: CryptoJS.SHA256(this.loginForm.value.password).toString()
-        };
+      userName: this.loginForm.value.username.trim(),
+      password: CryptoJS.SHA256(this.loginForm.value.password).toString(),
+      data: undefined
+    };
 
     try {
-      const response = await this.apiService.postData('api/AuthControler/Login', formdata);
+      const response = await this.authService.login(formdata);
       const datas = response.data;
       if (datas && datas.token) {
         console.log('Autentificare reușită:', datas);
