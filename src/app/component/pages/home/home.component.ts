@@ -9,7 +9,6 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { PostResponseModel } from '../../../models/Post.Reponse';
 
 
-
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -102,7 +101,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async loadPosts() {
+   async loadPosts(): Promise<void> {
+    if (this.isLoading || !this.hasMorePosts) return;
+
+    this.isLoading = true;
+
     try {
       const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
     console.log('Postări încărcate:', response);
@@ -117,7 +120,16 @@ export class HomeComponent implements OnInit {
       }
     } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
+    } finally {
+      this.isLoading = false;
     }
+  }
+
+  reloadPosts(): void {
+    this.currentPage = 1;
+    this.posts = [];
+    this.hasMorePosts = true;
+    this.loadPosts();
   }
 
   async deletePost(Id: number) {
