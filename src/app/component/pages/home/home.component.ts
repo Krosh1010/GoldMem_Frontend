@@ -7,12 +7,14 @@ import { NgFor, NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UsersListComponent } from './users-list/users-list.component';
 import { PostResponseModel } from '../../../models/Post.Reponse';
+import { CommentService } from '../../../services/ApiServices/comment.service';
+
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, CommonModule,FormsModule, UsersListComponent],
+  imports: [ReactiveFormsModule, NgIf, CommonModule, FormsModule, UsersListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -28,12 +30,16 @@ export class HomeComponent implements OnInit {
   };
   showBackToTop= false;
   currentPage = 1;
-  PageSize = 2;
+  PageSize = 3;
   isLoading = false;
   hasMorePosts = true;
 
   
-  constructor(private fb: FormBuilder, private apiService: ApiService, private router: Router, private postService: PostService) {
+  constructor(private fb: FormBuilder, 
+    private apiService: ApiService, 
+    private router: Router, 
+    private postService: PostService,
+    private commentService: CommentService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
     });
@@ -54,9 +60,9 @@ export class HomeComponent implements OnInit {
         const response = await this.postService.createPost(content);
         
         if (response.status === 201) {
-          this.showNotification('Postare creată cu succes!', 'success');
-          await this.loadPosts(); 
+          this.showNotification('Postare creată cu succes!', 'success'); 
           this.postForm.reset();
+          await this.loadFirstPost();
         } else if (response.status === 202) {
           this.showNotification('Postare acceptată cu avertismente', 'warning');
         } else if (response.status >= 400 && response.status < 500) {
@@ -108,9 +114,7 @@ export class HomeComponent implements OnInit {
 
     try {
       const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
-    console.log('Postări încărcate:', response);
-
-    const newPosts = response.posts; // accesezi array-ul de postări
+      const newPosts = response.posts; 
 
       if (newPosts.length === 0) {
         this.hasMorePosts = false;
@@ -125,6 +129,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  async loadFirstPost(): Promise<void> {
+    try {
+      const response: PostResponseModel = await this.postService.getPosts(1, this.PageSize);
+      this.posts = response.posts;
+      this.currentPage = 2; 
+      this.hasMorePosts = response.posts.length === this.PageSize;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   reloadPosts(): void {
     this.currentPage = 1;
     this.posts = [];
@@ -154,10 +169,11 @@ export class HomeComponent implements OnInit {
   }
   async loadCommentsForPost(postId: number) {
     try {
-      const comments = await this.apiService.getData(`api/CommentsController/GetComments?postId=${postId}`);
+      console.log('Loading comments for post:', postId);
+      const comments = await this.commentService.getComments(postId);
       const postIndex = this.posts.findIndex(p => p.id === postId);
       if (postIndex !== -1) {
-        this.posts[postIndex].comments = comments;
+        this.posts[postIndex].comments = Array.isArray(comments) ? comments : [comments];
       }
     } catch (error) {
       console.error('Eroare la încărcarea comentariilor:', error);
@@ -167,12 +183,9 @@ export class HomeComponent implements OnInit {
     if (this.commentForm.valid) {
       try {
         const commentContent = this.commentForm.value.content.trim();
-        const response = await this.apiService.postData(
-          'api/CommentsController/Create', 
-          { postId, content: commentContent }
-        );
+        const response = await this.commentService.createComment (postId ,commentContent );
 
-        if (response.status === 201) {
+        if (response.status === 204) {
           this.showNotification('Comment added successfully!', 'success');
           this.commentForm.reset();
           await this.loadCommentsForPost(postId);
@@ -201,7 +214,6 @@ scrollToTop() {
 navigateToUserProfile() {
   this.router.navigate(['/profile']);
 }
-
 
 async toggleLike(post: PostModel) {
   try {

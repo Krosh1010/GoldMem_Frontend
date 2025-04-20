@@ -47,6 +47,7 @@
           </button>
           <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
             <i class="far fa-comment"></i>
+            <span class="like-count">{{ post.commentsCount}}</span>
           </button>
         </div>
         
@@ -70,8 +71,8 @@
               <div class="comment-header">
                 <img src="images/icons8-user-100.png" alt="User" class="user-avatar small" />
                 <div class="user-info">
-                  <span class="username">{{ comment.authorName }}</span>
-                  <span class="comment-time">{{ comment.createdAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
+                  <span class="username">{{ comment.name }}</span>
+                  <span class="comment-time">{{ comment.created | date: 'dd MMMM yyyy, HH:mm' }}</span>
                 </div>
               </div>
               <div class="comment-body">

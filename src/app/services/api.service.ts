@@ -43,6 +43,20 @@ export class ApiService {
     }
   }
 
+  // Cerere GET cu parametri
+async getDataWithParams(endpoint: string, params: any): Promise<any> {
+  try {
+    const response = await this.axiosClient.get(endpoint, {
+      params: params
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Eroare la cererea GET cu parametri:', error);
+    throw error;
+  }
+}
+
+
   // Cerere POST
   async postData(endpoint: string, payload: any): Promise<any> {
     try {
@@ -53,9 +67,7 @@ export class ApiService {
       throw error;
     }
   }
-
   
-// DELETE request cu body
 async deleteData(endpoint: string, payload?: any): Promise<any> {
   try {
     const response = await this.axiosClient.delete(endpoint, {
@@ -71,7 +83,6 @@ async deleteData(endpoint: string, payload?: any): Promise<any> {
   }
 }
 
-
 async getPostPagin(endpoint: string, params?: PaginationParams): Promise<any> {
   try {
     const response = await this.axiosClient.get(endpoint, {
@@ -83,6 +94,5 @@ async getPostPagin(endpoint: string, params?: PaginationParams): Promise<any> {
     throw error;
   }
 }
-
 
 }

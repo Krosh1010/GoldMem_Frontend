@@ -13,4 +13,5 @@ export interface PostModel {
   comments?: CommentModel[];
   status: number;
   error: string;
+  commentsCount: number;
 }

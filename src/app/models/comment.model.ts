@@ -1,7 +1,8 @@
 export interface CommentModel {
+  status: number;
   id: number;
   content: string;
-  authorName: string;
-  createdAt: string;
+  name: string;
+  created: string;
   postid: number;
 }
