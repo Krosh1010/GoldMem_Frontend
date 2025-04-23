@@ -18,4 +18,8 @@ export class ProfileService {
     async getUserPosts(): Promise<PostModel> {
         return this.apiService.getData('api/PostsControler/GetMe');
     }
+
+    async FolowUser(name: string): Promise<ProfileModel> {
+        return this.apiService.postData(`api/AuthControler/follow/${name}`, null);
+    }
 }

@@ -1,4 +1,6 @@
-<div class="post-container">
+<div class="post-page-container">
+  <!-- Formular pentru postare nouă -->
+  <div class="post-form-container">
     <form [formGroup]="postForm" (ngSubmit)="submitPost()">
       <textarea
         formControlName="content"
@@ -6,83 +8,103 @@
         rows="4"
       ></textarea>
       <div class="button-container">
-        <button type="submit" [disabled]="postForm.invalid">Post</button>
+        <button type="submit" [disabled]="postForm.invalid" class="post-button">
+          Post
+        </button>
       </div>
     </form>
-  
-    <div class="post-list-container">
-      <div *ngIf="posts.length > 0" class="posts-list">
-        <div *ngFor="let post of posts" class="post-card">
-          <div class="post-header">
-            <img [src]="'https://i.pravatar.cc/40'" (click)="navigateToUserProfile()" alt="User" class="user-avatar" />
-            <div class="user-info">
-              <span class="username" (click)="navigateToUserProfile()">{{ post.name }}</span>
-              <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
-            </div>
-            <button class="delete-btn" (click)="deletePost(post.id)">
-              <i class="fas fa-trash"></i>
-            </button>
+  </div>
+
+  <!-- Lista de postări -->
+  <div class="post-list-container">
+    <div *ngIf="posts.length > 0" class="posts-list"  >
+      <!-- Card postare -->
+      <div *ngFor="let post of posts" class="post-card" [id]="'post-' + post.id">
+        <!-- Header postare -->
+        <div class="post-header">
+          <img [src]="'https://i.pravatar.cc/150?img=' " 
+               (click)="navigateToUserProfile()" 
+               alt="User" 
+               class="user-avatar" />
+          <div class="user-info">
+            <span class="username" (click)="navigateToUserProfile()">{{ post.name }}</span>
+            <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
           </div>
-          <div class="post-body">
-            <p class="post-content">{{ post.content }}</p>
-          </div>
-          <div class="post-footer">
-            <button class="interaction-btn" title="Like" (click)="toggleLike(post)" aria-label="Like post">
-              <i class="far" [class.fa-heart]="!post.isLiked" [class.fas]="post.isLiked" [class.fa-heart]="post.isLiked"></i>
-              <span class="like-count">{{ post.likeCount || 0 }}</span>
-            </button>
-            <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
-              <i class="far fa-comment"></i>
-              <span class="like-count">{{ post.commentsCount}}</span>
-            </button>
-          </div>
-  
-          <div *ngIf="expandedPostId === post.id" class="comments-section">
-            <form [formGroup]="commentForm" (ngSubmit)="submitComment(post.id)" class="comment-form">
-              <textarea formControlName="content" placeholder="Write a comment..." rows="2"></textarea>
-              <div class="button-container">
-                <button type="submit" [disabled]="commentForm.invalid">Comment</button>
-              </div>
-            </form>
-  
-            <div *ngIf="post.comments && post.comments.length > 0" class="comments-list">
-              <div *ngFor="let comment of post.comments" class="comment-card">
-                <div class="comment-header">
-                  <img src="images/icons8-user-100.png" alt="User" class="user-avatar small" />
-                  <div class="user-info">
-                    <span class="username">{{ comment.name }}</span>
-                    <span class="comment-time">{{ comment.created | date: 'dd MMMM yyyy, HH:mm' }}</span>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p class="comment-content">{{ comment.content }}</p>
-                </div>
-              </div>
-            </div>
-  
-            <div *ngIf="!post.comments || post.comments.length === 0" class="no-comments">
-              <p>No comments yet. Be the first to comment!</p>
-            </div>
-          </div>
+          <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
+            <i class="fas fa-trash"></i>
+          </button>
         </div>
-  
-        <div *ngIf="isLoading" class="loading-spinner">
-          <div class="spinner"></div>
-          <span>Se încarcă...</span>
+
+        <!-- Conținut postare -->
+        <div class="post-body">
+          <p class="post-content">{{ post.content }}</p>
         </div>
-  
-        <button *ngIf="hasMorePosts && !isLoading" (click)="loadPosts()" class="load-more-btn">
-          Încarcă mai multe postări
-        </button>
-  
-        <div *ngIf="!hasMorePosts && posts.length > 0" class="end-message">
-          Ai ajuns la finalul listei!
+
+        <!-- Footer postare -->
+        <div class="post-footer">
+          <button class="interaction-btn" title="Like" (click)="toggleLike(post)" aria-label="Like post">
+            <i class="far" [class.fa-heart]="!post.isLiked" [class.fas]="post.isLiked" [class.fa-heart]="post.isLiked"></i>
+            <span class="like-count">{{ post.likeCount || 0 }}</span>
+          </button>
+          <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
+            <i class="far fa-comment"></i>
+            <span class="comment-count">{{ post.commentsCount }}</span>
+          </button>
+        </div>
+
+        <!-- Secțiune comentarii -->
+        <div *ngIf="expandedPostId === post.id" class="comments-section">
+          <!-- Formular comentariu -->
+          <form [formGroup]="commentForm" (ngSubmit)="submitComment(post.id)" class="comment-form">
+            <textarea formControlName="content" placeholder="Write a comment..." rows="2"></textarea>
+            <div class="button-container">
+              <button type="submit" [disabled]="commentForm.invalid" class="comment-button">
+                Comment
+              </button>
+            </div>
+          </form>
+
+          <!-- Lista comentarii -->
+          <div *ngIf="post.comments && post.comments.length > 0" class="comments-list">
+            <div *ngFor="let comment of post.comments" class="comment-card">
+              <div class="comment-header">
+                <img [src]="'https://i.pravatar.cc/150?img='" 
+                     alt="User" 
+                     class="user-avatar small" />
+                <div class="user-info">
+                  <span class="username">{{ comment.name }}</span>
+                  <span class="comment-time">{{ comment.created | date: 'dd MMMM yyyy, HH:mm' }}</span>
+                </div>
+              </div>
+              <div class="comment-body">
+                <p class="comment-content">{{ comment.content }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!post.comments || post.comments.length === 0" class="no-comments">
+            <p>No comments yet. Be the first to comment!</p>
+          </div>
         </div>
       </div>
+
+      <!-- Încărcare și paginare -->
+      <div *ngIf="isLoading" class="loading-spinner">
+        <div class="spinner"></div>
+        <span>Loading...</span>
+      </div>
+
+      <button *ngIf="hasMorePosts && !isLoading" (click)="loadPosts()" class="load-more-btn">
+        Load more posts
+      </button>
+
+      <div *ngIf="!hasMorePosts && posts.length > 0" class="end-message">
+        You've reached the end!
+      </div>
     </div>
-  
-    <div *ngIf="posts.length === 0" class="no-posts">
+
+    <div *ngIf="posts.length === 0 && !isLoading" class="no-posts">
       <p>No posts yet. Be the first to share something!</p>
     </div>
   </div>
-  
+</div>

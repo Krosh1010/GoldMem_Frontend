@@ -1,81 +1,116 @@
-<div class="container">
+<div class="profile-page-container">
   <!-- Notificarea -->
-  <div class="notification-container" *ngIf="notification.message">
-    <div class="notification" 
+  <div class="notification-wrapper" *ngIf="notification && notification.message">
+    <div class="custom-notification" 
          [class.success]="notification.type === 'success'" 
          [class.error]="notification.type === 'error'"
          [class.warning]="notification.type === 'warning'"
          [class.show]="notification.message">
-      <span class="notification-message">{{ notification.message }}</span>
-      <button class="close-btn" (click)="dismissNotification()">×</button>
-    </div>
-  </div>
-  <div class="profile-square">
-    <div class="profile-header">
-      <button class="settings-button" (click)="navigateToSettings()">
-        <i class="bi bi-gear"></i>
-      </button>
-    </div>
-    <div class="profile">
-      
-      <div class="profile-image">
-        <img [src]="'https://i.pravatar.cc/40'" alt="Profile Image">
-      </div>
-      <div *ngIf="userName">
-        <h4>{{ userName }}</h4>
-      </div>    
-      <div class="profile-info">
-        <p>Followers: 123</p>
-        <p>Following: 456</p>
-      </div>
-      <button class="follow-button">Follow</button>
+      <span class="notification-text">{{ notification.message }}</span>
+      <button class="notification-close" (click)="dismissNotification()">×</button>
     </div>
   </div>
 
-  <div class="posts-rectangle">
-    <div class=" post-list-container">
-      <div *ngIf="posts.length > 0" class="posts-list">
-        <div *ngFor="let post of posts" class="post-card">
-          <div class="post-header">
-            <div class="user-info">
-              <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
-            </div>
-            <div class="post-actions">
-              <button *ngIf="!post.editing" class="edit-btn" (click)="startEditing(post)" title="Edit post">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button *ngIf="post.editing" class="save-btn" (click)="saveEditing(post)" title="Save changes">
-                <i class="fas fa-save"></i>
-              </button>
-              <button *ngIf="post.editing" class="cancel-btn" (click)="cancelEditing(post)" title="Cancel editing">
-                <i class="fas fa-times"></i>
-              </button>
-              <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
-                <i class="fas fa-trash"></i>
-              </button>
-            </div>
+  <div class="main-content-wrapper">
+    <!-- Coloana profil -->
+    <div class="profile-column">
+      <div class="profile-card">
+        <div class="profile-header">
+          <button class="settings-button" (click)="navigateToSettings()">
+            <i class="bi bi-gear"></i>
+          </button>
+        </div>
+        <div class="profile-content">
+          <div class="profile-image">
+            <img [src]="'https://i.pravatar.cc/150?img=5'" alt="Profile Image">
           </div>
-          <div class="post-body">
-            <div *ngIf="!post.editing">
-              <p class="post-content">{{ post.content }}</p>
-            </div>
-            <div *ngIf="post.editing">
-              <textarea class="edit-textarea" [(ngModel)]="post.editedContent">{{ post.content }}</textarea>
+          <div *ngIf="userName" class="profile-name">
+            <h4>{{ userName }}</h4>
+          </div>    
+          <div class="profile-info">
+            <p><strong>Followers:</strong> 123</p>
+            <p><strong>Following:</strong> 456</p>
           </div>
-          <div class="post-footer">
-            <button class="interaction-btn" title="Like">
-              <i class="far fa-heart"></i>
-            </button>
-            <button class="interaction-btn" title="Comment">
-              <i class="far fa-comment"></i>
-            </button>
-          </div>
+          <button class="follow-button" (click)="followUser(userName)">Follow</button>
         </div>
       </div>
     </div>
 
-    <div class="no-posts" *ngIf="posts.length === 0">
-      <p>Această persoană nu a făcut încă nicio postare.</p>
+    <!-- Coloana postări -->
+    <div class="posts-column">
+      <div class="posts-container">
+        <div *ngIf="posts.length > 0" class="posts-list">
+          <div *ngFor="let post of posts" class="post-card">
+            <div class="post-header">
+              <div class="user-info">
+                <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
+              </div>
+              <div class="post-actions">
+                <button *ngIf="!post.editing" class="edit-btn" (click)="startEditing(post)" title="Edit post">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button *ngIf="post.editing" class="save-btn" (click)="saveEditing(post)" title="Save changes">
+                  <i class="fas fa-save"></i>
+                </button>
+                <button *ngIf="post.editing" class="cancel-btn" (click)="cancelEditing(post)" title="Cancel editing">
+                  <i class="fas fa-times"></i>
+                </button>
+                <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="post-body">
+              <div *ngIf="!post.editing">
+                <p class="post-content">{{ post.content }}</p>
+              </div>
+              <div *ngIf="post.editing">
+                <textarea class="edit-textarea" [(ngModel)]="post.editedContent">{{ post.content }}</textarea>
+              </div>
+            </div>
+
+            <div class="post-footer">
+              <button class="interaction-btn" title="Like" (click)="toggleLike(post)" aria-label="Like post">
+                <i class="far" [class.fa-heart]="!post.isLiked" [class.fas]="post.isLiked" [class.fa-heart]="post.isLiked"></i>
+                <span class="like-count">{{ post.likeCount || 0 }}</span>
+              </button>
+              <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
+                <i class="far fa-comment"></i>
+                <span class="like-count">{{ post.commentsCount}}</span>
+              </button>
+            </div>
+
+            <div *ngIf="expandedPostId === post.id" class="comments-section">
+              <form [formGroup]="commentForm" (ngSubmit)="submitComment(post.id)" class="comment-form">
+                <textarea formControlName="content" placeholder="Write a comment..." rows="2"></textarea>
+                <div class="button-container">
+                  <button type="submit" [disabled]="commentForm.invalid">Comment</button>
+                </div>
+              </form>
+
+              <div *ngIf="post.comments && post.comments.length > 0" class="comments-list">
+                <div *ngFor="let comment of post.comments" class="comment-card">
+                  <div class="comment-header">
+                    <img src="https://i.pravatar.cc/40?img=3" alt="User" class="user-avatar small" />
+                    <div class="user-info">
+                      <span class="username">{{ comment.name }}</span>
+                      <span class="comment-time">{{ comment.created | date: 'dd MMMM yyyy, HH:mm' }}</span>
+                    </div>
+                  </div>
+                  <div class="comment-body">
+                    <p class="comment-content">{{ comment.content }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-posts" *ngIf="posts.length === 0">
+          <p>This user hasn't posted anything yet.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

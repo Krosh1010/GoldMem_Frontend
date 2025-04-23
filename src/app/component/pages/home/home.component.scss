@@ -1,169 +1,86 @@
-/* Adaugă aceste stiluri la sfârșitul fișierului CSS */
 
-.comments-section {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #3a3a3a;
-}
-
-.comment-form {
-  margin-bottom: 15px;
-}
-
-.comment-form textarea {
-  width: 95%;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 8px;
-  resize: none;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid #444;
-  color: white;
-  margin-left: 7px;
-}
-
-.comments-list {
-  margin-top: 10px;
-}
-
-.comment-card {
-  background-color: #252525;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.comment-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 3px;
-  background-color: #fbff00;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.3s ease;
-}
-
-.comment-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.comment-card:hover::before {
-  transform: scaleY(1);
-}
-
-.comment-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.user-avatar.small {
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-}
-
-.comment-time {
-  color: #777;
-  font-size: 12px;
-  margin-left: 6px;
-}
-
-.comment-content {
-  color: #d0d0d0;
-  font-size: 14px;
-  line-height: 1.4;
-  margin: 0;
-  padding-left: 40px;
-}
-
-.no-comments {
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-  padding: 10px;
-}
-
-.notification-container {
+/* Notificari */
+/* Notificari - Stiluri actualizate pentru consistenta */
+.notification-wrapper {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-  max-width: 300px;
-  width: calc(100% - 40px);
+  max-width: 350px;
+  width: 100%;
+  animation: slideIn 0.3s ease-out forwards;
 }
 
-.notification {
+.custom-notification {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 10px;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-size: 17px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
   line-height: 1.5;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.success {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border-left: 5px solid #1B5E20;
+  }
+  
+  &.error {
+    background: linear-gradient(135deg, #f44336, #c62828);
+    border-left: 5px solid #b71c1c;
+  }
+  
+  &.warning {
+    background: linear-gradient(135deg, #FF9800, #EF6C00);
+    border-left: 5px solid #E65100;
+  }
 }
 
-.notification.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.notification-message {
+.notification-text {
   flex: 1;
   padding-right: 15px;
+  font-weight: 500;
 }
 
-.close-btn {
-  background: transparent; 
+.notification-close {
+  background: transparent;
   border: none;
-  color: inherit;
-  font-size: 20px;
+  color: white;
+  font-size: 22px;
   cursor: pointer;
   padding: 0;
-  margin-left: 10px; 
+  margin-left: 10px;
   line-height: 1;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  min-width: 24px; 
-  min-height: 24px;
+  opacity: 0.8;
+  transition: all 0.2s;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; 
+  border-radius: 50%;
+  
+  &:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
-.close-btn:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.2); 
-}
-
-.notification.success {
-  background-color: #4CAF50;
-}
-
-.notification.error {
-  background-color: #f44336;
-}
-
-.notification.warning {
-  background-color: #FF9800;
-}
-
+/* Animatie notificare */
 @keyframes slideIn {
   from {
-    transform: translateX(-100%);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
@@ -172,15 +89,18 @@
   }
 }
 
+/* Media queries pentru notificari */
 @media (max-width: 600px) {
-  .notification-container {
+  .notification-wrapper {
     max-width: 90%;
     left: 5%;
-    bottom: 10px;
+    right: auto;
+    bottom: 15px;
   }
   
-  .notification {
-    padding: 12px 15px;
+  .custom-notification {
+    padding: 14px 18px;
+    font-size: 15px;
   }
 }
 
@@ -189,240 +109,12 @@
   height: calc(100vh - 60px); 
   display: flex;
   flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-.post-container {
-  width: 100%;
-  max-width: 650px;
-  margin: 20px auto;
-  padding: 15px;
-  background-color: #333;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-textarea {
-  width: 95%;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 8px;
-  resize: none;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  margin-left:7px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-button {
-  background-color: rgb(100, 100, 100);
-  color: yellow;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 1s ease;
-}
-
-button:disabled {
-  background-color: #333;
-  cursor: not-allowed;
-}
-
-button:hover {
-  background: rgb(123, 123, 123);
-}
-.post-list-container {
-  margin-top: 10px;
-}
-/* Stilizare avansată pentru carduri */
-.post-card {
-  background: #2d2d2d;
-  border-radius: 16px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-}
-
-.post-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Bara laterala albastră animată */
-.post-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(to bottom, #cbf21d, #fbff00);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.post-card:hover::before {
-  transform: scaleY(1);
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  position: relative;
-}
-
-.user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 12px;
-  border: 2px solid #444;
-}
- 
-.user-avatar:hover{
-  transform: scale(1.1);
-}
-
-.user-info {
-  flex-grow: 1;
-}
-
-.username {
-  font-weight: 600;
-  color: #f0f0f0;
-  font-size: 16px;
-}
-
-.post-time {
-  color: #888;
-  font-size: 14px;
-  margin-left: 6px;
-}
-
-.delete-btn {
-  background: none;
-  border: none;
-  color: #ff6b6b;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-btn:hover {
-  background-color: rgba(255, 107, 107, 0.1);
-  color: #ff3b3b;
-  transform: scale(1.1);
-}
-.delete-btn:hover::after {
-  content: "Delete";
-  position: absolute;
-  background: #333;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.post-body {
-  margin-bottom: 12px;
-}
-
-.post-content {
-  color: #e0e0e0;
-  font-size: 15px;
-  line-height: 1.5;
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-.post-footer {
-  display: flex;
-  border-top: 1px solid #3a3a3a;
-  padding-top: 12px;
-}
-
-.interaction-btn {
-  background: none;
-  border: none;
-  color: #a0a0a0;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  margin-right: 8px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-}
-
-.interaction-btn i {
-  margin-right: 6px;
-}
-
-.interaction-btn:hover {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.no-posts {
-  text-align: center;
-  padding: 30px;
-  color: #666;
-  font-size: 16px;
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  margin-top: 20px;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .container {
     padding: 0;
-  }
-  
-  .post-container {
-    width: 95%;
-    padding: 10px;
-    box-sizing: border-box;
-    align-self: center;
-  }
-  
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-  }
-  .users-list-wrapper {
-    display: none;
   }
 }
 
@@ -432,57 +124,11 @@ button:hover {
     height: auto;
     min-height: calc(100vh - 60px);
   }
-
-  .post-container {
-    width: 95%;
-    padding: 10px;
-    box-sizing: border-box;
-    align-self: center;
-  }
-
-  .post-card {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    padding: 12px;
-    box-sizing: border-box;
-  }
-
-  textarea {
-    width: 93%;
-    margin-left: 0;
-  }
-
-  .comment-form textarea {
-    width: 93%;
-    margin-left: 0;
-  }
-
-  .post-content, .comment-content {
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  .user-info {
-    max-width: calc(100% - 60px);
-  }
-
   .notification-container {
     width: 90%;
     left: 5%;
     right: auto;
   }
-}
-
-/* Adaugă aceste reguli generale pentru a preveni overflow-ul */
-.post-content, .comment-content {
-  overflow: hidden;
-  word-wrap: break-word;
-}
-
-.post-card {
-  max-width: 100%;
-  overflow: hidden;
 }
 
 .back-to-top-btn {
@@ -508,42 +154,6 @@ button:hover {
   transform: translateY(-5px);
 }
 
-.username {
-  cursor: pointer;
-  color: #c0c0c0; // Verde deschis
-  font-weight: 500; // Text puțin îngroșat
-  transition: all 0.2s ease;
-  
-  &:hover {
-    color: #777777; // Verde mai închis la hover
-    transform: translateY(-10px); // Ușoară deplasare în sus
-  }
-  
-  &:active {
-    transform: translateY(0); // Reset la click
-  }
-
-}
-.interaction-btn {
-  position: relative;
-  
-  .like-count {
-    margin-left: 5px;
-    font-size: 14px;
-  }
-  
-  &.liked {
-    color: #ff6b6b;
-    
-    .fa-heart {
-      color: #ff6b6b;
-    }
-  }
-}
-
-.fas.fa-heart {
-  color: #ff6b6b;
-}
 
 .users-list {
   display: flex;
@@ -583,36 +193,41 @@ button:hover {
   to { transform: rotate(360deg); }
 }
 
-.load-more-btn {
-  display: block;
+.posts-rectangle {
   width: 100%;
-  padding: 12px;
-  background: #3f51b5;
+  height: 100%;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+.back-to-post-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; 
+  background-color: #ffcc00; 
   color: white;
   border: none;
-  border-radius: 4px;
-  margin: 20px 0;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
 
   &:hover {
-    background: #303f9f;
-  }
-
-  &:disabled {
-    background: #cccccc;
-    cursor: not-allowed;
+    opacity: 1 ;
+    transform: translateY(-5px);
   }
 }
 
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
 
-.end-message, .no-posts {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-}
+

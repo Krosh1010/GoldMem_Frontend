@@ -1,76 +1,116 @@
-.notification-container {
+/* Variabile */
+$primary-color: #d5e546;
+$secondary-color: #aaa017;
+$dark-bg: #1e1e1e;
+$card-bg: #333;
+$text-light: #ffffff;
+$text-muted: #aaaaaa;
+$border-color: #444;
+$error-color: #ff6b6b;
+
+/* Stiluri generale */
+.profile-page-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  color: $text-light;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.main-content-wrapper {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
+}
+
+/* Notificari */
+/* Notificari - Stiluri actualizate pentru consistenta */
+.notification-wrapper {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-  max-width: 300px;
-  width: calc(100% - 40px);
+  max-width: 350px;
+  width: 100%;
+  animation: slideIn 0.3s ease-out forwards;
 }
 
-.notification {
+.custom-notification {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 10px;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-size: 17px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
   line-height: 1.5;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.success {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border-left: 5px solid #1B5E20;
+  }
+  
+  &.error {
+    background: linear-gradient(135deg, #f44336, #c62828);
+    border-left: 5px solid #b71c1c;
+  }
+  
+  &.warning {
+    background: linear-gradient(135deg, #FF9800, #EF6C00);
+    border-left: 5px solid #E65100;
+  }
 }
 
-.notification.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.notification-message {
+.notification-text {
   flex: 1;
   padding-right: 15px;
+  font-weight: 500;
 }
 
-.close-btn {
-  background: transparent; 
+.notification-close {
+  background: transparent;
   border: none;
-  color: inherit;
-  font-size: 20px;
+  color: white;
+  font-size: 22px;
   cursor: pointer;
   padding: 0;
-  margin-left: 10px; 
+  margin-left: 10px;
   line-height: 1;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  min-width: 24px; 
-  min-height: 24px;
+  opacity: 0.8;
+  transition: all 0.2s;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; 
+  border-radius: 50%;
+  
+  &:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
-.close-btn:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.2); 
-}
-
-.notification.success {
-  background-color: #4CAF50;
-}
-
-.notification.error {
-  background-color: #f44336;
-}
-
-.notification.warning {
-  background-color: #FF9800;
-}
-
+/* Animatie notificare */
 @keyframes slideIn {
   from {
-    transform: translateX(-100%);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
@@ -79,440 +119,425 @@
   }
 }
 
+/* Media queries pentru notificari */
 @media (max-width: 600px) {
-  .notification-container {
+  .notification-wrapper {
     max-width: 90%;
     left: 5%;
-    bottom: 10px;
+    right: auto;
+    bottom: 15px;
   }
   
-  .notification {
-    padding: 12px 15px;
+  .custom-notification {
+    padding: 14px 18px;
+    font-size: 15px;
   }
 }
 
-.container {
-    display: flex; /* Folosim flexbox */
-    justify-content: center; /* Centrăm conținutul pe axa orizontală */
-    align-items: center; /* Centrăm conținutul pe axa verticală */
-     /* Înălțimea containerului este egală cu înălțimea ecranului */
-    gap: 20px; /* Spațiu între patrat și dreptunghi */
-    padding: 20px; /* Spațiu între container și marginea ferestrei */
-    box-sizing: border-box;
-    
-}
+/* Coloana profil */
+.profile-column {
+  flex: 0 0 300px;
 
-/* Stiluri pentru patratul de profil */
-.profile-square {
-    width: 280px; /* Lățimea patratului */
-    height: 280px; /* Înălțimea patratului */
-    background-color: #333; /* Fundal negru */
-    border-radius: 10px; /* Rotunjire colțuri */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbră sub patrat */
-    overflow: hidden; /* Ascundem scurgerile de conținut */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white; /* Text alb */
-    margin-top: 0;;
-    position: relative; /* Poziționare relativă pentru a putea folosi z-index */
-
-    .profile {
-    text-align: center;
-    padding-top: 30px; /* Reducem padding-ul de sus */
+  @media (max-width: 900px) {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Aliniem conținutul la început */
-    padding-bottom: 20px;
-
-
-        .profile-image {
-            margin-top: -65px; /* Adăugăm un pic de margine sus */
-            img {
-                width: 80px;
-                height: 80px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-bottom: 10px;
-            }
-        }
-
-        .profile-info {
-            margin-top: 10px;
-            color: yellow;
-            font-size: 1rem;
-            p {
-                margin: 5px 0;
-            }
-        }
-        .follow-button {
-          background: linear-gradient(45deg, #d5e546, #aaa017);
-          color: white;
-          border: none;
-          padding: 8px 20px;
-          border-radius: 25px;
-          font-weight: bold;
-          cursor: pointer;
-          transition: all 0.3s;
-        }
-        
-        .follow-button:hover {
-          transform: scale(1.05);
-          box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
-        }
-    }
+  }
 }
 
+.profile-card {
+  background-color: $card-bg;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
 
-
-/* Stiluri pentru dreptunghiul de postări */
-.posts-rectangle {
-    width: 700px;
-    min-height: 280px; /* Înălțime minimă */
-    max-height: 70vh; /* Înălțime maximă înainte de scroll */
-    background-color: #444;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow-y: auto; /* Scroll vertical când conținutul depășește înălțimea */
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    box-sizing: border-box;
-    color: white;
-    
-    /* Stilizare pentru scrollbar (opțional) */
-    scrollbar-width: thin;
-    scrollbar-color: #666 #444;
-    /* Stilizare scrollbar pentru Chrome/Edge/Safari */
-.posts-rectangle::-webkit-scrollbar {
-    width: 8px;
+  @media (max-width: 900px) {
+    position: static;
+    margin-bottom: 20px;
+  }
 }
 
-.posts-rectangle::-webkit-scrollbar-track {
-    background: #444;
-    border-radius: 10px;
-}
-
-.posts-rectangle::-webkit-scrollbar-thumb {
-    background-color: #666;
-    border-radius: 10px;
-}
-
-.post-list-container {
-    flex: 1; /* Ocupă tot spațiul disponibil */
-    display: flex;
-    flex-direction: column;
-}
-.posts-list {
-    flex: 1; /* Ocupă tot spațiul disponibil */
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Spațiu între postări */
-}
-    .posts {
-        h3 {
-            font-size: 1.2em;
-            color: yellow;
-            margin-bottom: 10px;
-        }
-
-        .post {
-            background-color: #333;
-            border: 1px solid #555;
-            padding: 8px;
-            margin-bottom: 8px;
-            border-radius: 5px;
-            text-align: left;
-
-            p {
-                margin: 0 0 5px 0;
-            }
-
-            small {
-                color: #ccc;
-                font-size: 0.9em;
-            }
-        }
-    }
-
-    .no-posts {
-        text-align: center;
-        color: #aaa;
-        margin-top: 20px;
-        font-size: 1rem;
-    }
-}
 .profile-header {
-    display: flex;
-    justify-content: flex-start; /* Schimbăm din flex-end în flex-start */
-    width: 100%;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  padding: 15px;
 }
 
 .settings-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 1.5rem;
+    color: #6c757d;
     transition: all 0.3s ease;
-    
-    i {
-      font-size: 1.5rem;
-      color: #6c757d;
-      transition: all 0.3s ease;
-    }
-  
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      
-      i {
-        color: #495057;
-        transform: rotate(30deg);
-      }
-    }
-}
-.post-card {
-    background-color: #2d2d2d;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  
-  .post-card:hover {
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+
+    i {
+      color: #495057;
+      transform: rotate(30deg);
+    }
+  }
+}
+
+.profile-content {
+  padding: 0 20px 20px;
+  text-align: center;
+}
+
+.profile-image {
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid $border-color;
+    margin-top: -50px;
+    background-color: $card-bg;
+  }
+}
+
+.profile-name {
+  h4 {
+    margin: 15px 0 10px;
+    color: $text-light;
+    font-size: 1.5rem;
+  }
+}
+
+.profile-info {
+  margin: 20px 0;
+  color: $text-muted;
+
+  p {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    strong {
+      color: $text-light;
+    }
+  }
+}
+
+.follow-button {
+  background: linear-gradient(45deg, $primary-color, $secondary-color);
+  color: #333;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 10px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(213, 229, 70, 0.3);
+  }
+}
+
+/* Coloana postari */
+.posts-column {
+  flex: 1;
+  min-width: 0;
+}
+
+.posts-container {
+  background-color: $card-bg;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.no-posts {
+  text-align: center;
+  color: #888;
+  padding: 30px;
+  font-size: 1.1rem;
+}
+
+/* Card postari */
+.post-card {
+  background-color: #2d2d2d;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
-  .post-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    position: relative;
-  }
-  
-  .user-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 12px;
-    border: 2px solid #444;
-  }
-  
-  .user-info {
-    flex-grow: 1;
-  }
-  
-  .username {
-    font-weight: 600;
-    color: #f0f0f0;
-    font-size: 16px;
-  }
-  
-  .post-time {
-    color: #888;
-    font-size: 14px;
-    margin-left: 6px;
-  }
-  
-  .post-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .post-actions {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .edit-btn {
-    background: none;
-    border: none;
-    color: #4CAF50; /* Verde */
-    font-size: 16px;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    &:hover {
-      background-color: rgba(76, 175, 80, 0.1);
-      transform: scale(1.1);
-    }
-  }
+}
 
-  .delete-btn {
-    background: none;
-    border: none;
-    color: #ff6b6b;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.post-time {
+  color: #888;
+  font-size: 14px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn, .save-btn {
+  background: none;
+  border: none;
+  color: #4CAF50;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    transform: scale(1.1);
   }
-  
-  .delete-btn:hover {
+}
+
+.delete-btn, .cancel-btn {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
     background-color: rgba(255, 107, 107, 0.1);
     color: #ff3b3b;
     transform: scale(1.1);
   }
-  
-  .post-body {
-    margin-bottom: 12px;
+}
+
+.post-body {
+  margin-bottom: 12px;
+}
+
+.post-content {
+  color: #e0e0e0;
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 10px;
+}
+
+.edit-textarea {
+  width: 95%;
+  min-height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #3a3a3a;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  resize: vertical;
+  margin-bottom: 10px;
+
+  &:focus {
+    outline: none;
+    border-color: #6c757d;
+    box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.3);
   }
-  
-  .post-content {
-    color: #e0e0e0;
-    font-size: 15px;
-    line-height: 1.5;
-    margin: 0;
-    white-space: pre-wrap;
-    word-break: break-word;
-    margin-bottom: 10px;
-  }
-  
-  .post-footer {
-    display: flex;
-    border-top: 1px solid #3a3a3a;
-    padding-top: 12px;
-  }
-  
-  .interaction-btn {
-    background: none;
-    border: none;
-    color: #a0a0a0;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 6px;
-    margin-right: 8px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-  }
-  
-  .interaction-btn i {
+}
+
+.post-footer {
+  display: flex;
+  border-top: 1px solid #3a3a3a;
+  padding-top: 12px;
+}
+
+.interaction-btn {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+
+  i {
     margin-right: 6px;
+    transition: color 0.2s ease;
   }
-  
-  .interaction-btn:hover {
-    color: #ffffff;
+
+  &:hover {
+    color: $text-light;
     background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .container {
-      padding: 10px;
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .profile-square, .posts-rectangle {
-      width: 100%;
-    }
-    .post-card {
-      padding: 12px;
-    }
-    
-    .user-avatar {
-      width: 40px;
-      height: 40px;
+
+    i {
+      color: $primary-color;
     }
   }
-  @media (max-width: 600px) {
-    .container {
-      padding: 10px;
-    }
-    
-    .post-container, 
-    .posts-rectangle,
-    .profile-square {
-      width: 100%;
-      margin: 0;
-      align-self: center;
-    }
-    
-    textarea {
-      width: 100%;
-      margin-left: 0;
+
+  &.liked {
+    color: $error-color;
+
+    i {
+      color: $error-color;
     }
   }
-  .edit-textarea {
+}
+
+/* Sectiune comentarii */
+.comments-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #3a3a3a;
+}
+
+.comment-form {
+  margin-bottom: 15px;
+
+  textarea {
     width: 95%;
-    min-height: 100px;
-    padding: 10px;
+    padding: 8px;
+    font-size: 14px;
     border-radius: 8px;
-    border: 1px solid #555;
-    background-color: #3a3a3a;
-    color: #fff;
-    font-family: inherit;
-    font-size: 15px;
-    resize: vertical;
-    margin-bottom: 10px;
-    
-    &:focus {
-      outline: none;
-      border-color: #6c757d;
-      box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.3);
-    }
+    resize: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #444;
+    color: white;
+    margin-left: 7px;
   }
-  
-  .save-btn {
-    background: none;
-    border: none;
-    color: #4CAF50;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
+
+  .button-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    &:hover {
-      background-color: rgba(76, 175, 80, 0.1);
-      transform: scale(1.1);
+    justify-content: flex-end;
+    margin-top: 8px;
+
+    button {
+      background: linear-gradient(45deg, $primary-color, $secondary-color);
+      color: #333;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
-  .cancel-btn {
-    background: none;
-    border: none;
-    color: #ff6b6b;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 8px;
-  
-    &:hover {
-      background-color: rgba(255, 107, 107, 0.1);
-      transform: scale(1.1);
+}
+
+.comments-list {
+  margin-top: 10px;
+}
+
+.comment-card {
+  background-color: #252525;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: $primary-color;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    &::before {
+      transform: scaleY(1);
     }
   }
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.user-avatar.small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+  border: 1px solid $border-color;
+}
+
+.username {
+  font-weight: 600;
+  color: $text-light;
+  font-size: 14px;
+}
+
+.comment-time {
+  color: #777;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.comment-content {
+  color: #d0d0d0;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+  padding-left: 40px;
+}
