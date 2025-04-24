@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as CryptoJS from 'crypto-js';
-import { AuthModel } from '../../../models/auth.model';
+import { AuthModel } from '../../../models/LogModel/auth.model';
 import { AuthenticationService } from '../../../services/ApiServices/authentication.services';
 
 @Component({

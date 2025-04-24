@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../../services/ApiServices/authentication.services';
 import * as CryptoJS from 'crypto-js';
 import { passwordMatchValidator } from '../../../validators/password.validator';
-import { RegisterModel } from '../../../models/register.model';
+import { RegisterModel } from '../../../models/LogModel/register.model';
 
 @Component({
   selector: 'app-register',

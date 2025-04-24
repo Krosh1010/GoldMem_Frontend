@@ -301,8 +301,12 @@ textarea {
   position: relative;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    &::before {
+      transform: scaleY(1);
+    }
   }
 
   &::before {
@@ -313,7 +317,9 @@ textarea {
     height: 100%;
     width: 3px;
     background-color: $primary-color;
-    border-radius: 3px 0 0 3px;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease;
   }
 }
 

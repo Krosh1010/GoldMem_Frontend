@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
-import { PaginationParams } from '../models/PaginationParams.model';
+import { PaginationParams } from '../models/PostsModel/PaginationParams.model';
 
 @Injectable({
   providedIn: 'root',

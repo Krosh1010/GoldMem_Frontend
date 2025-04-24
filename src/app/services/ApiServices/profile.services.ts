@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ProfileModel } from '../../models/profile.model';
-import { PostModel } from '../../models/post.model';
+import { PostModel } from '../../models/PostsModel/post.model';
 
 
 @Injectable({

@@ -1,13 +1,9 @@
 import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PostService } from '../../../../services/ApiServices/posts.services';
-import { ApiService } from '../../../../services/api.service';
-import { PostModel } from '../../../../models/post.model';
-import { Router } from '@angular/router';
-import { CommentService } from '../../../../services/ApiServices/comment.service';
-import { PostResponseModel } from '../../../../models/Post.Reponse';
 import { NgIf, CommonModule } from '@angular/common';
-import { NotificationService } from '../../../../services/notification.service';
+import { Router } from '@angular/router';
+import { PostService, CommentService, ApiService, NotificationService } from '../../../../services';
+import { PostModel, PostResponseModel } from '../../../../models';
 
 @Component({
   selector: 'app-posts',

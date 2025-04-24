@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from "../api.service";
-import { PostModel } from '../../models/post.model';
-import { PostResponseModel } from '../../models/Post.Reponse';
+import { PostModel, PostResponseModel } from "../../models";
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
-import { AuthModel } from '../../models/auth.model';
-import { RegisterModel } from '../../models/register.model';
+import { AuthModel } from '../../models/LogModel/auth.model';
+import { RegisterModel } from '../../models/LogModel/register.model';
 
 @Injectable({
     providedIn: 'root',
