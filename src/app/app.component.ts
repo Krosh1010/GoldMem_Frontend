@@ -32,7 +32,7 @@ export class AppComponent {
         if (event instanceof NavigationEnd) {
           this.themeService.applyTheme();
           const noHeaderRoutes = ['/', '/register'];
-          this.showHeader = !noHeaderRoutes.includes(event.urlAfterRedirects);
+          this.showHeader = !noHeaderRoutes.includes(event.urlAfterRedirects.split('?')[0]);
         }
         
         setTimeout(() => {

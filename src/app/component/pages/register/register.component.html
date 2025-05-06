@@ -48,15 +48,16 @@
           <div class="input-group">
             <div class="input-wrapper">
                 <input 
-                    [type]="showPassword ? 'text' : 'password'" 
+                    type="password"
+                    id="password" 
                     formControlName="password"      
                     placeholder="Password" 
                     required  
                     class="form-control" 
+                    appPasswordStrength
+                    minLenght="4"
                 />
-                <span class="input-group-text" (click)="togglePasswordVisibility('password')">
-                    <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
-                </span>
+                <span class="input-group-text" appPasswordToggle [targetInputId]="'password'">  </span>
             </div>
             <div *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched" class="error">
               Password must be at least 4 characters.
@@ -67,16 +68,15 @@
         <div class="input-group">
             <div class="input-wrapper">
                 <input 
-                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    type="password"
+                    id="confirmPassword"
                     formControlName="confirmPassword" 
                     name="confirmPassword" 
                     placeholder="Confirm Password" 
                     required 
                     class="form-control" 
                 />
-                <span class="input-group-text" (click)="togglePasswordVisibility('confirm')">
-                    <i [class]="showConfirmPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
-                </span>
+                <span class="input-group-textt" appPasswordToggle [targetInputId]="'confirmPassword'"></span>
             </div>
             <div *ngIf="registerForm.hasError('passwordMismatch')" class="error">
               Passwords do not match.

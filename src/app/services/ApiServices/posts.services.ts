@@ -14,7 +14,8 @@ export class PostService {
     }
 
     async createPost(content: string): Promise<PostModel> {
-        return this.apiService.postData('api/PostsControler/Create',content);
+        return this.apiService.postData('api/PostsControler/Create', content);
+        
     }
 
     async deletePost(postId: number): Promise<PostModel> {

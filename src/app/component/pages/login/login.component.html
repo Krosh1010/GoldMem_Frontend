@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="login-section">
     <div *ngIf="errorMessage" [ngClass]="{ 'hidden': !isErrorVisible }" class="error-message">
       {{ errorMessage }}
@@ -24,15 +25,14 @@
       <div class="input-group">
         <div class="input-wrapper">
           <input 
-            [type]="showPassword ? 'text' : 'password'" 
+            type="password"
+            id="password"
             formControlName="password"
             placeholder="Password" 
             required 
             class="form-control" 
           />
-          <span class="input-group-text" (click)="togglePasswordVisibility()">
-            <i [class]="showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'" class="icon"></i>
-          </span>
+          <span class="input-group-text" appPasswordToggle [targetInputId]="'password'"></span>
         </div>
         <div *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched" class="error">
           Password must be at least 4 characters.
@@ -43,13 +43,12 @@
           <span *ngIf="isLoading" class="spinner"></span>
           <span *ngIf="!isLoading">Log In</span>
         </button>
-        <button type="button" class="btn signup-btn" (click)="navigateToRegister('/register')">
+        <button type="button" class="btn signup-btn" (click)="navigateToRegister()">
           Sign Up
         </button>
       </div>
     </form>
   </div>
-
   <div class="logo-section">
     <img src="images/logoo.svg" alt="Golden Memos Logo" class="logo">
     <p class="tagline">A timeless vault for your diary</p>

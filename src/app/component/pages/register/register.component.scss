@@ -31,7 +31,7 @@ h1 {
         flex: 1;
   
         .error-message {
-          position: absolute;
+          position: fixed;
           top: 1rem;
           left: 50%;
           transform: translateX(-50%);
@@ -56,6 +56,7 @@ h1 {
     
           .input-group {
             margin-bottom: 1.5rem;
+            
     
             label {
               display: block;
@@ -66,6 +67,18 @@ h1 {
     
             .input-wrapper {
               position: relative;
+          
+              .input-group-text {
+                position: absolute;
+                top: 15%;
+                right: 0;
+                transform: translateY(-50%);
+                padding: 0 10px;
+                cursor: pointer;
+                background: transparent;
+                border: none;
+                z-index: 2;
+              }
     
               input {
                 width: 80%;
@@ -176,4 +189,85 @@ h1 {
         from { opacity: 0; transform: translateY(-5px); }
         to { opacity: 1; transform: translateY(0); }
     }
+    @media (max-width: 800px) {
+      /* Ajustări minime esențiale */
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        justify-content: center; /* Adăugat */
+        align-items: center; /* Adăugat */
+        overflow-x: hidden;
+        width: 100%;
+      }
+    
+      .register-section, 
+      .logo-section {
+        width: 100%;
+        max-width: 100%;
+        padding: 1.5rem;
+        box-sizing: border-box; /* Include padding în lățime */
+        margin: 0 auto; /* Centrare automata */
+      }
+    
+      .register-section {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+      }
+    
+      .input-wrapper input {
+        width: 90%;
+      }
+    
+      .button-group .btn.signup-btn {
+        width: 100%;
+      }
+    
+      .logo {
+        max-width: 200px; 
+      }
+      .register-section .button-group .btn.signup-btn {
+        width: 95%   !important; 
+    margin-left: -12px; 
+    display: block; 
+      }
+    }
+
+.password-strength-container {
+  display: block; 
+  width: 80%;
+  margin-top: 0.5rem;
+}
+
+.password-strength-bar {
+  display: block; 
+  height: 4px;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  margin-bottom: 0.5rem;
+}
+
+.password-strength-text {
+  display: block; 
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.password-rules-list {
+  list-style-type: none;
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #666;
+}
+
+.password-rules-list li {
+  margin-bottom: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+
+
     

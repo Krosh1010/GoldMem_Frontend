@@ -6,11 +6,12 @@ import { AuthenticationService } from '../../../services/ApiServices/authenticat
 import * as CryptoJS from 'crypto-js';
 import { passwordMatchValidator } from '../../../validators/password.validator';
 import { RegisterModel } from '../../../models/LogModel/register.model';
+import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedDirectivesModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -37,11 +38,6 @@ export class RegisterComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: passwordMatchValidator() });
-  }
-
-  togglePasswordVisibility(field: 'password' | 'confirm'): void {
-    this[field === 'password' ? 'showPassword' : 'showConfirmPassword'] =
-      !this[field === 'password' ? 'showPassword' : 'showConfirmPassword'];
   }
 
   async onSubmit(): Promise<void> {

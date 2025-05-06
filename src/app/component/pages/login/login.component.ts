@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import * as CryptoJS from 'crypto-js';
 import { AuthModel } from '../../../models/LogModel/auth.model';
 import { AuthenticationService } from '../../../services/ApiServices/authentication.services';
+import { SharedDirectivesModule } from '../../../directives/shared-directives.module';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedDirectivesModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -35,10 +36,6 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
   }
 
   async onSubmit(): Promise<void> {
@@ -73,7 +70,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  navigateToRegister(path: string): void {
-    this.router.navigate([path]);
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
   }
 }

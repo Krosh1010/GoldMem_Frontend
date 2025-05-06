@@ -1,54 +1,169 @@
+$card-bg: #2d2d2d;
+$text-light: #ffffff;
+
 .users-list-container {
-    width: 100%;
-    max-width: 280px;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 16px;
-    padding: 1rem;
-    margin: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-    height: fit-content;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  
-  .users-list-container h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: #333;
-    text-align: center;
-  }
-  
-  .user-card {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-    padding: 0.5rem;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .user-card:hover {
-    background-color: #eeeeee;
-  }
-  
-  .avatar img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .user-info .username {
-    font-weight: bold;
-    font-size: 0.95rem;
-    margin: 0;
-  }
-  
-  .user-info .status {
-    font-size: 0.8rem;
-    color: #666;
-    margin: 0;
-  }
-  
+  width: 100%;
+  max-width: 300px;
+  background-color: $card-bg;
+  border-radius: 16px;
+  padding: 1rem;
+  margin: 1.1rem;
+  margin-left: auto;  /* Aceasta va împinge containerul spre dreapta */
+  margin-right: -3rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  max-height: 90vh;
+  overflow-y: auto;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.refresh-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  padding: 0.25rem;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-btn:hover {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background-color: #fafafa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.user-card:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.user-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.avatar {
+  position: relative;
+}
+
+.avatar img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.user-info {
+  overflow: hidden;
+}
+
+.user-info .username {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-info .status {
+  font-size: 0.8rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-info .status.online {
+  color: #4CAF50;
+}
+
+.user-info .status.offline {
+  color: #9E9E9E;
+}
+
+.follow-btn {
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.follow-btn:hover {
+  background-color: #3367D6;
+  transform: translateY(-1px);
+}
+
+.follow-btn.following {
+  background-color: #E0E0E0;
+  color: #333;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 1.5rem 0;
+  color: #9E9E9E;
+}
+
+.empty-state i {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.7;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 0.9rem;
+}

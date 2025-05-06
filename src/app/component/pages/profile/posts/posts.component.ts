@@ -3,11 +3,12 @@ import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PostModel } from '../../../../models';
 import { PostService, CommentService, ApiService, NotificationService, ProfileService} from '../../../../services';
+import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [NgIf,NgFor,CommonModule,FormsModule, ReactiveFormsModule],
+  imports: [NgIf,NgFor,CommonModule,FormsModule, ReactiveFormsModule, SharedDirectivesModule],
   templateUrl: './posts.component.html',
   styleUrl: './posts.component.scss'
 })
@@ -16,6 +17,7 @@ export class PostsComponent implements OnInit {
   posts: PostModel[] = [];
   userName: string = ''; 
   expandedPostId: number | null = null;
+  lazyScrollEnabled = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -112,6 +114,7 @@ async loadCommentsForPost(postId: number) {
 }
 
 async submitComment(postId: number) {
+  this.lazyScrollEnabled = true;
   if (this.commentForm.valid) {
     try {
       const commentContent = this.commentForm.value.content.trim();
@@ -128,5 +131,8 @@ async submitComment(postId: number) {
       this.notificationService.show('Error: ' + (error.message || 'Failed to add comment'), 'error');
     }
   }
+  setTimeout(() => {
+    this.lazyScrollEnabled = false;
+  }, 50);
 }
 }

@@ -1,18 +1,45 @@
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor,NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss'
 })
 export class UsersListComponent {
-  users = [
-    { username: 'alex01', avatar: '', status: 'Online' },
-    { username: 'maria99', avatar: '', status: 'Offline' },
-    { username: 'george07', avatar: '', status: 'Online' },
-    { username: 'florina22', avatar: '', status: 'Online' }
+  users: any[] = [
+    {
+      id: 1,
+      username: 'Utilizator1',
+      avatar: 'https://i.pravatar.cc/40?u=1',
+      status: 'Online',
+      isFollowing: false
+    },
+    {
+      id: 2,
+      username: 'Utilizator2',
+      avatar: 'https://i.pravatar.cc/40?u=2',
+      status: 'Offline',
+      isFollowing: true
+    },
+    {
+      id: 3,
+      username: 'Utilizator3',
+      avatar: 'https://i.pravatar.cc/40?u=3',
+      status: 'Online',
+      isFollowing: false
+    },
+    {
+      id: 4,
+      username: 'Utilizator cu nume foarte lung care nu încape',
+      avatar: 'https://i.pravatar.cc/40?u=4',
+      status: 'În meeting',
+      isFollowing: false
+    }
   ];
+
+  refreshUsers() {}
+  toggleFollow(user: any) { }
 }

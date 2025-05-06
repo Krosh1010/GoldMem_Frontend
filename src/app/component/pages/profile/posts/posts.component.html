@@ -1,6 +1,6 @@
 <div class="posts-container">
     <div *ngIf="posts.length > 0" class="posts-list">
-      <div *ngFor="let post of posts" class="post-card">
+      <div *ngFor="let post of posts" class="post-card" appLazyScroll [enabled]="!lazyScrollEnabled">
         <div class="post-header">
           <div class="user-info">
             <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
@@ -50,7 +50,7 @@
           </form>
 
           <div *ngIf="post.comments && post.comments.length > 0" class="comments-list">
-            <div *ngFor="let comment of post.comments" class="comment-card">
+            <div *ngFor="let comment of post.comments" class="comment-card" appLazyScroll [enabled]="!lazyScrollEnabled" >
               <div class="comment-header">
                 <img src="https://i.pravatar.cc/40?img=3" alt="User" class="user-avatar small" />
                 <div class="user-info">

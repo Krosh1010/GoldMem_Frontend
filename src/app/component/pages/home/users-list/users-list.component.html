@@ -1,13 +1,31 @@
 <div class="users-list-container">
-    <h3>Utilizatori activi</h3>
-    <div *ngFor="let user of users" class="user-card">
-      <div class="avatar">
-        <img [src]="user.avatar || 'https://i.pravatar.cc/40'" alt="Avatar" />
-      </div>
-      <div class="user-info">
-        <p class="username">{{ user.username }}</p>
-        <p class="status">{{ user.status || 'Online' }}</p>
-      </div>
-    </div>
+  <div class="header">
+      <h3>Utilizatori activi</h3>
+      <button class="refresh-btn" (click)="refreshUsers()">
+          <i class="fas fa-sync-alt"></i>
+      </button>
   </div>
-  
+  <div *ngFor="let user of users" class="user-card">
+      <div class="user-main">
+          <div class="avatar">
+              <img [src]="user.avatar || 'https://i.pravatar.cc/40?u=' + user.id" alt="Avatar" />
+              <span class="online-indicator" *ngIf="user.status === 'Online'"></span>
+          </div>
+          <div class="user-info">
+              <p class="username">{{ user.username }}</p>
+              <p class="status" [class.offline]="user.status !== 'Online'">
+                  {{ user.status || 'Online' }}
+              </p>
+          </div>
+      </div>
+      <button class="follow-btn" 
+              [class.following]="user.isFollowing"
+              (click)="toggleFollow(user)">
+          {{ user.isFollowing ? 'Urmărești' : 'Urmărește' }}
+      </button>
+  </div>
+  <div class="empty-state" *ngIf="users.length === 0">
+      <i class="fas fa-users"></i>
+      <p>Niciun utilizator activ</p>
+  </div>
+</div>

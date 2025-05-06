@@ -334,3 +334,14 @@ $error-color: #ff6b6b;
     margin-left: 5px;
     font-size: 14px;
   }
+
+  [appLazyScroll] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
