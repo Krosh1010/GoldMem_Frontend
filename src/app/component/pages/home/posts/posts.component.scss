@@ -15,14 +15,14 @@ $success-color: #4CAF50;
   max-width: 700px;
   margin: 0 auto;
   padding: 20px;
-  color: $text-light;
+  color: var(--text-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
 }
 
 /* Formular postare */
 .post-form-container {
-  background-color: $card-bg;
+  background-color: var(--card-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
@@ -42,7 +42,7 @@ textarea {
   resize: none;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid $border-color;
-  color: $text-light;
+  color: var(--text-color);
   margin-bottom: 10px;
   transition: border 0.3s ease;
 
@@ -52,7 +52,7 @@ textarea {
   }
 
   &::placeholder {
-    color: $text-muted;
+    color: var(--text-muted);
   }
 }
 
@@ -90,7 +90,7 @@ textarea {
 
 /* Card postare */
 .post-card {
-  background-color: $card-bg;
+  background-color: var(--card-color);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
@@ -157,7 +157,7 @@ textarea {
 
 .username {
   font-weight: 600;
-  color: $text-light;
+  color: var(--text-color);
   font-size: 16px;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -168,7 +168,7 @@ textarea {
 }
 
 .post-time, .comment-time {
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 14px;
   display: block;
   margin-top: 2px;
@@ -197,8 +197,8 @@ textarea {
     &::after {
       content: "Delete";
       position: absolute;
-      background: $card-bg;
-      color: $text-light;
+      background: var(--card-color);
+      color: var(--text-color);
       padding: 4px 8px;
       border-radius: 4px;
       font-size: 12px;
@@ -216,7 +216,7 @@ textarea {
 }
 
 .post-content {
-  color: $text-light;
+  color: var(--text-color);
   font-size: 15px;
   line-height: 1.6;
   margin: 0;
@@ -234,7 +234,7 @@ textarea {
 .interaction-btn {
   background: none;
   border: none;
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 14px;
   cursor: pointer;
   padding: 8px 12px;
@@ -250,7 +250,7 @@ textarea {
   }
 
   &:hover {
-    color: $text-light;
+    color: var(--text-color);
     background-color: rgba(255, 255, 255, 0.1);
 
     i {
@@ -293,7 +293,7 @@ textarea {
 }
 
 .comment-card {
-  background-color: lighten($card-bg, 5%);
+  background-color: var(--comment-card);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
@@ -330,16 +330,16 @@ textarea {
 }
 
 .comment-content {
-  color: $text-light;
+  color: var(--text-color);
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
-  padding-left: 46px; /* Aliniere cu avatar */
+  padding-left: 46px; 
 }
 
 .no-comments {
   text-align: center;
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 14px;
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.05);
@@ -353,7 +353,7 @@ textarea {
   align-items: center;
   justify-content: center;
   padding: 30px;
-  color: $text-muted;
+  color: var(--text-muted);
 
   .spinner {
     width: 40px;
@@ -392,7 +392,7 @@ textarea {
 .end-message {
   text-align: center;
   padding: 30px;
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 16px;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 12px;

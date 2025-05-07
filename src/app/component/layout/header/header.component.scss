@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: var(--card-color);
     color: #fff;
     padding: 0rem 2rem;
 
@@ -58,7 +58,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: var(--text-muted);
             transition: all 0.3s;
             background: none;
             border: none;

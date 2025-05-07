@@ -2,7 +2,7 @@
   max-width: 600px;
   margin: 2rem auto;
   padding: 2.5rem;
-  background: #2d2d2d;
+  background: var(--card-color);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,7 +11,7 @@
 }
 
 h2 {
-  color: #f0f0f0;
+  color: var(--text-color);
   margin-bottom: 2rem;
   text-align: center;
   font-size: 1.8rem;
@@ -43,11 +43,12 @@ h2::after {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  
 }
 
 label {
   font-weight: 500;
-  color: #b0b0b0;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
@@ -70,8 +71,8 @@ label {
   border: 1px solid #444;
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #3a3a3a;
-  color: #f0f0f0;
+  background-color: var(--input-edit);
+  color: var(--text-color);
   transition: all 0.3s ease;
 }
 
@@ -148,15 +149,15 @@ button:disabled {
 }
 
 .error-message {
-  color: #ff6b6b;
-  background-color: rgba(255, 107, 107, 0.1);
+  color: var(--text-color);
+  background-color: var(--error-profile-seting-back);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border-left: 4px solid #ff6b6b;
+  border-left: 4px solid var(--error-profile-seting);
 }
 
 .error-message i {
@@ -172,8 +173,8 @@ button:disabled {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
-  background-color: #3a3a3a;
-  color: #b0b0b0;
+  background-color: var(--card-color);
+  color: var(--text-color);
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -191,9 +192,9 @@ button:disabled {
   font-size: 0.9rem;
 }
 
-input:disabled {
-  background-color: #3a3a3a !important;
-  color: #888 !important;
+input:disabled { 
+  background-color: var(--card-post-profile)!important;
+  color: var(--text-color) !important;
   cursor: not-allowed;
 }
 

@@ -1,12 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+
 body.dark-theme {
     margin: 0px;
     background: #a0a0a0;
+    --card-color: #2d2d2d;
+    --text-color: #ffffff;
+    --text-muted: #aaaaaa;
+    --comment-card: #3a3a3a;
+    --card-posts-profile: #3d3d3d;
+    --buton-edit: #3a3a3a;
+    --input-edit : #3a3a3a;
+    --error-profile-seting: #ff6b6b;
+    --error-profile-seting-back: rgba(255, 107, 107, 0.199);
 }
  body.light-theme {
     margin: 0px;
-    background: #ffffff; 
+    background: #c8c8c8; 
+    --card-color: #adadad;
+    --text-color : #2d3436;
+    --comment-card: #a4a4a4;
+    --text-muted: #4d4d4d;
+    --card-posts-profile: #9c9c9c;
+    --button-edit: #7c7c7c;
+    --input-edit : #bebebe;
+    --error-profile-seting: #ff2222;
+    --error-profile-seting-back: rgba(255, 0, 0, 0.158);
 }
+
 
 body {
     background-color: var(--bg-color);

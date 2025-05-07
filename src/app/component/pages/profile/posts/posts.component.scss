@@ -16,7 +16,7 @@ $error-color: #ff6b6b;
 }
 
 .posts-container {
-  background-color: lighten($card-bg, 3%);
+  background-color: var(--card-posts-profile) ;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -31,7 +31,7 @@ $error-color: #ff6b6b;
 
 /* Card postari */
 .post-card {
-  background-color: #2d2d2d;
+  background-color: var(--card-color);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;
@@ -52,7 +52,7 @@ $error-color: #ff6b6b;
 }
 
 .post-time {
-  color: #888;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -109,7 +109,7 @@ $error-color: #ff6b6b;
 }
 
 .post-content {
-  color: #e0e0e0;
+  color: var(--text-color);
   font-size: 15px;
   line-height: 1.5;
   margin: 0;
@@ -124,8 +124,8 @@ $error-color: #ff6b6b;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #555;
-  background-color: #3a3a3a;
-  color: #fff;
+  background-color: var(--card-color);
+  color: var(--text-color);
   font-family: inherit;
   font-size: 15px;
   resize: vertical;
@@ -147,7 +147,7 @@ $error-color: #ff6b6b;
 .interaction-btn {
   background: none;
   border: none;
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 14px;
   cursor: pointer;
   padding: 8px 12px;
@@ -163,7 +163,7 @@ $error-color: #ff6b6b;
   }
 
   &:hover {
-    color: $text-light;
+    color: var(--text-color);
     background-color: rgba(255, 255, 255, 0.1);
 
     i {
@@ -198,7 +198,7 @@ $error-color: #ff6b6b;
     resize: none;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid $border-color;
-    color: $text-light;
+    color: var(--text-color);
     margin-bottom: 10px;
     transition: border 0.3s ease;
   
@@ -208,7 +208,7 @@ $error-color: #ff6b6b;
     }
   
     &::placeholder {
-      color: $text-muted;
+      color: var(--text-muted);
     }
   }
 
@@ -245,7 +245,7 @@ $error-color: #ff6b6b;
 }
 
 .comment-card {
-    background-color: lighten($comcard-bg, 5%);
+    background-color: var(--comment-card);
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 12px;
@@ -305,7 +305,7 @@ $error-color: #ff6b6b;
 
 .username {
     font-weight: 600;
-    color: $text-light;
+    color: var(--text-color);
     font-size: 16px;
     cursor: pointer;
     transition: color 0.3s ease;
@@ -316,14 +316,14 @@ $error-color: #ff6b6b;
   }
 
 .comment-time {
-    color: $text-muted;
+    color: var(--text-muted);
     font-size: 14px;
     display: block;
     margin-top: 2px;
 }
 
 .comment-content {
-  color: $text-light;
+  color: var(--text-color);
   font-size: 14px;
   line-height: 1.4;
   margin: 0;

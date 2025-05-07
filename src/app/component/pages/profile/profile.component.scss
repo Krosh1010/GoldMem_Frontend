@@ -14,7 +14,7 @@ $error-color: #ff6b6b;
   min-height: 90vh;
   padding: 20px;
   box-sizing: border-box;
-  color: $text-light;
+  color: var(--text-color);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -144,7 +144,7 @@ $error-color: #ff6b6b;
 }
 
 .profile-card {
-  background-color: $card-bg;
+  background-color: var(--card-color);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -208,14 +208,14 @@ $error-color: #ff6b6b;
 .profile-name {
   h4 {
     margin: 15px 0 10px;
-    color: $text-light;
+    color: var(--text-color);
     font-size: 1.5rem;
   }
 }
 
 .profile-info {
   margin: 20px 0;
-  color: $text-muted;
+  color: var(--text-muted);
 
   p {
     margin: 8px 0;
@@ -226,7 +226,7 @@ $error-color: #ff6b6b;
     margin-right: auto;
 
     strong {
-      color: $text-light;
+      color: var(--text-color);
     }
   }
 }
