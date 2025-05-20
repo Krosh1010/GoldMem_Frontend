@@ -3,7 +3,7 @@
       <div *ngFor="let post of posts" class="post-card" appLazyScroll [enabled]="!lazyScrollEnabled">
         <div class="post-header">
           <div class="user-info">
-            <span class="post-time">{{ post.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
+            <span class="post-time">{{ post?.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
           </div>
           <div class="post-actions">
             <button *ngIf="!post.editing" class="edit-btn" (click)="startEditing(post)" title="Edit post">
@@ -67,7 +67,21 @@
       </div>
     </div>
 
-    <div class="no-posts" *ngIf="posts.length === 0">
+    <button 
+      *ngIf="hasMorePosts && !isLoading && posts.length > 0" 
+      (click)="loadPosts()" 
+      class="load-more-btn">
+      Load more posts
+    </button>
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <div *ngIf="!hasMorePosts && posts.length > 0" class="end-message">
+      You've reached the end!
+    </div>
+
+    <div *ngIf="posts.length === 0 && !isLoading" class="no-posts">
       <p>This user hasn't posted anything yet.</p>
     </div>
   </div>

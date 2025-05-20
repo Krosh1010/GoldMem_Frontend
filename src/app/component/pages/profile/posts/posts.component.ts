@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PostModel } from '../../../../models';
+import { PostModel, PostResponseModel } from '../../../../models';
 import { PostService, CommentService, ApiService, NotificationService, ProfileService} from '../../../../services';
 import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
@@ -18,6 +18,10 @@ export class PostsComponent implements OnInit {
   userName: string = ''; 
   expandedPostId: number | null = null;
   lazyScrollEnabled = false;
+  PageSize = 3;
+  currentPage = 1;
+  isLoading = false;
+  hasMorePosts = true;
 
   constructor(
     private fb: FormBuilder, 
@@ -33,18 +37,34 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUserPosts();
+    this.loadPosts();
   }
 
-  private async getUserPosts() {
+  async loadPosts(): Promise<void> {
+    if (this.isLoading || !this.hasMorePosts) return;
+  
+    this.isLoading = true;
+    
+  
     try {
-      const data = await this.profileService.getUserPosts();
-      this.posts = Array.isArray(data) ? data : [data];
-    }
-    catch (error) {
+      const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
+      const newPosts = response.posts; 
+      
+  
+      if (newPosts.length === 0 || newPosts.length < this.PageSize) {
+        this.hasMorePosts = false;
+      } else {
+        this.hasMorePosts = true;
+      }
+  
+      this.posts = [...this.posts, ...newPosts];
+      this.currentPage++;
+    } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
+    } finally {
+      this.isLoading = false;
     }
-}
+  }
 
 async deletePost(Id: number) {
   if (confirm('Sigur doriți să ștergeți această postare?')) {

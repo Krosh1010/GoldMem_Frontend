@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
 import { ProfileModel } from '../../models/profile.model';
 import { PostModel } from '../../models/PostsModel/post.model';
+import { PostResponseModel } from '../../models';
 
 
 @Injectable({
@@ -15,8 +16,8 @@ export class ProfileService {
         return this.apiService.getData('api/AuthControler/GetMe');
     }
 
-    async getUserPosts(): Promise<PostModel> {
-        return this.apiService.getData('api/PostsControler/GetMe');
+    async getUserPosts(pageNumber: number, pageSize: number): Promise<PostResponseModel> {
+        return this.apiService.getPostPagin('api/PostsControler/GetMe', { pageNumber, pageSize });
     }
 
     async FolowUser(name: string): Promise<ProfileModel> {
