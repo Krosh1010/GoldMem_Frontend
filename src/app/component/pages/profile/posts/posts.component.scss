@@ -24,7 +24,7 @@ $error-color: #ff6b6b;
 
 .no-posts {
   text-align: center;
-  color: #888;
+  color: var(--text-muted);
   padding: 30px;
   font-size: 1.1rem;
 }

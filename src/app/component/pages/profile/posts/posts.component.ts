@@ -47,9 +47,9 @@ export class PostsComponent implements OnInit {
     
   
     try {
-      const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
+      const response: PostResponseModel = await this.profileService.getUserPosts(this.currentPage, this.PageSize);
       const newPosts = response.posts; 
-      
+      console.log('New posts:', newPosts);
   
       if (newPosts.length === 0 || newPosts.length < this.PageSize) {
         this.hasMorePosts = false;

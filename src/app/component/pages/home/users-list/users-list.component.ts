@@ -12,7 +12,7 @@ export class UsersListComponent {
   users: any[] = [
     {
       id: 1,
-      username: 'Utilizator1',
+      username: 'Utiliza',
       avatar: 'https://i.pravatar.cc/40?u=1',
       status: 'Online',
       isFollowing: false
@@ -26,14 +26,14 @@ export class UsersListComponent {
     },
     {
       id: 3,
-      username: 'Utilizator3',
+      username: 'Utilizator3kjhdlfgiluydhfbgdeilufsghvbaeilsdruygbaerdoyiugbaeluyIORfghaeiKRUY fghy ersw35GLTY ',
       avatar: 'https://i.pravatar.cc/40?u=3',
       status: 'Online',
       isFollowing: false
     },
     {
       id: 4,
-      username: 'Utilizator cu nume foarte lung care nu încape',
+      username: 'Utilizator ',
       avatar: 'https://i.pravatar.cc/40?u=4',
       status: 'În meeting',
       isFollowing: false
