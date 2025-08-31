@@ -7,7 +7,7 @@
         placeholder="What's happening?"
         rows="4"
       ></textarea>
-      <div class="button-container">
+      <div class="button-container-post">
         <button type="submit" [disabled]="postForm.invalid" class="post-button">
           Post
         </button>
@@ -57,7 +57,7 @@
           <!-- Formular comentariu -->
           <form [formGroup]="commentForm" (ngSubmit)="submitComment(post.id)" class="comment-form">
             <textarea formControlName="content" placeholder="Write a comment..." rows="2"></textarea>
-            <div class="button-container">
+            <div class="button-container-comment">
               <button type="submit" [disabled]="commentForm.invalid" class="comment-button">
                 Comment
               </button>

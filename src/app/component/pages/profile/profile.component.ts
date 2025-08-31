@@ -15,6 +15,8 @@ import { PostsComponent } from './posts/posts.component';
 export class ProfileComponent implements OnInit {
   userName: string = ''; 
   userid = 0;
+  followersCount = "dohuia";
+  followingCount = "nihuia";
   notification: any = null;
   expandedPostId: number | null = null;
 

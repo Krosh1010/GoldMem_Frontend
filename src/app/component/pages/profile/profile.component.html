@@ -28,8 +28,8 @@
             <h4>{{ userName }}</h4>
           </div>    
           <div class="profile-info">
-            <p><strong>Followers:</strong> 123</p>
-            <p><strong>Following:</strong> 456</p>
+            <p><strong>Followers:</strong> {{followersCount}}</p>
+            <p><strong>Following:</strong> {{followingCount}}</p>
           </div>
           <button class="follow-button" (click)="followUser(userName)">Follow</button>
         </div>

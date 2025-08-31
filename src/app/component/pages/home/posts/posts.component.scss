@@ -8,69 +8,16 @@ $text-muted: #aaaaaa;
 $border-color: #444;
 $error-color: #ff6b6b;
 $success-color: #4CAF50;
-
-/* Stiluri generale */
-.post-page-container {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
-  color: var(--text-color);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-sizing: border-box;
-}
-
-/* Formular postare */
-.post-form-container {
-  background-color: var(--card-color);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-textarea {
-  width: 95%;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  resize: none;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid $border-color;
-  color: var(--text-color);
-  margin-bottom: 10px;
-  transition: border 0.3s ease;
-
-  &:focus {
-    outline: none;
-    border-color: $primary-color;
-  }
-
-  &::placeholder {
-    color: var(--text-muted);
-  }
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.post-button, .comment-button {
-  background: linear-gradient(45deg, $primary-color, $secondary-color);
-  color: #333;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 25px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
+%button-style{
+background: linear-gradient(45deg, $primary-color, $secondary-color);
+color: #333;
+border: none;
+padding: 10px 25px;
+border-radius: 25px;
+font-weight: bold;
+cursor: pointer;
+transition: all 0.3s ease;
+font-size: 1rem;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -80,8 +27,80 @@ textarea {
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    }
   }
-}
+
+  %button-placerholder {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+/* Stiluri generale */
+.post-page-container {
+  width: 100%;
+  max-width: 700px;
+
+  // margin: 0 auto;
+  margin-right: 60px;
+  padding: 20px;
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  @media (max-width: 1120px) {
+    margin-right: 0;
+  }
+
+
+ /* Formular postare */
+  .post-form-container {
+    background-color: var(--card-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea {
+      width: 95%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      resize: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid $border-color;
+      color: var(--text-color);
+      margin-bottom: 10px;
+      transition: border 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-color;
+      }
+
+      &::placeholder {
+        color: var(--text-muted);
+      }
+    } 
+    .button-container-post{
+      @extend %button-placerholder;
+    }
+    .post-button {
+      @extend %button-style; 
+    }
+  }
+  
+
+
+ .comment-button {
+  @extend %button-style;
+  }
+  .button-container-comment {
+  @extend %button-placerholder;
+  }
 
 /* Lista postări */
 .post-list-container {
@@ -278,7 +297,32 @@ textarea {
   padding-top: 15px;
   border-top: 1px solid $border-color;
 }
+form {
+    display: flex;
+    flex-direction: column;
+  }
 
+  textarea {
+    width: 95%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    resize: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid $border-color;
+    color: var(--text-color);
+    margin-bottom: 10px;
+   transition: border 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
 .comment-form {
   margin-bottom: 15px;
 
@@ -467,6 +511,6 @@ textarea {
   transform: translateY(0);
 }
 
-
+}
 
 

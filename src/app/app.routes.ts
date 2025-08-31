@@ -13,12 +13,16 @@ export const routes: Routes = [
  { path: 'seting', component: ProfilesetingComponent,
   data: { showThemeToggle: false, showProfileButton: true }
  },
- { path: 'home', component: HomeComponent,
+ {  path: 'home', 
+    component: HomeComponent,
+    canActivate: [AuthGuard],
     data: { showThemeToggle: false, showProfileButton: true }
-  },//canActivate: [AuthGuard] 
- { path: 'profile', component: ProfileComponent,
+  },
+ {  path: 'profile', 
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
     data: { showThemeToggle: true, showProfileButton: false }
-  }//canActivate: [AuthGuard] 
+  } 
  
 ];
 

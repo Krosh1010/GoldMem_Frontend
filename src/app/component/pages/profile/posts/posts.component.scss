@@ -402,3 +402,10 @@ $error-color: #ff6b6b;
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+.end-message {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
