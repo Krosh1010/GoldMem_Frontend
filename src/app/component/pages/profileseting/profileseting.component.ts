@@ -45,7 +45,7 @@ export class ProfilesetingComponent implements OnInit {
   async saveProfile() {
     this.isLoading = true;
     try {
-      await this.apiService.postData('api/AuthControler/UpdateProfile', this.profile);
+      await this.apiService.patchData('api/AuthControler/UpdateMe', this.profile);
       alert('Profilul a fost actualizat cu succes!');
     } catch (error) {
       console.error('Eroare la salvarea profilului:', error);

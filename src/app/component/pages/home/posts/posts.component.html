@@ -43,8 +43,8 @@
         <!-- Footer postare -->
         <div class="post-footer">
           <button class="interaction-btn" title="Like" (click)="toggleLike(post)" aria-label="Like post">
-            <i class="far" [class.fa-heart]="!post.isLiked" [class.fas]="post.isLiked" [class.fa-heart]="post.isLiked"></i>
-            <span class="like-count">{{ post.likeCount || 0 }}</span>
+            <i [class.far]="!post.isLiked" [class.fas]="post.isLiked" class="fa-heart"></i>
+            <span class="like-count">{{ post.likesCount || 0 }}</span>
           </button>
           <button class="interaction-btn" title="Comment" (click)="toggleComments(post.id)">
             <i class="far fa-comment"></i>

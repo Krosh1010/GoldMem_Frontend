@@ -21,4 +21,8 @@ export class PostService {
     async deletePost(postId: number): Promise<PostModel> {
         return this.apiService.deleteData('api/PostsControler/Delete', postId);
     }
+
+    async likePost(postId: number): Promise<PostModel> {
+        return this.apiService.postData(`api/PostsControler/Post/${postId}/like`, { postId });
+    }
 }

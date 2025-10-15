@@ -95,4 +95,19 @@ async getPostPagin(endpoint: string, params?: PaginationParams): Promise<any> {
   }
 }
 
+async patchData(endpoint: string, payload: any): Promise<any> {
+  try {
+    const response = await this.axiosClient.patch(endpoint, payload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Eroare la cererea PATCH:', error);
+    throw error;
+  }
+}
+
+
 }

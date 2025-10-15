@@ -181,13 +181,13 @@ navigateToUserProfile() {
 async toggleLike(post: PostModel) {
   try {
     if (post.isLiked) {
-      // Dacă postarea este deja likuită, eliminăm like-ul
-      await this.apiService.deleteData(`api/LikesController/DeleteLike?postId=${post.id}`);
-      post.likeCount = (post.likeCount || 0) - 1;
+      console.log("Unliked post with ID:", post.id);
+      await this.postService.likePost(post.id);
+      post.likesCount = (post.likesCount || 0) - 1;
     } else {
-      // Dacă postarea nu este likuită, adăugăm un like
-      await this.apiService.postData('api/LikesController/CreateLike', { postId: post.id });
-      post.likeCount = (post.likeCount || 0) + 1;
+      console.log("Liked post with ID:", post.id);
+      await this.postService.likePost(post.id);
+      post.likesCount = (post.likesCount || 0) + 1;
     }
     post.isLiked = !post.isLiked;
   } catch (error) {
