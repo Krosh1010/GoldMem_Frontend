@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PostModel, PostResponseModel } from '../../../../models';
+import { PostModel, PostResponseModel,UpdatePostDto} from '../../../../models';
 import { PostService, CommentService, ApiService, NotificationService, ProfileService} from '../../../../services';
 import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
@@ -27,8 +27,7 @@ export class PostsComponent implements OnInit {
     private fb: FormBuilder, 
     private profileService: ProfileService,
     private postService: PostService,
-    private notificationService: NotificationService,
-    private apiService: ApiService, 
+    private notificationService: NotificationService, 
     private commentService: CommentService, 
   ) {
       this.commentForm = this.fb.group({
@@ -87,22 +86,35 @@ cancelEditing(post: any) {
 }
 
 saveEditing(post: any) {
-  post.editing = false;
+ try {
+    const dto: UpdatePostDto = {
+      id: post.id,
+      content: post.editedContent
+    };
+    this.postService.updatePost(dto).then(updatedPost => {
+      post.content = updatedPost.content;
+      post.editing = false;
+      this.notificationService.show('Post updated successfully!', 'success');
+    }).catch(error => {
+      this.notificationService.show('Error updating post', 'error');
+      console.error('Update error:', error);
+    });
+ }  catch (error) {   }
 }
 
 
 async toggleLike(post: PostModel) {
   try {
-    if (post.isLiked) {
-      // Dacă postarea este deja likuită, eliminăm like-ul
+    if (post.isLikedByCurrentUser) {
+      
       await this.postService.likePost(post.id);
       post.likesCount = (post.likesCount || 0) - 1;
     } else {
-      // Dacă postarea nu este likuită, adăugăm un like
+      
       await this.postService.likePost(post.id);
       post.likesCount = (post.likesCount || 0) + 1;
     }
-    post.isLiked = !post.isLiked;
+    post.isLikedByCurrentUser = !post.isLikedByCurrentUser;
   } catch (error) {
     this.notificationService.show('Error updating like', 'error');
     console.error('Like error:', error);
@@ -137,6 +149,11 @@ async submitComment(postId: number) {
     try {
       const commentContent = this.commentForm.value.content.trim();
       const response = await this.commentService.createComment (postId ,commentContent );
+
+      const post = this.posts.find(p => p.id === postId);
+        if(post) {
+          post.commentsCount = (post.commentsCount || 0) + 1;
+        }
 
       if (response.status === 204) {
         this.notificationService.show('Comment added successfully!', 'success');

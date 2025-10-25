@@ -6,7 +6,7 @@ export interface PostModel {
   name: string;
   createAt: string;
   author: string;
-  isLiked?: boolean;
+  isLikedByCurrentUser?: boolean;
   likesCount?: number;
   editing: string;
   editedContent: string;

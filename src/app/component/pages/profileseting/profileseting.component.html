@@ -13,10 +13,10 @@
     {{ errorMessage }}
   </div>
 
-  <div class="edit-header">
+  <div class="edit-header" *ngIf="!editMode">
     <button type="button" class="edit-btn" (click)="toggleEdit()">
-      <i class="bi" [class.bi-pencil-fill]="!editMode" [class.bi-lock-fill]="editMode"></i>
-      {{ editMode ? 'Oprește editarea' : 'Editează profilul' }}
+      <i class="bi bi-pencil-fill"></i>
+      Editează profilul
     </button>
   </div>
 
@@ -39,6 +39,16 @@
       </div>
     </div>
 
+    <div  class="toggle-profile-row">
+      <span class="toggle-profile-label">
+        {{ profile.closed ? 'Profilul este închis' : 'Profilul este deschis' }}
+      </span>
+      <button type="button" class="toggle-switch-btn" (click)="toggleProfileStatus()" [disabled]="!editMode">
+        <span class="switch-track" [class.closed]="profile.closed">
+          <span class="switch-thumb" [class.closed]="profile.closed"></span>
+        </span>
+      </button>
+    </div>
     <div class="form-actions" *ngIf="editMode">
       <button type="button" (click)="saveProfile()" [disabled]="isLoading" class="save-btn">
         <i class="bi bi-check-circle-fill"></i>

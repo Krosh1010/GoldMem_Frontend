@@ -3,4 +3,6 @@ export interface ProfileModel {
     name: string;
     userName : string;
     userid : number;
+    email: string;
+    closed?: boolean;
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ApiService } from '../../../services/api.service';
 import { CommonModule } from '@angular/common';
+import { ProfileService } from '../../../services';
+import { ChangeProfileModel } from '../../../models/Profile/change_profile.model';
 
 
 @Component({
@@ -12,15 +13,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./profileseting.component.scss']
 })
 export class ProfilesetingComponent implements OnInit {
-  profile = {
-    name: '',
-    email: ''
-  };
+  
+  profile: ChangeProfileModel = { closed: false } as ChangeProfileModel;
   isLoading = true;
   errorMessage = '';
-  editMode : boolean = false; // Flag for edit mode
+  editMode : boolean = false; 
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+  private ProfileService: ProfileService
+  ) {}
 
   async ngOnInit() {
     await this.getUserProfile();
@@ -28,11 +29,10 @@ export class ProfilesetingComponent implements OnInit {
 
   private async getUserProfile(): Promise<void> {
     try {
-      const response = await this.apiService.getData('api/AuthControler/GetMe');
-      this.profile = {
-        name: response.name || '',
-        email: response.email || ''
-      };
+  const response = await this.ProfileService.getUserProfile();
+  this.profile.name = response.name || '';
+  this.profile.email = response.email || '';
+  this.profile.closed = typeof response.closed === 'boolean' ? response.closed : false;
       this.errorMessage = '';
     } catch (error) {
       console.error('Eroare la încărcarea profilului:', error);
@@ -45,8 +45,7 @@ export class ProfilesetingComponent implements OnInit {
   async saveProfile() {
     this.isLoading = true;
     try {
-      await this.apiService.patchData('api/AuthControler/UpdateMe', this.profile);
-      alert('Profilul a fost actualizat cu succes!');
+      await this.ProfileService.ChangeProfile(this.profile);
     } catch (error) {
       console.error('Eroare la salvarea profilului:', error);
       this.errorMessage = 'A apărut o eroare la salvarea profilului';
@@ -56,13 +55,16 @@ export class ProfilesetingComponent implements OnInit {
   }
 
   cancelChanges() {
-    this.getUserProfile(); 
+    this.editMode = !this.editMode; 
+    this.getUserProfile();
   }
 
-  async toggleEdit() {
-    if (this.editMode) {
-     await this.getUserProfile();
-    }
-    this.editMode = !this.editMode; 
+  toggleEdit() {
+    this.editMode = !this.editMode;
+  }
+
+  toggleProfileStatus() {
+    if (!this.editMode) return;
+    this.profile.closed = !this.profile.closed;
   }
 }

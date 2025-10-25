@@ -1,3 +1,77 @@
+
+.toggle-profile-label {
+  align-items: end;
+  font-size: 1.08rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.toggle-switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+
+.switch-track {
+  width: 54px;
+  height: 28px;
+  background: #646cff33;
+  border-radius: 14px;
+  position: relative;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+}
+.switch-track.closed {
+  background: #cbf21d99;
+}
+.switch-thumb {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  background: #646cff;
+  border-radius: 50%;
+  transition: left 0.3s, background 0.3s;
+  box-shadow: 0 2px 8px rgba(100,108,255,0.15);
+}
+.switch-thumb.closed {
+  left: 29px;
+  background: #cbf21d;
+}
+.toggle-profile-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.toggle-profile-btn-big {
+  background: linear-gradient(90deg, #646cff 40%, #cbf21d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(100, 108, 255, 0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.toggle-profile-btn-big:hover {
+  background: linear-gradient(90deg, #cbf21d 40%, #646cff 100%);
+  transform: translateY(-2px) scale(1.03);
+}
 .profile-settings-container {
   max-width: 650px;
   margin: 2rem auto;

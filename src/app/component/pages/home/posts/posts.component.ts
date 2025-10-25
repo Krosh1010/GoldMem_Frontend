@@ -4,6 +4,7 @@ import { NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PostService, CommentService, ApiService, NotificationService } from '../../../../services';
 import { PostModel, PostResponseModel } from '../../../../models';
+import { PaginationParams } from '../../../../models/PostsModel/PaginationParams.model';
 import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
 @Component({
@@ -28,8 +29,7 @@ export class PostsComponent implements OnInit {
   lazyScrollEnabled = false;
 
   
-  constructor(private fb: FormBuilder, 
-    private apiService: ApiService, 
+  constructor(private fb: FormBuilder,  
     private router: Router, 
     private postService: PostService,
     private commentService: CommentService,
@@ -85,8 +85,12 @@ export class PostsComponent implements OnInit {
     this.isLoading = true;
   
     try {
-      const response: PostResponseModel = await this.postService.getPosts(this.currentPage, this.PageSize);
-      const newPosts = response.posts; 
+      const params : PaginationParams = {
+        pageNumber: this.currentPage,
+        pageSize: this.PageSize
+      };
+      const response: PostResponseModel = await this.postService.getPosts(params);
+      const newPosts = response.posts;
   
       if (newPosts.length === 0 || newPosts.length < this.PageSize) {
         this.hasMorePosts = false;
@@ -105,7 +109,11 @@ export class PostsComponent implements OnInit {
 
   async loadFirstPost(): Promise<void> {
     try {
-      const response: PostResponseModel = await this.postService.getPosts(1, this.PageSize);
+      const params : PaginationParams = {
+        pageNumber: 1,
+        pageSize: this.PageSize
+      };
+      const response: PostResponseModel = await this.postService.getPosts(params);
       this.posts = response.posts;
       this.currentPage = 2; 
       this.hasMorePosts = response.posts.length === this.PageSize;
@@ -157,11 +165,14 @@ export class PostsComponent implements OnInit {
       try {
         const commentContent = this.commentForm.value.content.trim();
         const response = await this.commentService.createComment (postId ,commentContent );
-
         if (response.status === 204) {
           this.notificationService.show('Comment added successfully!', 'success');
           this.commentForm.reset();
           await this.loadCommentsForPost(postId);
+          const post = this.posts.find(p => p.id === postId);
+          if (post) {
+            post.commentsCount = (post.commentsCount || 0) + 1;
+          }
         } else {
           this.notificationService.show('Error adding comment', 'error');
         }
@@ -180,7 +191,7 @@ navigateToUserProfile() {
 
 async toggleLike(post: PostModel) {
   try {
-    if (post.isLiked) {
+    if (post.isLikedByCurrentUser) {
       console.log("Unliked post with ID:", post.id);
       await this.postService.likePost(post.id);
       post.likesCount = (post.likesCount || 0) - 1;
@@ -189,7 +200,7 @@ async toggleLike(post: PostModel) {
       await this.postService.likePost(post.id);
       post.likesCount = (post.likesCount || 0) + 1;
     }
-    post.isLiked = !post.isLiked;
+    post.isLikedByCurrentUser = !post.isLikedByCurrentUser;
   } catch (error) {
     this.notificationService.show('Error updating like', 'error');
     console.error('Like error:', error);
