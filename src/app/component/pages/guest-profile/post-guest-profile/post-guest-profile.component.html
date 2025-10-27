@@ -5,33 +5,10 @@
           <div class="user-info">
             <span class="post-time">{{ post?.createAt | date: 'dd MMMM yyyy, HH:mm' }}</span>
           </div>
-          <div class="post-actions">
-            <button *ngIf="!post.editing" class="edit-btn" (click)="startEditing(post)" title="Edit post">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button *ngIf="post.editing" class="save-btn" (click)="saveEditing(post)" title="Save changes" [disabled]="post.saving">
-              <ng-container *ngIf="!post.saving; else savingTpl">
-                <i class="fas fa-save"></i>
-              </ng-container>
-              <ng-template #savingTpl>
-                <span class="btn-spinner"></span>
-              </ng-template>
-            </button>
-            <button *ngIf="post.editing" class="cancel-btn" (click)="cancelEditing(post)" title="Cancel editing" [disabled]="post.saving">
-              <i class="fas fa-times"></i>
-            </button>
-            <button class="delete-btn" (click)="deletePost(post.id)" title="Delete post">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
         </div>
-
         <div class="post-body">
-          <div *ngIf="!post.editing">
+          <div>
             <p class="post-content">{{ post.content }}</p>
-          </div>
-          <div *ngIf="post.editing">
-            <textarea class="edit-textarea" [(ngModel)]="post.editedContent" [disabled]="!!post.saving"></textarea>
           </div>
         </div>
 

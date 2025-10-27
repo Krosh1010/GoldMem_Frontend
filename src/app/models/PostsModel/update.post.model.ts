@@ -1,4 +1,4 @@
-export interface UpdatePostDto {
+export interface UpdatePostModel {
   id: number;
   content: string;
 }

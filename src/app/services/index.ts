@@ -4,3 +4,4 @@ export * from './api.service';
 export * from './notification.service';
 export * from './ApiServices/authentication.services';
 export * from './ApiServices/profile.services';
+export * from './ApiServices/guest.profile.services';

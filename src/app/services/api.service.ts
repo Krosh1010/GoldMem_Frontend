@@ -83,17 +83,7 @@ async deleteData(endpoint: string, payload?: any): Promise<any> {
   }
 }
 
-async getPostPagin(endpoint: string, params?: PaginationParams): Promise<any> {
-  try {
-    const response = await this.axiosClient.get(endpoint, {
-      params: params 
-    });
-    return response.data;
-  } catch (error) {
-    console.error('GET request error:', error);
-    throw error;
-  }
-}
+
 
 async patchData(endpoint: string, payload: any): Promise<any> {
   try {

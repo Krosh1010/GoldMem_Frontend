@@ -16,9 +16,7 @@
     <div class="profile-column">
       <div class="profile-card">
         <div class="profile-header">
-          <button class="settings-button" (click)="navigateToSettings()">
-            <i class="bi bi-gear"></i>
-          </button>
+          <div class="settings-placeholder" aria-hidden="true"></div>
         </div>
         <div class="profile-content">
           <div class="profile-image">
@@ -31,13 +29,15 @@
             <p><strong>Followers:</strong> {{followersCount}}</p>
             <p><strong>Following:</strong> {{followingCount}}</p>
           </div>
+          <button class="follow-button" (click)="followUser(userName)">Follow</button>
         </div>
       </div>
     </div>
 
     <!-- Coloana postări -->
     <div class="posts-column">
-      <app-posts></app-posts>
+  <app-post-guest-profile [userName]="userName">
+  </app-post-guest-profile>
     </div>
   </div>
 </div>

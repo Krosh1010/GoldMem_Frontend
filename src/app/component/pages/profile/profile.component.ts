@@ -52,20 +52,13 @@ export class ProfileComponent implements OnInit {
 dismissNotification() {
   this.notificationService.clear();
 }
-
-async followUser(name: string): Promise<void> {
-  if (!name) {
-    this.notificationService.show('Numele utilizatorului este necesar', 'error');
-    return;
-  }
-
+async followingUser(): Promise<void> {
   try {
-    const response = await this.profileService.FolowUser(name);
-    this.notificationService.show(`Ai început să urmărești pe ${name}`, 'success');
+    const followers = await this.profileService.getFollowings();
+    this.followersCount = followers.length;
   } catch (error) {
-    this.notificationService.show('Eroare la urmărirea utilizatorului', 'error');
-    console.error('Follow error:', error);
+    console.error('Eroare la încărcarea urmăritorilor:', error);
   }
-}
 
+}
 }

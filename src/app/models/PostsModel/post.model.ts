@@ -1,4 +1,4 @@
-import { CommentModel } from '../comment.model';
+import { CommentModel } from '../Coments/comment.model';
 
 export interface PostModel {
   id: number;
@@ -8,8 +8,6 @@ export interface PostModel {
   author: string;
   isLikedByCurrentUser?: boolean;
   likesCount?: number;
-  editing: string;
-  editedContent: string;
   comments?: CommentModel[];
   status: number;
   error: string;

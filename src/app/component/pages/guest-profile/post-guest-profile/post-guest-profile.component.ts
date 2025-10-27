@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf,NgFor,CommonModule } from '@angular/common';
 import { FormGroup, FormsModule, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { PostModel, PostResponseModel,UpdatePostModel,PaginationParams,CreateCommentModel} from '../../../../models';
-import { PostService, CommentService, NotificationService, ProfileService} from '../../../../services';
+import { PostModel, PostResponseModel,PaginationParamsGuest, CreateCommentModel} from '../../../../models';
+import { PostService, CommentService, ApiService, NotificationService, GuestProfileService} from '../../../../services';
 import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
 
-type EditablePost = Omit<PostModel, 'editing' | 'editedContent'> & { editing?: boolean; editedContent?: string; saving?: boolean };
 
 @Component({
-  selector: 'app-posts',
+  selector: 'app-post-guest-profile',
   standalone: true,
   imports: [NgIf,NgFor,CommonModule,FormsModule, ReactiveFormsModule, SharedDirectivesModule],
-  templateUrl: './posts.component.html',
-  styleUrl: './posts.component.scss'
+  templateUrl: './post-guest-profile.component.html',
+  styleUrl: './post-guest-profile.component.scss'
 })
-export class PostsComponent implements OnInit {
-  commentForm: FormGroup;
-  posts: EditablePost[] = [];
-  userName: string = ''; 
+export class PostGuestProfileComponent implements OnInit, OnChanges {
+@Input() userName: string = '';
+commentForm: FormGroup;
+  posts: PostModel[] = [];
   expandedPostId: number | null = null;
   lazyScrollEnabled = false;
   PageSize = 3;
@@ -28,7 +27,7 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, 
-    private profileService: ProfileService,
+    private guestProfileService: GuestProfileService,
     private postService: PostService,
     private notificationService: NotificationService, 
     private commentService: CommentService, 
@@ -39,7 +38,18 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadPosts();
+    if (this.userName) {
+      this.loadPosts();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['userName'] && changes['userName'].currentValue) {
+      this.posts = [];
+      this.currentPage = 1;
+      this.hasMorePosts = true;
+      this.loadPosts();
+    }
   }
 
   async loadPosts(): Promise<void> {
@@ -48,12 +58,17 @@ export class PostsComponent implements OnInit {
     this.isLoading = true;
   
     try {
-      const params : PaginationParams = {
+      if (!this.userName) {
+        console.warn('PostGuestProfileComponent: userName is not set, skipping loadPosts');
+        return;
+      }
+      const params : PaginationParamsGuest = {
+              userName: this.userName,
               pageNumber: this.currentPage,
               pageSize: this.PageSize
             };
 
-      const response: PostResponseModel = await this.profileService.getUserPosts(params);
+      const response: PostResponseModel = await this.guestProfileService.getGuestUserPosts(params);
       const newPosts = response.posts; 
   
       if (newPosts.length === 0 || newPosts.length < this.PageSize) {
@@ -62,8 +77,8 @@ export class PostsComponent implements OnInit {
         this.hasMorePosts = true;
       }
   
-      const sanitized: EditablePost[] = newPosts.map(post => ({ ...post }));
-  this.posts = [...this.posts, ...sanitized];
+      
+  this.posts = [...this.posts, ...newPosts];
       this.currentPage++;
     } catch (error) {
       console.error('Eroare la încărcarea postărilor:', error);
@@ -72,63 +87,7 @@ export class PostsComponent implements OnInit {
     }
   }
 
-async deletePost(Id: number) {
-  if (confirm('Sigur doriți să ștergeți această postare?')) {
-    try {
-      await this.postService.deletePost(Id);
-      this.posts = this.posts.filter(post => post.id !== Id);
-      this.notificationService.show('Postarea a fost ștearsă cu succes!', 'success');
-    } catch (error) {
-      this.notificationService.show('Eroare la ștergerea postării', 'error');
-      console.error('Delete error:', error);
-    }
-  }
-}
-
-startEditing(post: EditablePost) {
-  post.editing = true;
-  post.editedContent = post.content;
-}
-
-cancelEditing(post: EditablePost) {
-  post.editing = false;
-  delete post.editedContent;
-}
-
-async saveEditing(post: EditablePost) {
-  if (!post || typeof post.editedContent !== 'string') {
-    this.notificationService.show('Nicio modificare de salvat.', 'error');
-    return;
-  }
-
-  const newContent = post.editedContent.trim();
-  if (!newContent) {
-    this.notificationService.show('Conținutul nu poate fi gol.', 'error');
-    return;
-  }
-
-  const params: UpdatePostModel = {
-    id: post.id,
-    content: newContent
-  };
-
-  post.saving = true;
-  try {
-    const updatedPost = await this.postService.updatePost(params);
-
-    post.content = (updatedPost && updatedPost.content) ? updatedPost.content : newContent;
-    post.editing = false;
-    delete post.editedContent;
-    this.notificationService.show('Postarea a fost actualizată.', 'success');
-  } catch (error) {
-    this.notificationService.show('Eroare la actualizarea postării.', 'error');
-    console.error('Update error:', error);
-  } finally {
-    post.saving = false;
-  }
-}
-
-async toggleLike(post: EditablePost) {
+async toggleLike(post: PostModel) {
   try {
     if (post.isLikedByCurrentUser) {
       
@@ -173,7 +132,7 @@ async submitComment(postId: number) {
   if (this.commentForm.valid) {
     try {
       const commentContent = this.commentForm.value.content.trim();
-      const params: CreateCommentModel = {  
+      const params: CreateCommentModel = {
         postId: postId,
         content: commentContent
       };

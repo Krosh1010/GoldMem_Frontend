@@ -2,9 +2,8 @@ import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf, CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { PostService, CommentService, ApiService, NotificationService } from '../../../../services';
-import { PostModel, PostResponseModel } from '../../../../models';
-import { PaginationParams } from '../../../../models/PostsModel/PaginationParams.model';
+import { PostService, CommentService, NotificationService, ProfileService } from '../../../../services';
+import { PostModel, PostResponseModel,CreateCommentModel,PaginationParams } from '../../../../models';
 import { SharedDirectivesModule } from '../../../../directives/shared-directives.module';
 
 @Component({
@@ -27,12 +26,14 @@ export class PostsComponent implements OnInit {
   isLoading = false;
   hasMorePosts = true;
   lazyScrollEnabled = false;
+  currentUserName: string = '';
 
   
   constructor(private fb: FormBuilder,  
     private router: Router, 
     private postService: PostService,
     private commentService: CommentService,
+    private profileService: ProfileService,
     private notificationService: NotificationService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
@@ -48,9 +49,19 @@ export class PostsComponent implements OnInit {
     this.notificationService.notification$.subscribe((data) => {
       this.notification = data;
     });
+    this.loadCurrentUserName();
   }
   dismissNotification() {
     this.notificationService.clear();
+  }
+
+  async loadCurrentUserName(): Promise<void> {
+    try {
+      const response = await this.profileService.getUserProfile();
+      this.currentUserName = response.name || '';
+    } catch (error) {
+      console.error('Eroare la încărcarea numelui utilizatorului curent:', error);
+    }
   }
 
   async submitPost() { 
@@ -164,7 +175,11 @@ export class PostsComponent implements OnInit {
     if (this.commentForm.valid) {
       try {
         const commentContent = this.commentForm.value.content.trim();
-        const response = await this.commentService.createComment (postId ,commentContent );
+        const params: CreateCommentModel = {
+          postId: postId,
+          content: commentContent
+        };
+        const response = await this.commentService.createComment (params );
         if (response.status === 204) {
           this.notificationService.show('Comment added successfully!', 'success');
           this.commentForm.reset();
@@ -185,8 +200,12 @@ export class PostsComponent implements OnInit {
     }, 50);
   }
 
-navigateToUserProfile() {
-  this.router.navigate(['/profile']);
+navigateToUserProfile(userName?: string) {
+    if (userName === this.currentUserName) {
+      this.router.navigate(['/profile']);
+    } else {
+      this.router.navigate(['', userName]);
+    }
 }
 
 async toggleLike(post: PostModel) {

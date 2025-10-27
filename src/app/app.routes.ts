@@ -4,6 +4,7 @@ import { LoginComponent } from './component/pages/login/login.component';
 import { RegisterComponent } from './component/pages/register/register.component';
 import { ProfileComponent } from './component/pages/profile/profile.component';
 import { ProfilesetingComponent } from './component/pages/profileseting/profileseting.component';
+import { GuestProfileComponent } from './component/pages/guest-profile/guest-profile.component';
 import { AuthGuard } from './guards/auth.guard';
 
 
@@ -24,7 +25,12 @@ export const routes: Routes = [
     component: ProfileComponent,
     canActivate: [AuthGuard],
     data: { showThemeToggle: true, showProfileButton: false }
-  } 
- 
+  },
+  {  path: ':userName', 
+    component: GuestProfileComponent,
+    canActivate: [AuthGuard],
+    data: { showThemeToggle: false, showProfileButton: false }
+  }  
+
 ];
 

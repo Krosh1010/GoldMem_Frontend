@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from "../api.service";
-import { PostModel, PostResponseModel, UpdatePostDto } from "../../models";
+import { PostModel, PostResponseModel, UpdatePostModel } from "../../models";
 import { PaginationParams } from '../../models/PostsModel/PaginationParams.model';
 import { from } from 'rxjs';
 
@@ -11,12 +11,11 @@ export class PostService {
     constructor(private apiService: ApiService) {}
 
     async getPosts(params: PaginationParams): Promise<PostResponseModel> {
-      return this.apiService.getPostPagin(`api/PostsControler/GetPost?pageNumber=${params.pageNumber}&pageSize=${params.pageSize}`);
+      return this.apiService.getDataWithParams(`api/PostsControler/GetPost`,{ pageNumber: params.pageNumber, pageSize: params.pageSize });
     }
 
     async createPost(content: string): Promise<PostModel> {
         return this.apiService.postData('api/PostsControler/Create', content);
-        
     }
 
     async deletePost(postId: number): Promise<PostModel> {
@@ -27,7 +26,7 @@ export class PostService {
         return this.apiService.postData(`api/PostsControler/Post/${postId}/like`, { postId });
     }
 
-    async updatePost(dto: UpdatePostDto): Promise<PostModel> {
-      return this.apiService.patchData(`api/PostsControler/${dto.id}/UpDate`, { content: dto.content });
+    async updatePost(params: UpdatePostModel): Promise<PostModel> {
+      return this.apiService.patchData(`api/PostsControler/${params.id}/UpData`, params.content );
     }
 }
