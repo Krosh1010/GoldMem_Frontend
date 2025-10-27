@@ -7,3 +7,4 @@ export * from './Profile/guest_profile.model'
 export * from './PostsModel/PaginationParamsGuest.model';
 export * from './Coments/CreateComent.model';
 export * from './PostsModel/PaginationParams.model';
+export * from './Chat/ChatMessage.model';

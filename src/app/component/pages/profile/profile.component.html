@@ -10,6 +10,8 @@
       <button class="notification-close" (click)="dismissNotification()">×</button>
     </div>
   </div>
+    <!-- Follow manager modal -->
+    <app-follow-manager *ngIf="showFollowManager" [open]="showFollowManager" [type]="followManagerType" (close)="closeFollowManager()"></app-follow-manager>
 
   <div class="main-content-wrapper">
     <!-- Coloana profil -->
@@ -28,8 +30,8 @@
             <h4>{{ userName }}</h4>
           </div>    
           <div class="profile-info">
-            <p><strong>Followers:</strong> {{followersCount}}</p>
-            <p><strong>Following:</strong> {{followingCount}}</p>
+            <p><strong>Followers:</strong> <a class="link" (click)="openFollowManager('followers')">{{followersCount}}</a></p>
+            <p><strong>Following:</strong> <a class="link" (click)="openFollowManager('following')">{{followingCount}}</a></p>
           </div>
         </div>
       </div>

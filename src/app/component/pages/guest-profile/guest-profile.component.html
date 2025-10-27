@@ -36,8 +36,13 @@
 
     <!-- Coloana postări -->
     <div class="posts-column">
+      <div *ngIf ="!HiddenPost " class="no-posts-message">
   <app-post-guest-profile [userName]="userName">
   </app-post-guest-profile>
     </div>
+    <div *ngIf="HiddenPost" class="no-posts-message">
+      <app-hidden-post></app-hidden-post>
+  </div>
+</div>
   </div>
 </div>

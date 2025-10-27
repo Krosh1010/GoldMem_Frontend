@@ -28,4 +28,7 @@ export class ProfileService {
     async getFollowings(): Promise<any> {
         return this.apiService.getData('api/AuthControler/GetFollow');
     }
+    async getFollowers(): Promise<any> {
+        return this.apiService.getData('api/AuthControler/GetFollowers');
+    }
 }

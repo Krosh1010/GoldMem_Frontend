@@ -4,12 +4,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService, GuestProfileService} from '../../../services';
 import { PostGuestProfileComponent } from './post-guest-profile/post-guest-profile.component';
+import { HiddenPostComponent } from './hidden-post/hidden-post.component';
 
 
 @Component({
   selector: 'app-guest-profile',
   standalone: true,
-  imports: [NgIf, CommonModule, FormsModule, ReactiveFormsModule, PostGuestProfileComponent],
+  imports: [NgIf, CommonModule, FormsModule, ReactiveFormsModule, PostGuestProfileComponent, HiddenPostComponent],
   templateUrl: './guest-profile.component.html',
   styleUrl: './guest-profile.component.scss'
 })
@@ -20,6 +21,7 @@ userName: string = '';
   followingCount = "nihuia";
   notification: any = null;
   expandedPostId: number | null = null;
+  HiddenPost:boolean=false;
 
   constructor(
     private route: Router, 

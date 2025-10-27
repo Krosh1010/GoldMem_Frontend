@@ -1,0 +1,49 @@
+<div class="fm-overlay" *ngIf="open" (click)="backdropClick($event)">
+  <div class="fm-modal" role="dialog" aria-modal="true">
+    <div class="fm-header">
+      <h3>{{ type === 'followers' ? 'Followers' : 'Following' }}</h3>
+      <button class="fm-close" (click)="onClose()">×</button>
+    </div>
+
+    <div class="fm-search">
+      <input 
+        type="text" 
+        placeholder="Search users..." 
+        [(ngModel)]="searchTerm" 
+      />
+    </div>
+
+    <div class="fm-list">
+      <div class="fm-loading" *ngIf="loading">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <span>Loading...</span>
+        </div>
+      </div>
+      
+      <div class="fm-empty" *ngIf="!loading && filteredUsers.length === 0">
+        <p>No users found.</p>
+      </div>
+
+      <ul *ngIf="!loading">
+        <li *ngFor="let u of filteredUsers" class="fm-user">
+          <img 
+            class="fm-avatar" 
+            [src]="u.avatar || ('https://i.pravatar.cc/40?img=' + (u.id || 1))" 
+            alt="avatar" 
+          />
+          <div class="fm-user-info">
+            <div class="fm-user-name">{{ u.name || u.username }}</div>
+            <div class="fm-user-meta">{{ u.bio }}</div>
+          </div>
+          <button 
+            class="fm-action" 
+            [class.following]="u.isFollowing"
+          >
+            {{ u.isFollowing ? 'Following' : 'Follow' }}
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

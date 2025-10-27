@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService, ProfileService} from '../../../services';
 import { PostsComponent } from './posts/posts.component';
+import { FollowManagerComponent } from './follow-manager/follow-manager.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NgIf,CommonModule,FormsModule, ReactiveFormsModule,PostsComponent],
+  imports: [NgIf,CommonModule,FormsModule, ReactiveFormsModule,PostsComponent, FollowManagerComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -19,6 +20,8 @@ export class ProfileComponent implements OnInit {
   followingCount = "nihuia";
   notification: any = null;
   expandedPostId: number | null = null;
+  showFollowManager: boolean = false;
+  followManagerType: 'followers' | 'following' = 'followers';
 
   constructor(
     private route: Router, 
@@ -31,6 +34,15 @@ export class ProfileComponent implements OnInit {
     this.notificationService.notification$.subscribe((data) => {
       this.notification = data;
     });
+  }
+
+  openFollowManager(type: 'followers' | 'following') {
+    this.followManagerType = type;
+    this.showFollowManager = true;
+  }
+
+  closeFollowManager() {
+    this.showFollowManager = false;
   }
 
   navigateToSettings(): void {
