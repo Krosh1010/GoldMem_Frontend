@@ -1,5 +1,8 @@
 export interface GuestProfileModel {
     id: number;
     name: string;
-    isfolowing?: boolean;
+    followerCount: number;
+    followingCount: number;
+    userTip: string;
+    isFollowing?: boolean;
 }

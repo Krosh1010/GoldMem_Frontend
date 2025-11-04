@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService, ProfileService} from '../../../services';
 import { PostsComponent } from './posts/posts.component';
-import { FollowManagerComponent } from './follow-manager/follow-manager.component';
+import { FollowManagerComponent } from '../../follow-manager/follow-manager.component';
+import { ProfileModel } from '../../../models/Profile/profile.model';
 
 @Component({
   selector: 'app-profile',
@@ -14,10 +15,7 @@ import { FollowManagerComponent } from './follow-manager/follow-manager.componen
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  userName: string = ''; 
-  userid = 0;
-  followersCount = "dohuia";
-  followingCount = "nihuia";
+  userProfile: ProfileModel | null = null;
   notification: any = null;
   expandedPostId: number | null = null;
   showFollowManager: boolean = false;
@@ -52,8 +50,7 @@ export class ProfileComponent implements OnInit {
   private async getUserProfile(): Promise<void> {
     try {
       const response = await this.profileService.getUserProfile(); 
-      this.userName = response.name || ''; 
-      this.userid = response.id || 0;
+      this.userProfile = response;
       
     } catch (error) {
       console.error('Eroare la încărcarea profilului:', error);
@@ -64,13 +61,5 @@ export class ProfileComponent implements OnInit {
 dismissNotification() {
   this.notificationService.clear();
 }
-async followingUser(): Promise<void> {
-  try {
-    const followers = await this.profileService.getFollowings();
-    this.followersCount = followers.length;
-  } catch (error) {
-    console.error('Eroare la încărcarea urmăritorilor:', error);
-  }
 
-}
 }

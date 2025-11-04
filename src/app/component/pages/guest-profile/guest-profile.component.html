@@ -1,8 +1,8 @@
 <div class="profile-page-container">
-  <!-- Notificarea -->
+  <!-- Notificare -->
   <div class="notification-wrapper" *ngIf="notification && notification.message">
-    <div class="custom-notification" 
-         [class.success]="notification.type === 'success'" 
+    <div class="custom-notification"
+         [class.success]="notification.type === 'success'"
          [class.error]="notification.type === 'error'"
          [class.warning]="notification.type === 'warning'"
          [class.show]="notification.message">
@@ -10,39 +10,77 @@
       <button class="notification-close" (click)="dismissNotification()">×</button>
     </div>
   </div>
-
+<app-follow-manager
+  *ngIf="showFollowManager"
+  [open]="showFollowManager"
+  [guestMode]="true"
+  [guestUserName]="followManagerProfileUserName"
+  [type]="followManagerType"
+  (close)="closeFollowManager()"
+></app-follow-manager>
   <div class="main-content-wrapper">
     <!-- Coloana profil -->
-    <div class="profile-column">
+    <aside class="profile-column">
       <div class="profile-card">
         <div class="profile-header">
-          <div class="settings-placeholder" aria-hidden="true"></div>
+          <!-- Icon-ul de mesaj -->
+          <button class="message-icon" (click)="openMessage()" aria-label="Send message">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+              <path d="M11 12h2v2h-2zm0-4h2v2h-2zm0-4h2v2h-2z"/>
+            </svg>
+          </button>
         </div>
+
         <div class="profile-content">
           <div class="profile-image">
-            <img [src]="'https://i.pravatar.cc/150?img=5'" alt="Profile Image">
+            <img [src]="'https://i.pravatar.cc/150?img=5'" alt="Profile Image" />
           </div>
-          <div *ngIf="userName" class="profile-name">
-            <h4>{{ userName }}</h4>
-          </div>    
+
+          <div *ngIf="userProfile?.name" class="profile-name">
+            <h4>{{ userProfile?.name }}</h4>
+          </div>
+
           <div class="profile-info">
-            <p><strong>Followers:</strong> {{followersCount}}</p>
-            <p><strong>Following:</strong> {{followingCount}}</p>
+            <p>
+  <span class="label">Followers:</span> 
+  <span class="value clickable" (click)="openFollowManager('followers')">
+    {{ userProfile?.followerCount}}
+  </span>
+</p>
+
+<p>
+  <span class="label">Following:</span> 
+  <span class="value clickable" (click)="openFollowManager('following')">
+    {{ userProfile?.followingCount }}
+  </span>
+</p>
+
           </div>
-          <button class="follow-button" (click)="followUser(userName)">Follow</button>
+
+          <button
+            class="follow-button"
+            [class.unfollow]="isFollowing"
+            (click)="toggleFollow()"
+            [attr.aria-pressed]="isFollowing"
+          >
+            {{ isFollowing ? 'Unfollow' : 'Follow' }}
+          </button>
         </div>
       </div>
-    </div>
+    </aside>
 
     <!-- Coloana postări -->
-    <div class="posts-column">
-      <div *ngIf ="!HiddenPost " class="no-posts-message">
-  <app-post-guest-profile [userName]="userName">
-  </app-post-guest-profile>
-    </div>
-    <div *ngIf="HiddenPost" class="no-posts-message">
-      <app-hidden-post></app-hidden-post>
+    <main class="posts-column">
+      <div *ngIf="userProfile?.userTip === 'Open'" class="posts-area">
+        <app-post-guest-profile [userName]="userProfile?.name"></app-post-guest-profile>
+      </div>
+
+      <div *ngIf="userProfile?.userTip === 'Close'" class="posts-area no-posts">
+        <app-hidden-post></app-hidden-post>
+      </div>
+    </main>
   </div>
 </div>
-  </div>
-</div>
+
+

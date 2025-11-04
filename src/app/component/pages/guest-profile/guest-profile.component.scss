@@ -161,6 +161,37 @@ $error-color: #ff6b6b;
   padding: 15px;
 }
 
+.message-icon {
+  background: var(--card-color);
+  border: 1px solid var(--border-color, #444);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  margin-left: 4px;
+  
+  &:hover {
+    background: var(--primary-color, #d5e546);
+    color: #333;
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(213, 229, 70, 0.3);
+  }
+  
+  &:active {
+    transform: scale(1);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* placeholder to reserve the space of the removed settings button */
 .settings-placeholder {
   width: 40px;
@@ -213,22 +244,66 @@ $error-color: #ff6b6b;
   }
 }
 
+/* Stiluri pentru butonul Follow/Unfollow */
 .follow-button {
   background: linear-gradient(45deg, $primary-color, $secondary-color);
   color: #333;
   border: none;
-  padding: 10px 25px;
+  padding: 12px 25px;
   border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   width: 100%;
   font-size: 1rem;
   margin-top: 10px;
+  position: relative;
+  overflow: hidden;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(213, 229, 70, 0.3);
+    box-shadow: 0 4px 12px rgba(213, 229, 70, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  /* Stiluri pentru butonul Unfollow care folosesc variabilele tale */
+  &.unfollow {
+    background: var(--profile-card, #424242);
+    color: var(--text-color, #ffffff);
+    border: 1px solid var(--text-muted, #aaaaaa);
+    
+    &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(117, 117, 117, 0.4);
+  }
+    &:active {
+      transform: translateY(0); 
+    }
+  }
+}
+
+
+/* Stiluri responsive pentru buton */
+@media (max-width: 600px) {
+  .follow-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    
+    &.unfollow {
+      padding: 10px 20px;
+    }
+  }
+}
+
+/* Animatie smooth pentru schimbarea stării */
+.follow-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.unfollow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 

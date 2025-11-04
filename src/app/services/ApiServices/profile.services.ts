@@ -3,7 +3,7 @@ import { ApiService } from '../api.service';
 import { ProfileModel } from '../../models/Profile/profile.model';
 import { PostModel } from '../../models/PostsModel/post.model';
 import { PaginationParams } from '../../models/PostsModel/PaginationParams.model';
-import { PostResponseModel, GuestProfileModel } from '../../models';
+import { PostResponseModel, GuestProfileModel , FollowerModel} from '../../models';
 import { ChangeProfileModel } from '../../models/Profile/change_profile.model';
 
 
@@ -17,6 +17,15 @@ export class ProfileService {
     async getUserProfile(): Promise<ProfileModel> {
         return this.apiService.getData('api/AuthControler/GetMe');
     }
+    async getCurrentUserName(): Promise<string> {
+    try {
+      const profile = await this.getUserProfile();
+      return profile.name;
+    } catch (error) {
+      console.error('Eroare la obținerea numelui utilizatorului curent:', error);
+      return '';
+    }
+  }
 
     async getUserPosts(params: PaginationParams): Promise<PostResponseModel> {
         return this.apiService.getDataWithParams('api/PostsControler/GetMe', { pageNumber: params.pageNumber, pageSize: params.pageSize });
@@ -25,10 +34,12 @@ export class ProfileService {
     async ChangeProfile(profileData: ChangeProfileModel): Promise<void> {
         return this.apiService.patchData('api/AuthControler/UpdateMe', profileData);
     }
-    async getFollowings(): Promise<any> {
-        return this.apiService.getData('api/AuthControler/GetFollow');
+    async getFollowings(): Promise<FollowerModel[]> {
+        return this.apiService.getData('api/FollowersControler/GetMeFollow');
     }
-    async getFollowers(): Promise<any> {
-        return this.apiService.getData('api/AuthControler/GetFollowers');
+    async getFollowers(): Promise<FollowerModel[]> {
+        return this.apiService.getData('api/FollowersControler/GetMeFollowers');
     }
+    
+
 }

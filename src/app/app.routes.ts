@@ -29,7 +29,7 @@ export const routes: Routes = [
   {  path: ':userName', 
     component: GuestProfileComponent,
     canActivate: [AuthGuard],
-    data: { showThemeToggle: false, showProfileButton: false }
+    data: { showThemeToggle: false, showProfileButton: true }
   }  
 
 ];

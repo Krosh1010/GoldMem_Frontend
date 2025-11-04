@@ -1,0 +1,39 @@
+<div class="chat-window" 
+     [ngStyle]="{ left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px' }">
+  <!-- în chat-window.component.html, în interior .chat-header -->
+<div class="chat-header" (mousedown)="startDrag($event)">
+  <div class="tabs">
+    <button *ngFor="let u of openUsers"
+            class="tab"
+            [class.active]="u === activeUser"
+            (click)="switchTo(u); $event.stopPropagation()">
+      {{ u }}
+    </button>
+  </div>
+
+  <div class="controls">
+    <button class="min-btn" title="Minimize" (click)="minimizeCurrent(); $event.stopPropagation()">_</button>
+    <button class="close-btn" title="Close" (click)="closeCurrent(); $event.stopPropagation()">×</button>
+  </div>
+</div>
+
+
+  <div class="chat-body">
+    <div class="messages">
+      <div *ngFor="let m of messages" class="message" [class.me]="m.from === 'Tu'">
+        <div class="msg-header">
+          <strong>{{ m.from }}</strong> 
+          <span class="time">{{ m.time }}</span>
+        </div>
+        <div class="msg-text">{{ m.text }}</div>
+      </div>
+    </div>
+
+    <form (ngSubmit)="send()" class="input-row">
+      <input [(ngModel)]="input" name="message" placeholder="Scrie un mesaj..." />
+      <button type="submit" [disabled]="!input.trim()">Trimite</button>
+    </form>
+  </div>
+
+  <div class="resize-handle" (mousedown)="startResize($event)"></div>
+</div>

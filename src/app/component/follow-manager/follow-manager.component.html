@@ -1,10 +1,20 @@
 <div class="fm-overlay" *ngIf="open" (click)="backdropClick($event)">
+    
   <div class="fm-modal" role="dialog" aria-modal="true">
     <div class="fm-header">
       <h3>{{ type === 'followers' ? 'Followers' : 'Following' }}</h3>
       <button class="fm-close" (click)="onClose()">×</button>
     </div>
-
+<div class="notification-wrapper" *ngIf="notification && notification.message">
+    <div class="custom-notification"
+         [class.success]="notification.type === 'success'"
+         [class.error]="notification.type === 'error'"
+         [class.warning]="notification.type === 'warning'"
+         [class.show]="notification.message">
+      <span class="notification-text">{{ notification.message }}</span>
+      <button class="notification-close" (click)="dismissNotification()">×</button>
+    </div>
+  </div>
     <div class="fm-search">
       <input 
         type="text" 
@@ -33,12 +43,16 @@
             alt="avatar" 
           />
           <div class="fm-user-info">
-            <div class="fm-user-name">{{ u.name || u.username }}</div>
-            <div class="fm-user-meta">{{ u.bio }}</div>
+            <div class="fm-user-name">
+              <span class="username" (click)="navigateToUserProfile(u.userName)">{{ u.userName }}</span>
+            </div>
+            
           </div>
           <button 
-            class="fm-action" 
+            class="fm-action"
+            *ngIf="!u.isMy" 
             [class.following]="u.isFollowing"
+            (click)="toggleFollow(u)"
           >
             {{ u.isFollowing ? 'Following' : 'Follow' }}
           </button>

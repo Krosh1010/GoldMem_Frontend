@@ -1,31 +1,45 @@
 <div class="users-list-container">
   <div class="header">
+    <div class="header-content">
+      <i class="header-icon fas fa-users"></i>
       <h3>Utilizatori activi</h3>
-      <button class="refresh-btn" (click)="refreshUsers()">
-          <i class="fas fa-sync-alt"></i>
-      </button>
+      <span class="users-count">{{ users.length }} online</span>
+    </div>
+    <button class="refresh-btn" (click)="refreshUsers()" [class.refreshing]="">
+      <i class="fas fa-sync-alt"></i>
+    </button>
   </div>
-  <div *ngFor="let user of users" class="user-card">
+
+  <div class="users-list">
+    <div *ngFor="let user of users" class="user-card">
       <div class="user-main">
-          <div class="avatar">
-              <img [src]="user.avatar || 'https://i.pravatar.cc/40?u=' + user.id" alt="Avatar" />
-              <span class="online-indicator" *ngIf="user.status === 'Online'"></span>
-          </div>
-          <div class="user-info">
-              <p class="username">{{ user.username }}</p>
-              <p class="status" [class.offline]="user.status !== 'Online'">
-                  {{ user.status || 'Online' }}
-              </p>
-          </div>
+        <div class="avatar" [class.online]="user.status === 'Online'">
+          <img [src]="user.avatar || 'https://i.pravatar.cc/45?u=' + user.id" alt="{{ user.username }}" />
+          <span class="online-indicator" *ngIf="user.status === 'Online'"></span>
+        </div>
+        <div class="user-info">
+          <p class="username">{{ user.username }}</p>
+          <p class="status" [class.offline]="user.status !== 'Online'">
+            {{ user.status || 'Online' }}
+          </p>
+        </div>
       </div>
       <button class="follow-btn" 
               [class.following]="user.isFollowing"
-              (click)="toggleFollow(user)">
-          {{ user.isFollowing ? 'Urmărești' : 'Urmărește' }}
+              (click)="toggleFollow(user)"
+              [attr.aria-label]="user.isFollowing ? 'Nu mai urmări' : 'Urmărește'">
+        <span class="btn-text">{{ user.isFollowing ? 'Urmărești' : 'Urmărește' }}</span>
+        <i class="btn-icon" [class]="user.isFollowing ? 'fas fa-user-check' : 'fas fa-user-plus'"></i>
       </button>
+    </div>
   </div>
+
   <div class="empty-state" *ngIf="users.length === 0">
-      <i class="fas fa-users"></i>
-      <p>Niciun utilizator activ</p>
+    <div class="empty-icon">
+      <i class="fas fa-user-slash"></i>
+    </div>
+    <p>Niciun utilizator activ</p>
+    <button class="retry-btn" (click)="refreshUsers()">Încearcă din nou</button>
   </div>
+
 </div>

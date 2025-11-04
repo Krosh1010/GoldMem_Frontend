@@ -8,3 +8,4 @@ export * from './PostsModel/PaginationParamsGuest.model';
 export * from './Coments/CreateComent.model';
 export * from './PostsModel/PaginationParams.model';
 export * from './Chat/ChatMessage.model';
+export * from './Follower/follower.model';

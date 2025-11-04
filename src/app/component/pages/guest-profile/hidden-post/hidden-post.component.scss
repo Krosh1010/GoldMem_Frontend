@@ -12,12 +12,12 @@ $border-color: #444;
   box-sizing: border-box;
 
   .hidden-card {
-    background-color: var(--card-color);
+    
     color: var(--text-color);
     border-radius: 14px;
     padding: 36px;
     text-align: center;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+    
     min-height: 220px;
     display: flex;
     flex-direction: column;

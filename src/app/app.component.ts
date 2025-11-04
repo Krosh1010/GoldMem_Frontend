@@ -13,7 +13,7 @@ import { LoadingComponent } from './component/loading/loading.component';
   styleUrl: './app.component.scss'
 })
 // app.component.ts
-export class AppComponent {
+export class AppComponent  {
   showHeader: boolean = true;
   loading: boolean = false; 
 

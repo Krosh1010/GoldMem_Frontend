@@ -133,3 +133,41 @@
   50% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
+
+.chat-dropdown {
+  position: relative;
+}
+
+.chat-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 5px 0;
+  z-index: 1000;
+}
+
+.chat-dropdown-menu .dropdown-item {
+  width: 100%;
+  padding: 6px 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-dropdown-menu .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-empty {
+  display: block;
+  padding: 6px 12px;
+  color: #666;
+  font-size: 0.9rem;
+}
+

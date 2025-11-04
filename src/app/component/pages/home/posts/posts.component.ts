@@ -31,9 +31,9 @@ export class PostsComponent implements OnInit {
   
   constructor(private fb: FormBuilder,  
     private router: Router, 
+    private profileService: ProfileService,
     private postService: PostService,
     private commentService: CommentService,
-    private profileService: ProfileService,
     private notificationService: NotificationService) {
     this.postForm = this.fb.group({
       content: ['', [Validators.required, Validators.maxLength(500)]]
@@ -44,24 +44,15 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadPosts();
     this.notificationService.notification$.subscribe((data) => {
       this.notification = data;
     });
-    this.loadCurrentUserName();
+    this.currentUserName = await this.profileService.getCurrentUserName();
   }
   dismissNotification() {
     this.notificationService.clear();
-  }
-
-  async loadCurrentUserName(): Promise<void> {
-    try {
-      const response = await this.profileService.getUserProfile();
-      this.currentUserName = response.name || '';
-    } catch (error) {
-      console.error('Eroare la încărcarea numelui utilizatorului curent:', error);
-    }
   }
 
   async submitPost() { 
@@ -225,6 +216,4 @@ async toggleLike(post: PostModel) {
     console.error('Like error:', error);
   }
 }
-
-
 }

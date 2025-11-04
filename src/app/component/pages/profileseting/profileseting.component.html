@@ -20,44 +20,47 @@
     </button>
   </div>
 
-  <form class="profile-form" *ngIf="!isLoading">
-    <div class="form-group">
-      <label for="name">Nume complet</label>
-      <div class="input-with-icon">
-        <i class="bi bi-person-fill"></i>
-        <input type="text" id="name" [(ngModel)]="profile.name" name="name" 
-               placeholder="Introduceți numele" [disabled]="!editMode">
-      </div>
+  <form class="profile-form" *ngIf="!isLoading && profile">
+  <div class="form-group">
+    <label for="name">Nume complet</label>
+    <div class="input-with-icon">
+      <i class="bi bi-person-fill"></i>
+      <input type="text" id="name" [(ngModel)]="profile.name" name="name"
+             placeholder="Introduceți numele" [disabled]="!editMode">
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="email">Adresă de email</label>
-      <div class="input-with-icon">
-        <i class="bi bi-envelope-fill"></i>
-        <input type="email" id="email" [(ngModel)]="profile.email" name="email" 
-               placeholder="Introduceți email-ul" [disabled]="!editMode">
-      </div>
+  <div class="form-group">
+    <label for="email">Adresă de email</label>
+    <div class="input-with-icon">
+      <i class="bi bi-envelope-fill"></i>
+      <input type="email" id="email" [(ngModel)]="profile.email" name="email"
+             placeholder="Introduceți email-ul" [disabled]="!editMode">
     </div>
+  </div>
 
-    <div  class="toggle-profile-row">
-      <span class="toggle-profile-label">
-        {{ profile.closed ? 'Profilul este închis' : 'Profilul este deschis' }}
+  <div class="toggle-profile-row">
+    <span class="toggle-profile-label">
+      {{ profile.userTip === 'Close' ? 'Profilul este închis' : 'Profilul este deschis' }}
+    </span>
+    <button type="button" class="toggle-switch-btn" 
+            (click)="toggleProfileStatus()" [disabled]="!editMode">
+      <span class="switch-track" [class.closed]="profile.userTip === 'Close'">
+        <span class="switch-thumb" [class.closed]="profile.userTip === 'Close'"></span>
       </span>
-      <button type="button" class="toggle-switch-btn" (click)="toggleProfileStatus()" [disabled]="!editMode">
-        <span class="switch-track" [class.closed]="profile.closed">
-          <span class="switch-thumb" [class.closed]="profile.closed"></span>
-        </span>
-      </button>
-    </div>
-    <div class="form-actions" *ngIf="editMode">
-      <button type="button" (click)="saveProfile()" [disabled]="isLoading" class="save-btn">
-        <i class="bi bi-check-circle-fill"></i>
-        {{ isLoading ? 'Salvare...' : 'Salvează modificările' }}
-      </button>
-      <button type="button" class="cancel-btn" (click)="cancelChanges()" [disabled]="isLoading">
-        <i class="bi bi-x-circle-fill"></i>
-        Anulează
-      </button>
-    </div>
-  </form>
+    </button>
+  </div>
+
+  <div class="form-actions" *ngIf="editMode">
+    <button type="button" (click)="saveProfile()" [disabled]="isLoading" class="save-btn">
+      <i class="bi bi-check-circle-fill"></i>
+      {{ isLoading ? 'Salvare...' : 'Salvează modificările' }}
+    </button>
+    <button type="button" class="cancel-btn" (click)="cancelChanges()" [disabled]="isLoading">
+      <i class="bi bi-x-circle-fill"></i>
+      Anulează
+    </button>
+  </div>
+</form>
+
 </div>

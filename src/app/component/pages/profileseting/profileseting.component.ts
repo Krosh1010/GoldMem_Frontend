@@ -14,7 +14,7 @@ import { ChangeProfileModel } from '../../../models/Profile/change_profile.model
 })
 export class ProfilesetingComponent implements OnInit {
   
-  profile: ChangeProfileModel = { closed: false } as ChangeProfileModel;
+  profile: ChangeProfileModel | null = null;
   isLoading = true;
   errorMessage = '';
   editMode : boolean = false; 
@@ -30,9 +30,7 @@ export class ProfilesetingComponent implements OnInit {
   private async getUserProfile(): Promise<void> {
     try {
   const response = await this.ProfileService.getUserProfile();
-  this.profile.name = response.name || '';
-  this.profile.email = response.email || '';
-  this.profile.closed = typeof response.closed === 'boolean' ? response.closed : false;
+      this.profile = response;
       this.errorMessage = '';
     } catch (error) {
       console.error('Eroare la încărcarea profilului:', error);
@@ -43,16 +41,22 @@ export class ProfilesetingComponent implements OnInit {
   }
 
   async saveProfile() {
-    this.isLoading = true;
-    try {
-      await this.ProfileService.ChangeProfile(this.profile);
-    } catch (error) {
-      console.error('Eroare la salvarea profilului:', error);
-      this.errorMessage = 'A apărut o eroare la salvarea profilului';
-    } finally {
-      this.isLoading = false;
-    }
+  if (!this.profile) return;
+  this.isLoading = true;
+
+  try {
+    const { name, email, userTip } = this.profile;
+    const updateData: ChangeProfileModel = { name, email, userTip };
+
+    await this.ProfileService.ChangeProfile(updateData);
+  } catch (error) {
+    console.error('Eroare la salvarea profilului:', error);
+    this.errorMessage = 'A apărut o eroare la salvarea profilului';
+  } finally {
+    this.isLoading = false;
   }
+}
+
 
   cancelChanges() {
     this.editMode = !this.editMode; 
@@ -64,7 +68,9 @@ export class ProfilesetingComponent implements OnInit {
   }
 
   toggleProfileStatus() {
-    if (!this.editMode) return;
-    this.profile.closed = !this.profile.closed;
-  }
+  if (!this.editMode || !this.profile) return;
+
+  this.profile.userTip = this.profile.userTip === 'Close' ? 'Open' : 'Close';
+}
+
 }

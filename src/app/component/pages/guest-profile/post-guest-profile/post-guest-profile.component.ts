@@ -15,7 +15,7 @@ import { SharedDirectivesModule } from '../../../../directives/shared-directives
   styleUrl: './post-guest-profile.component.scss'
 })
 export class PostGuestProfileComponent implements OnInit, OnChanges {
-@Input() userName: string = '';
+@Input() userName?: string ;
 commentForm: FormGroup;
   posts: PostModel[] = [];
   expandedPostId: number | null = null;
@@ -77,7 +77,6 @@ commentForm: FormGroup;
         this.hasMorePosts = true;
       }
   
-      
   this.posts = [...this.posts, ...newPosts];
       this.currentPage++;
     } catch (error) {

@@ -8,6 +8,22 @@
     </div>
     <nav>
       <ul class="nav-items">
+        <!-- în <ul class="nav-items"> -->
+<li class="nav-item chat-dropdown">
+  <button class="chat-btn" (click)="toggleChatDropdown()" aria-label="Chat">
+    <i class="bi bi-chat-dots"></i>
+  </button>
+
+  <ul class="chat-dropdown-menu" *ngIf="showChatDropdown">
+  <li *ngFor="let u of allChatsWithMessages">
+    <button class="dropdown-item" (click)="restoreChat(u)">{{ u }}</button>
+  </li>
+  <li *ngIf="!allChatsWithMessages.length">
+    <span class="dropdown-empty">Niciun chat cu mesaje</span>
+  </li>
+</ul>
+</li>
+
         <li class="nav-item dynamic-button">
           <ng-container *ngIf="showProfileButton; else themeButton">
             <a routerLink="/profile" routerLinkActive="active" #rla="routerLinkActive">

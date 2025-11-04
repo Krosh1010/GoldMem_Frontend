@@ -26,12 +26,12 @@
           <div class="profile-image">
             <img [src]="'https://i.pravatar.cc/150?img=5'" alt="Profile Image">
           </div>
-          <div *ngIf="userName" class="profile-name">
-            <h4>{{ userName }}</h4>
+          <div *ngIf="userProfile?.name" class="profile-name">
+            <h4>{{ userProfile?.name }}</h4>
           </div>    
           <div class="profile-info">
-            <p><strong>Followers:</strong> <a class="link" (click)="openFollowManager('followers')">{{followersCount}}</a></p>
-            <p><strong>Following:</strong> <a class="link" (click)="openFollowManager('following')">{{followingCount}}</a></p>
+            <p><strong>Followers:</strong> <a class="link" (click)="openFollowManager('followers')">{{userProfile?.followerCount}}</a></p>
+            <p><strong>Following:</strong> <a class="link" (click)="openFollowManager('following')">{{userProfile?.followingCount}}</a></p>
           </div>
         </div>
       </div>
